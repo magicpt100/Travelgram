@@ -112,7 +112,9 @@
                 </div>
                 <div class="card-footer">
                     <button id="create-trip-node" class="btn btn--radius-2 btn--blue-2" type="submit">Create Node & Upload Images</button>
-                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
+                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit"
+                            onclick="location.href = '../trip_details/index.html' + '?'
+                            +location.hash.substring(1).split('&')[0];">Cancel</button>
                 </div>
             </div>
         </div>

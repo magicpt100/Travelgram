@@ -47,7 +47,7 @@
                                   <div class='col-md-6'>
                                       <div class="form-group">
                                           <div class='input-group date' id='datetimepicker1'>
-                                              <input type='text' class="form-control" required/>
+                                              <input type='text' class="form-control" name="datetime1" required/>
                                               <span class="input-group-addon">
                                                   <span class="glyphicon glyphicon-calendar"></span>
                                               </span>
@@ -57,7 +57,7 @@
                                   <div class='col-md-6'>
                                       <div class="form-group">
                                           <div class='input-group date' id='datetimepicker2'>
-                                              <input type='text' class="form-control" required/>
+                                              <input type='text' class="form-control" name="datetime2" required/>
                                               <span class="input-group-addon">
                                                   <span class="glyphicon glyphicon-calendar"></span>
                                               </span>
@@ -87,7 +87,9 @@
                 </div>
                 <div class="card-footer">
                     <button id="create-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Create Trip</button>
-                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
+                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit"
+                            onclick="location.href = '../trip_details/index.html' + '?'
+                            +location.hash.substring(1).split('&')[0];">Cancel</button>
                 </div>
             </div>
         </div>

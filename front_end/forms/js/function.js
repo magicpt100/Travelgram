@@ -15,7 +15,32 @@
       });
     }
 
+
+
     var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+    if (id_token == null){
+      id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiNTZYekdXd1Y3RWxNX0Q0VERfZUMzZyIsInN1YiI6ImNhYjQyNjlkLWFlMGEtNDUyZS1iYWQxLTUwMzg2NjE5NzEzMCIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiNDU3ZTlmNGItNmI4MS0xMWU5LThlODktYjkxODBkNDNjMDBlIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NTY2NTM4NTcsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2xMRFl0RGhqSCIsImNvZ25pdG86dXNlcm5hbWUiOiJHaWxiZXJ0IiwiZXhwIjoxNTU2NjU3NDU3LCJpYXQiOjE1NTY2NTM4NTcsImVtYWlsIjoiZHd5YW5lZ2lsYmVydEBnbWFpbC5jb20ifQ.L9UmyI7Sy83a652XJY74Zq78TGCfScYXhSY26sf1XL6mqbXVA66KQSMvDthQWpcSwbIEiTzGgIUlv6cJz8BZFBmgRk1GSu0hJe1gBRaQbcH-Jgz2yrMbHGFi9MgpIrPkrrhCNp5uBtiepvJamvG744B8qqAxv1kwRLAPydoz2pib8_PLJBFwulUfqDJ48Snez5LhCpZ4yM8yyYLMbGfGjh6wJNZOCav21V7WILPMCHmGzpGDqpv1r761efR-HRRpf9g6KhWc3BYckK0GZVWQ9h5ATkdaZqjP6OfHzfEABJmBuY8LztuC9De_4m9usilVgbVlz1dSj3PVzsBW1hk7jQ"
+    }
+
+    var parseJwt = function (token) {
+      try {
+        // Get Token Header
+        const base64HeaderUrl = token.split('.')[0];
+        const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
+        const headerData = JSON.parse(window.atob(base64Header));
+
+        // Get Token payload and date's
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        const dataJWT = JSON.parse(window.atob(base64));
+        dataJWT.header = headerData;
+        return dataJWT;
+      } catch (err) {
+        return false;
+      }
+    };
+    var username = parseJwt(id_token)["cognito:username"];
+
     apigClient = apigClientFactory.newClient();
   $( "#create-trip-node" ).click(async function() {
     var node_name = $("input[name=node_name]").val();
@@ -79,16 +104,15 @@
     var body = {
       'Title':trip_name,
       'Dst': destination,
-      // 'Time': parseInt(datetime.getTime())/1000,
       'StartTime':parseInt(datetime1.getTime())/1000,
       'EndTime':parseInt(datetime2.getTime())/1000,
       'Tags':tags
     };
 
     var params = {
-      'userName':'aaa'
+      'userName':username
     };
-    apigClient.userUserNameTripPost(params, body)
+    apigClient.userUserNameTripPost(params, body, {headers:{"Authorization": id_token}})
     .then(function(result){
       console.log(result);
         // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
