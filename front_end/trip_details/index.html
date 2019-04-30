@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Vertical Timeline</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100i,300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Allura" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css'>
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="js/lib/axios/dist/axios.standalone.js"></script>
+  <script type="text/javascript" src="js/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+  <script type="text/javascript" src="js/lib/CryptoJS/rollups/sha256.js"></script>
+  <script type="text/javascript" src="js/lib/CryptoJS/components/hmac.js"></script>
+  <script type="text/javascript" src="js/lib/CryptoJS/components/enc-base64.js"></script>
+  <script type="text/javascript" src="js/lib/url-template/url-template.js"></script>
+  <script type="text/javascript" src="js/lib/apiGatewayCore/sigV4Client.js"></script>
+  <script type="text/javascript" src="js/lib/apiGatewayCore/apiGatewayClient.js"></script>
+  <script type="text/javascript" src="js/lib/apiGatewayCore/simpleHttpClient.js"></script>
+  <script type="text/javascript" src="js/lib/apiGatewayCore/utils.js"></script>
+  <script type="text/javascript" src="js/apigClient.js"></script>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src='https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js'></script>
+  <script src="js/index.js"></script>    
+</head>
+
+<body>
+  <header>
+    <div class="container text-center">
+      <h1>Trip to New York</h1>
+      <p>Shulan Tang</p>
+    </div>
+  </header>
+
+  <section class="timeline">
+    <div class="container timeline-items">   
+      <div class="timeline-item tiemline-withimage tmp" id="tmp1">
+
+        <div class="timeline-img"></div>
+
+        <div class="timeline-content js--fadeInRight">
+        	<h2 class="title">我传了些图片</h2>
+        	<div class="date">22 JUN 2016</div>
+          <p class="description">今天去现场看nba了！哈登mvp</p>
+          <!-- Swiper -->
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>    
+      <div class="timeline-item right-item tmp" id="tmp2">
+
+        <div class="timeline-img"></div>
+
+        <div class="timeline-content timeline-card js--fadeInRight">
+          <div class="timeline-img-header">
+          <img src="https://ununsplash.imgix.net/photo-1421284621639-884f4129b61d?fit=crop&fm=jpg&h=700&q=75&w=1050" alt="" />           
+            <h2  class="title">我给这个点加了个封面图</h2>
+          </div>
+          <p class="date">25 MAY 2016</p>
+          <p  class="description">今天在纽约看到了椰子树，好开心啊</p>
+        </div>
+
+      </div>
+
+      <div class="timeline-item last-item">
+        <div class="timeline-img"></div>
+         <div class="timeline-content timeline-card js--fadeInRight">
+           <h2  class="title">click </h2>
+         <p class="description">to add a new node</p>
+         <a class="bnt-more" href="javascript:void(0)">Add</a></div>
+
+      </div>        
+    </div>
+  </section>
+    <script src="js/functions.js"></script>   
+  </body>
+</html>
