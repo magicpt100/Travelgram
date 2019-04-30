@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Add a trip node</title>
+
+    <!-- Font special for pages-->
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview@3.4.3/dist/file-upload-with-preview.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+</head>
+
+<body>
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+        <div class="wrapper wrapper--w900">
+            <div class="card card-6">
+                <div class="card-heading">
+                    <h2 class="title">Add a Trip Node</h2>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="form-row">
+                            <div class="name">Node name</div>
+                            <div class="value">
+                                <input class="input--style-6" type="text" name="node_name" placeholder="Times Square" required="required">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Date&Time</div>
+                            <div class="value">
+                              <div class="form-group">
+                                  <div class='input-group date' id='datetimepicker1'>
+                                      <input type='text' class="form-control" name="datetime" placeholder="04/16/2019 8:55 PM"/>
+                                      <span class="input-group-addon">
+                                          <span class="glyphicon glyphicon-calendar"></span>
+                                      </span>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Address</div>
+                              <div class="value">
+                                <input class="input--style-6" type="text" name="address" placeholder="42nd Street">
+                              </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Rating</div>
+                            <div class="value">
+                              <div class="form-group">
+                                <select class="form-control" id="sel1">
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                                  <option>5</option>
+                                </select>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Price</div>
+                            <div class="value">
+                              <div class="form-group">
+                                <select class="form-control" id="sel2">
+                                  <option>$</option>
+                                  <option>$$</option>
+                                  <option>$$$</option>
+                                  <option>$$$$</option>
+                                </select>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Text</div>
+                            <div class="value">
+                                    <textarea class="form-control" id="nodetext" rows="5" placeholder="Share with us your memory"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="name">Images</div>
+                            <div class="value">
+                              <div class="custom-file-container" data-upload-id="myUniqueUploadId">
+                                  <label>Upload File <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">&times;</a></label>
+
+                                  <label class="custom-file-container__custom-file" >
+                                      <input type="file" class="custom-file-container__custom-file__custom-file-input" accept="*" multiple aria-label="Choose File">
+                                      <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                      <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                  </label>
+                                  <div class="custom-file-container__image-preview"></div>
+                              </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button id="create-trip-node" class="btn btn--radius-2 btn--blue-2" type="submit">Create Node & Upload Images</button>
+                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- AWS APIGclient -->
+    <!-- import amazon sdk -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.415.0.min.js"></script>
+    <script src="js/aws-cognito-sdk.min.js"></script>
+    <script src="js/amazon-cognito-identity.min.js"></script>
+    <!-- import the generated sdk -->
+    <script type="text/javascript" src="js/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="js/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="js/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="js/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="js/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="js/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="js/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="js/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="js/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="js/lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="js/apigClient.js"></script>
+
+
+    <!-- Jquery JS-->
+<!--    <script src="vendor/jquery/jquery.min.js"></script>-->
+    <!-- Main JS-->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="js/transition.js"></script>
+    <script src="js/collapse.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+        });
+    </script>
+
+    <script src="https://unpkg.com/file-upload-with-preview@3.4.3/dist/file-upload-with-preview.min.js"></script>
+
+    <script>
+        var upload = new FileUploadWithPreview('myUniqueUploadId', {showDeleteButtonOnImages: true, text: {chooseFile: 'Custom Placeholder Copy', browse: 'Custom Button Copy'}})
+        $(".custom-file-container__image-preview").css("background-image","url(./8d34959997c6158d6a4d1c506f5ff73e.svg)");
+    </script>
+    <!-- <script>
+        var upload = new FileUploadWithPreview('myUniqueUploadId', {showDeleteButtonOnImages: true, text: {chooseFile: 'Custom Placeholder Copy', browse: 'Custom Button Copy'}})
+        console.log(upload)
+        window.addEventListener('fileUploadWithPreview:imageSelected', function(e) {
+            // e.detail.uploadId
+            // e.detail.cachedFileArray
+            // e.detail.selectedFilesCount
+            // Use e.detail.uploadId to match up to your specific input
+            console.log(e.detail.cachedFileArray)
+            console.log(e.detail.selectedFilesCount)
+            if (e.detail.uploadId === 'mySecondImage') {
+                console.log(e.detail.cachedFileArray)
+                console.log(e.detail.selectedFilesCount)
+            }
+        })
+    </script> -->
+    <!-- <script src="js/index.js"></script> -->
+    <script src="js/function.js"></script>
+
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->
