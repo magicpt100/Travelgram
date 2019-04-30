@@ -15,7 +15,7 @@
       });
     }
 
-
+    var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
     apigClient = apigClientFactory.newClient();
   $( "#create-trip-node" ).click(async function() {
     var node_name = $("input[name=node_name]").val();
@@ -55,7 +55,7 @@
       'TripID': TripID
     };
 
-    apigClient.tripTripIDNodesPost(params, body, {headers:{"Authorization": "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiT09EVlBZcThMUnRtY1l2Zk1TM3N3QSIsInN1YiI6ImNhYjQyNjlkLWFlMGEtNDUyZS1iYWQxLTUwMzg2NjE5NzEzMCIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiNjI3NTA3NGEtNmI2Yi0xMWU5LThhYjYtYzM1NjJiMjliYTA4IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NTY2NDQ0NTcsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2xMRFl0RGhqSCIsImNvZ25pdG86dXNlcm5hbWUiOiJHaWxiZXJ0IiwiZXhwIjoxNTU2NjQ4MDU3LCJpYXQiOjE1NTY2NDQ0NTcsImVtYWlsIjoiZHd5YW5lZ2lsYmVydEBnbWFpbC5jb20ifQ.ImuCFGOln3pPtBKSC4v3mqAi75Sl-d6UBVX3z4RVx6CYsTQy0BdG0aZdW1Dv_q9tvLWcgyRWcu2HGj5AaPCyVNW_ZuXlvfV8x4MehE64tUDY1CD2viGISsxlVoIvskpjPjKQYYxTsESS01VE5G3QVR3_wsEtsp5dECJt5KRFf-3dsPYafSqI3_nlzyMaWZ93cBG6gnTGwQW-JcGaujg-QFnwjLDc-Pb4e8gsT0fSfZptLjYxYTnsvUZRlR4TVpCw-gyM28ZS2ug2pjIx0TslBXkT-Mkc0Ckr2EWR5QAHzMqhlHBl17vjf-N_BUqKA_m-3g0EPCttCmXgiy68aH_dwA"}})
+    apigClient.tripTripIDNodesPost(params, body, {headers:{"Authorization": id_token}})
     .then(function(result){
       console.log(result);
         // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
