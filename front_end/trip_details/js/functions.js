@@ -1,4 +1,8 @@
 var positions = [];
+function delete_node(el) {
+
+  console.log($(el.parentNode));
+}
 (function () {
     var TimelineItem;
     TimelineItem = function (arg) {
@@ -73,6 +77,7 @@ var positions = [];
           // Add error callback code here.
         });
     }
+
     function show_timelineItem(arg, i){
         var timelineItem = TimelineItem(arg);
         timelineItem.draw(i);

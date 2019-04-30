@@ -34,7 +34,16 @@
   </header>
 
   <section class="timeline">
+
     <div class="container timeline-items">
+      <div class="timeline-item first-item">
+        <div class="timeline-img"></div>
+         <div class="timeline-content timeline-card js--fadeInRight">
+           <h2  class="title">click to</h2>
+         <p class="description">add new trip</p>
+         <a class="bnt-more" href="../forms/createTrip.html">Create</a></div>
+
+      </div>
       <div class="timeline-item tiemline-withimage tmp" id="tmp1">
 
         <div class="timeline-img"></div>
@@ -51,7 +60,8 @@
             <div class="swiper-pagination"></div>
           </div>
           <a class="bnt-more" href="javascript:void(0)">Edit</a>
-          <a class="bnt-more" href="javascript:void(0)">Delete</a></div>
+          <a class="bnt-more" onclick="delete_node(this)">Delete</a>
+        </div>
         </div>
 
       </div>
@@ -67,7 +77,7 @@
           <p class="date">25 MAY 2016</p>
           <p  class="description">今天在纽约看到了椰子树，好开心啊</p>
           <a class="bnt-more" href="javascript:void(0)">Edit</a>
-          <a class="bnt-more" href="javascript:void(0)">Delete</a>
+          <a class="bnt-more" onclick="delete_node(this)">Delete</a>
         </div>
 
       </div>
