@@ -87,6 +87,5 @@ function delete_node(el) {
     }
     var url = new URL(window.location.href);
     var id = url.searchParams.get("TripID");
-    console.log(id)
     get_nodes(id);
 }.call(this));

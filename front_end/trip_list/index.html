@@ -79,7 +79,7 @@
                             <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Trips</a>
                             <div class="dropdown-menu">
                                 <a href="index.html" class="dropdown-item">Trips</a>
-                                <a href="my_trips.html" class="dropdown-item">My Trips</a>
+                                <a class="dropdown-item" onclick="mytrips()">My Trips</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -125,10 +125,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 trip-item" id="tmp1">
+                    <div class="col-lg-6 col-md-6 trip-item" id="tmp1" onclick="tripDetail(this)">
                         <div class="single-blog-grid-item"><!-- single blog grid item -->
                             <div class="thumb">
-                                <img src="assets/img/blog/01.jpg" alt="blog page">
+                                <img class="cover" src="assets/img/blog/01.jpg" alt="blog page">
                             </div>
                             <div class="content">
                                 <h4 class="title"><a href="#">Marianne property cheerful informed at striking at</a></h4>
@@ -157,29 +157,6 @@
                         </div><!-- //. single blog grid item -->
                     </div>
 
-                    <div class="col-lg-12">
-                        <div class="blog-pagination margin-top-30">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                  <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                      <span aria-hidden="true">&laquo;</span>
-                                      <span class="sr-only">Previous</span>
-                                    </a>
-                                  </li>
-                                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                  <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                  <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                      <span aria-hidden="true">&raquo;</span>
-                                      <span class="sr-only">Next</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
