@@ -17,10 +17,9 @@
 
 
 
-    var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
-    if (id_token == null){
-      id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiNTZYekdXd1Y3RWxNX0Q0VERfZUMzZyIsInN1YiI6ImNhYjQyNjlkLWFlMGEtNDUyZS1iYWQxLTUwMzg2NjE5NzEzMCIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiNDU3ZTlmNGItNmI4MS0xMWU5LThlODktYjkxODBkNDNjMDBlIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NTY2NTM4NTcsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2xMRFl0RGhqSCIsImNvZ25pdG86dXNlcm5hbWUiOiJHaWxiZXJ0IiwiZXhwIjoxNTU2NjU3NDU3LCJpYXQiOjE1NTY2NTM4NTcsImVtYWlsIjoiZHd5YW5lZ2lsYmVydEBnbWFpbC5jb20ifQ.L9UmyI7Sy83a652XJY74Zq78TGCfScYXhSY26sf1XL6mqbXVA66KQSMvDthQWpcSwbIEiTzGgIUlv6cJz8BZFBmgRk1GSu0hJe1gBRaQbcH-Jgz2yrMbHGFi9MgpIrPkrrhCNp5uBtiepvJamvG744B8qqAxv1kwRLAPydoz2pib8_PLJBFwulUfqDJ48Snez5LhCpZ4yM8yyYLMbGfGjh6wJNZOCav21V7WILPMCHmGzpGDqpv1r761efR-HRRpf9g6KhWc3BYckK0GZVWQ9h5ATkdaZqjP6OfHzfEABJmBuY8LztuC9De_4m9usilVgbVlz1dSj3PVzsBW1hk7jQ"
-    }
+    // var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+    var url = new URL(window.location.href);
+    var id_token = url.searchParams.get("id_token");
 
     var parseJwt = function (token) {
       try {
@@ -71,11 +70,15 @@
       'Time': parseInt(datetime.getTime())/1000,
       'Content': text,
       'Price': price,
-      'Images':files64
+      'Images':files64,
+      'userName': username
     };
 
     var url = new URL(window.location.href);
     var TripID = parseInt(url.searchParams.get("TripID"));
+    if (isNaN(TripID)){
+      TripID = 1
+    }
     var params = {
       'TripID': TripID
     };

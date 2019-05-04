@@ -17,7 +17,6 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap-tokenfield.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
@@ -78,7 +77,7 @@
                         <div class="form-row">
                             <div class="name">Tags</div>
                               <div class="value">
-                                <input type="text" class="form-control" id="tokenfield" value="red,green,blue" required/>
+                                <input type="text" class="form-control" id="tokenfield" required/>
                               </div>
                         </div>
 <!--                        <button id="create-trip" class="btn btn&#45;&#45;radius-2 btn&#45;&#45;blue-2" type="submit">Create Trip</button>-->
@@ -144,13 +143,37 @@
     </script>
     <script src="js/bootstrap-tokenfield.min.js"></script>
     <script type="text/javascript">
-      $('#tokenfield').tokenfield({
-        autocomplete: {
-        source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-        delay: 100
-        },
-        showAutocompleteOnFocus: true
-        })
+        var url = new URL(window.location.href);
+        var id_token = url.searchParams.get("id_token");
+        if (id_token == null){
+            id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiczBkeDRCZ01EUU1oZW1DeGQwejhrQSIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTkzNTE2LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTY5OTcxMTYsImlhdCI6MTU1Njk5MzUxNiwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.N8cSTxOVaAhjRxQETU4oePD51Cm5HB3l5F_EQHvgX1wpAPscE6VeCs3oqFVqtNkbTtB1mUyiDgAHDTlrQ-jyrRCEhDTAhaIKaqZka4JvnZnOXz8NmUda1ZW6a7NGdlbeAW_oV6UzbdGs8kiYcHxANuTY7lt-5lK82WdCcuIxUZDLdZyN0tZIu2T2jFnub5w_Q1ZSf2rRwF-GXCf7MpS2dZSop275hWqFxCVC1-mijpoXYim2K8e7_EZo2VcF3JfFsGOwlUs7EmOacrWaJLhmwb7FT2Ne7AlL3uzp4Og-2R-Ky68ZZnz0NkLdnUOm3EuouhUwUH7FsAhl76i97yr8rw"
+        }
+        var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+        apigClient.tagsTagNumGet({"tagNum": 10}, {}, {})
+            .then(function(result){
+                console.log(result['data']);
+                $('#tokenfield').tokenfield({
+                    autocomplete: {
+                        source: result['data'],
+                        delay: 100
+                    },
+                    tokens: [],
+                    showAutocompleteOnFocus: true
+                });
+
+                // $("#nodetext").val(nodeData['Content']);
+            }).catch( function(result){
+            console.log("there is something wrong!!!");
+            // Add error callback code here.
+        });
+
+        // $('#tokenfield').tokenfield({
+        // autocomplete: {
+        // source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+        // delay: 100
+        // },
+        // showAutocompleteOnFocus: true
+        // })
     </script>
     <!-- <script src="js/index.js"></script> -->
     <script src="js/function.js"></script>

@@ -47,7 +47,7 @@
                                 <div class='col-md-6'>
                                     <div class="form-group">
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" required/>
+                                            <input type='text' class="form-control" name="datetime1" required/>
                                             <span class="input-group-addon">
                                                   <span class="glyphicon glyphicon-calendar"></span>
                                               </span>
@@ -57,7 +57,7 @@
                                 <div class='col-md-6'>
                                     <div class="form-group">
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' class="form-control" required/>
+                                            <input type='text' class="form-control" name="datetime2" required/>
                                             <span class="input-group-addon">
                                                   <span class="glyphicon glyphicon-calendar"></span>
                                               </span>
@@ -78,16 +78,15 @@
                     <div class="form-row">
                         <div class="name">Tags</div>
                         <div class="value">
-                            <input type="text" class="form-control" id="tokenfield" value="red,green,blue" required/>
+                            <input type="text" class="form-control" id="tokenfield" required/>
                         </div>
                     </div>
-                    <button id="create-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Create Trip</button>
-                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
+
                 </form>
             </div>
             <div class="card-footer">
-                <!--                    <button id="create-trip" class="btn btn&#45;&#45;radius-2 btn&#45;&#45;blue-2" type="submit">Create Trip</button>-->
-                <!--                    <button id="cancel" class="btn btn&#45;&#45;radius-2 btn&#45;&#45;red" type="submit">Cancel</button>-->
+                <button id="update-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Create Trip</button>
+                <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
             </div>
         </div>
     </div>
@@ -141,32 +140,118 @@
     });
 </script>
 <script src="js/bootstrap-tokenfield.min.js"></script>
-<script type="text/javascript">
-    $('#tokenfield').tokenfield({
-        autocomplete: {
-            source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-            delay: 100
-        },
-        showAutocompleteOnFocus: true
-    })
-</script>
 
 <script src="js/function.js"></script>
 <script type="text/javascript">
+    // var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+    var url = new URL(window.location.href);
+    var id_token = url.searchParams.get("id_token");
+    if (id_token == null){
+        id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiQmlVV2ZMUXhPNlFhVkVGczdpcTJzQSIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMTQyZjU0NGYtNmViNi0xMWU5LWJhMjUtNWZkZWY2OTFmOTkwIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NTcwMDYzOTEsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2xMRFl0RGhqSCIsImNvZ25pdG86dXNlcm5hbWUiOiJHaWxiZXJ0WCIsImV4cCI6MTU1NzAwOTk5MSwiaWF0IjoxNTU3MDA2MzkxLCJlbWFpbCI6ImR3eWFuZWdpbGJlcnRAZ21haWwuY29tIn0.MdJ8bUzSUw00IUUEFHqcixcURaP58ErA99jykIQiW8vuKgA7hsmvQRBbBLi53rGHRDFnMKiiAbvwDiTICHlspOK9cjbjADXICEdTDST40fM9R9bQHHTK9frmSY3ePrO5LsaNGPGWmnwpJ5csSyGJxk2IiS3ARp9rmZB_4G15ls_iUt4t3bELl0XWYvRDb5217XZ41Vps5HGkeDEYlnOoM_xVu5Hxh0omJG60ocFRWY80AVrpTZEoBvOaE1ifbybPwkmuuTjt9h3NQvZbgoxQ9sQznohxNZC1YRFzdxLcBDu2tFTKjVP9ZvA5T7B2f5gMsypkWQU631AGnyKH-DgE6A"
+    }
 
-    apigClient = apigClientFactory.newClient();
-    var params = {
-        'userName':'aaa'
+    var parseJwt = function (token) {
+        try {
+            // Get Token Header
+            const base64HeaderUrl = token.split('.')[0];
+            const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
+            const headerData = JSON.parse(window.atob(base64Header));
+
+            // Get Token payload and date's
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            const dataJWT = JSON.parse(window.atob(base64));
+            dataJWT.header = headerData;
+            return dataJWT;
+        } catch (err) {
+            return false;
+        }
     };
-    apigClient.userUserNameTripGet(params)
+
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+
+    var username = parseJwt(id_token)["cognito:username"];
+
+    apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+    var tripData;
+    apigClient.userUserNameTripGet({"userName":"Gilbert"}, null, {headers:{"Authorization": id_token}})
         .then(function(result){
-            console.log(result);
-            // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
-            // Add success callback code here.
+            console.log(result['data']['user_trips'][0]);
+            tripData = result['data']['user_trips'][0];
+
+            $("input[name=trip_title]").val(tripData['Title']);
+
+            $("input[name=datetime1]").val(tripData['StartTime']);
+            $("input[name=datetime2]").val(tripData['EndTime']);
+
+
+            $("input[name=dest]").val(tripData['Dst']);
+
+            apigClient.tagsTagNumGet({"tagNum": 10}, {}, {})
+                .then(function(result2){
+                    console.log(result2['data']);
+                    $('#tokenfield').tokenfield({
+                        autocomplete: {
+                            source: result2['data'],
+                            delay: 100
+                        },
+                        tokens: tripData['Tags'].join(),
+                        showAutocompleteOnFocus: true
+                    });
+
+                    // $("#nodetext").val(nodeData['Content']);
+                }).catch( function(result){
+                console.log("there is something wrong!!!");
+                // Add error callback code here.
+            });
+
+            // $("#nodetext").val(nodeData['Content']);
         }).catch( function(result){
         console.log("there is something wrong!!!");
         // Add error callback code here.
     });
+
+
+    $( "#update-trip" ).click(async function() {
+        var trip_name = $("input[name=trip_title]").val();
+        var datetime1 = new Date($("input[name=datetime1]").val());
+        var datetime2 = new Date($("input[name=datetime2]").val());
+
+        var destination = $("input[name=dest]").val();
+        var tags = $("input[id=tokenfield]").val().split(", ");
+
+
+        var body = {
+            'TripID':1,
+            'Title':trip_name,
+            'Dst': destination,
+            'StartTime':parseInt(datetime1.getTime())/1000,
+            'EndTime':parseInt(datetime2.getTime())/1000,
+            'Tags':tags
+        };
+
+        var params = {
+            'userName':username
+        };
+        apigClient.userUserNameTripPut(params, body, {headers:{"Authorization": id_token}})
+            .then(function(result){
+                console.log(result);
+                // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
+                // Add success callback code here.
+            }).catch( function(result){
+            console.log("there is something wrong!!!");
+            // Add error callback code here.
+        });
+    });
+
 </script>
 
 

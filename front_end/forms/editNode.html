@@ -107,12 +107,11 @@
                             </div>
                         </div>
                     </div>
-                    <button id="create-trip-node" class="btn btn--radius-2 btn--blue-2" type="submit">Create Node & Upload Images</button>
-                    <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
                 </form>
             </div>
             <div class="card-footer">
-
+                <button id="update-trip-node" class="btn btn--radius-2 btn--blue-2" type="submit">Update Node & Upload Images</button>
+                <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
             </div>
         </div>
     </div>
@@ -161,24 +160,126 @@
     var upload = new FileUploadWithPreview('myUniqueUploadId', {showDeleteButtonOnImages: true, text: {chooseFile: 'No File Chosen', browse: 'Browse'}});
     $(".custom-file-container__image-preview").css("background-image","url(./8d34959997c6158d6a4d1c506f5ff73e.svg)");
 </script>
-<!-- <script>
-    var upload = new FileUploadWithPreview('myUniqueUploadId', {showDeleteButtonOnImages: true, text: {chooseFile: 'Custom Placeholder Copy', browse: 'Custom Button Copy'}})
-    console.log(upload)
-    window.addEventListener('fileUploadWithPreview:imageSelected', function(e) {
-        // e.detail.uploadId
-        // e.detail.cachedFileArray
-        // e.detail.selectedFilesCount
-        // Use e.detail.uploadId to match up to your specific input
-        console.log(e.detail.cachedFileArray)
-        console.log(e.detail.selectedFilesCount)
-        if (e.detail.uploadId === 'mySecondImage') {
-            console.log(e.detail.cachedFileArray)
-            console.log(e.detail.selectedFilesCount)
-        }
-    })
-</script> -->
-<!-- <script src="js/index.js"></script> -->
 <script src="js/function.js"></script>
+
+<script type="text/javascript">
+    var url = new URL(window.location.href);
+    var id_token = url.searchParams.get("id_token");
+    if (id_token == null){
+        id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiczBkeDRCZ01EUU1oZW1DeGQwejhrQSIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTkzNTE2LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTY5OTcxMTYsImlhdCI6MTU1Njk5MzUxNiwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.N8cSTxOVaAhjRxQETU4oePD51Cm5HB3l5F_EQHvgX1wpAPscE6VeCs3oqFVqtNkbTtB1mUyiDgAHDTlrQ-jyrRCEhDTAhaIKaqZka4JvnZnOXz8NmUda1ZW6a7NGdlbeAW_oV6UzbdGs8kiYcHxANuTY7lt-5lK82WdCcuIxUZDLdZyN0tZIu2T2jFnub5w_Q1ZSf2rRwF-GXCf7MpS2dZSop275hWqFxCVC1-mijpoXYim2K8e7_EZo2VcF3JfFsGOwlUs7EmOacrWaJLhmwb7FT2Ne7AlL3uzp4Og-2R-Ky68ZZnz0NkLdnUOm3EuouhUwUH7FsAhl76i97yr8rw"
+    }
+
+    var parseJwt = function (token) {
+        try {
+            // Get Token Header
+            const base64HeaderUrl = token.split('.')[0];
+            const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
+            const headerData = JSON.parse(window.atob(base64Header));
+
+            // Get Token payload and date's
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            const dataJWT = JSON.parse(window.atob(base64));
+            dataJWT.header = headerData;
+            return dataJWT;
+        } catch (err) {
+            return false;
+        }
+    };
+
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+
+    var username = parseJwt(id_token)["cognito:username"];
+
+    apigClient = apigClientFactory.newClient();
+    var nodeData;
+    apigClient.tripTripIDNodesGet({"TripID":1}, null, {headers:{"Authorization": id_token}})
+        .then(function(result){
+
+            nodeData = result['data'][0];
+            $("input[name=node_name]").val(nodeData['Title']);
+            $("input[name=datetime]").val(nodeData['Time']);
+            $("input[name=address]").val(nodeData['Address']);
+            $("#sel1 option:selected").text(nodeData['Rate']);
+            $("#sel2 option:selected").text(nodeData['Price']);
+            $("#nodetext").val(nodeData['Content']);
+        }).catch( function(result){
+        console.log("there is something wrong!!!");
+        // Add error callback code here.
+    });
+
+    $( "#update-trip-node" ).click(async function() {
+        var node_name = $("input[name=node_name]").val();
+        var datetime = new Date($("input[name=datetime]").val());
+        var address = $("input[name=address]").val();
+        var rating = $("#sel1 option:selected").text();
+        var price = $("#sel2 option:selected").text();
+        var text = $("#nodetext").val();
+
+        var url = new URL(window.location.href);
+        var TripID = parseInt(url.searchParams.get("TripID"));
+        if (isNaN(TripID)){
+            TripID = 1
+        }
+        var params = {
+            'TripID': TripID
+        };
+
+        var files = upload.cachedFileArray;
+        // var files64 = [];
+        for (var i = 0; i < files.length; i++) {
+            var promise = getBase64(files[i]);
+            var new_file = await promise;
+            // var file_dict = {"FileName": files[i].name, "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")};
+            // files64.push(file_dict);
+            // console.log(file_dict);
+            body = {
+                "NodeID": nodeData['NodeID'],
+                "FileName": files[i].name,
+                "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")
+            };
+            apigClient.tripTripIDNodesUploadimagePost(params, body, {headers:{"Authorization": id_token}})
+                .then(function(result){
+                    console.log(result);
+                    // Add success callback code here.
+                }).catch( function(result){
+                console.log("there is something wrong!!!");
+                // Add error callback code here.
+            });
+        }
+        var body = {
+            'NodeID': nodeData['NodeID'],
+            'Address':address,
+            'Rate': parseFloat(rating),
+            'Title': node_name,
+            'Time': parseInt(datetime.getTime())/1000,
+            'Content': text,
+            'Price': price,
+            'userName': username
+        };
+
+
+        apigClient.tripTripIDNodesPut(params, body, {headers:{"Authorization": id_token}})
+            .then(function(result){
+                console.log(result);
+                // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
+                // Add success callback code here.
+            }).catch( function(result){
+            console.log("there is something wrong!!!");
+            // Add error callback code here.
+        });
+
+    });
+
+</script>
 
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
