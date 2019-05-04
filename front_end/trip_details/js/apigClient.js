@@ -338,12 +338,12 @@ apigClientFactory.newClient = function (config) {
     apigClient.tripsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['userName'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
         var tripsGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/trips').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, ['userName']),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
@@ -368,6 +368,78 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(tripsOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.userUserNameIdGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['userName'], ['body']);
+        
+        var userUserNameIdGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/user/{userName}/id').expand(apiGateway.core.utils.parseParametersToObject(params, ['userName'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(userUserNameIdGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.userUserNameIdOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var userUserNameIdOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/user/{userName}/id').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(userUserNameIdOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.userUserNameTagsGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['userName'], ['body']);
+        
+        var userUserNameTagsGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/user/{userName}/tags').expand(apiGateway.core.utils.parseParametersToObject(params, ['userName'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(userUserNameTagsGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.userUserNameTagsOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var userUserNameTagsOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/user/{userName}/tags').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(userUserNameTagsOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     

@@ -22,7 +22,7 @@ function delete_node(el) {
                     $timelineItem.find('.title').html(_this.title);
                     $timelineItem.find('.date').html(_this.date);
                     $timelineItem.find('.description').html(_this.description);
-                    $timelineItem.attr('id', this.id)
+                    $timelineItem.find('.description').attr('id', this.id)
                     console.log($timelineItem.prop('id'));
                     positions.push(pos);
                 }
@@ -38,9 +38,8 @@ function delete_node(el) {
           var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
         return formatted
     }
-    function get_nodes() {
+    function get_nodes(id) {
       var apigClient = apigClientFactory.newClient();
-      console.log(apigClient);
       apigClient.tripTripIDNodesGet({'TripID': 1})
         .then(function(result){
           items = result.data;
@@ -64,10 +63,9 @@ function delete_node(el) {
          Array.prototype.forEach.call(images, function (image) {
             urls.push(image.Url);
          });
-         console.log(urls);
+
          Array.prototype.forEach.call(images, function (image) {
              var slide = "<div class='swiper-slide'> <img src='" + image.Url +"' alt=''/></div>"
-             console.log(slide)
             var newSlide = swiper.appendSlide(slide,'swiper-slide blue-slide','div');
          });
         }
@@ -89,5 +87,6 @@ function delete_node(el) {
                show_timelineItem(item, i++);
         });
     }
-    get_nodes();
+    var id = 1;
+    get_nodes(id);
 }.call(this));
