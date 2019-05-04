@@ -22,8 +22,7 @@ function delete_node(el) {
                     $timelineItem.find('.title').html(_this.title);
                     $timelineItem.find('.date').html(_this.date);
                     $timelineItem.find('.description').html(_this.description);
-                    $timelineItem.find('.description').attr('id', this.id)
-                    console.log($timelineItem.prop('id'));
+                    $timelineItem.attr('id', this.id)
                     positions.push(pos);
                 }
                 $timelineItem.insertBefore($('.last-item'));
@@ -40,7 +39,7 @@ function delete_node(el) {
     }
     function get_nodes(id) {
       var apigClient = apigClientFactory.newClient();
-      apigClient.tripTripIDNodesGet({'TripID': 1})
+      apigClient.tripTripIDNodesGet({'TripID': id})
         .then(function(result){
           items = result.data;
           items.sort((a,b) => (a.Time > b.Time) ? 1 : ((b.Time > a.Time) ? -1 : 0));
@@ -63,7 +62,6 @@ function delete_node(el) {
          Array.prototype.forEach.call(images, function (image) {
             urls.push(image.Url);
          });
-
          Array.prototype.forEach.call(images, function (image) {
              var slide = "<div class='swiper-slide'> <img src='" + image.Url +"' alt=''/></div>"
             var newSlide = swiper.appendSlide(slide,'swiper-slide blue-slide','div');
@@ -87,6 +85,7 @@ function delete_node(el) {
                show_timelineItem(item, i++);
         });
     }
-    var id = 1;
+    var url = new URL(window.location.href);
+    var id = url.searchParams.get("TripID");
     get_nodes(id);
 }.call(this));
