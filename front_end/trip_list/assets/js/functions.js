@@ -38,7 +38,7 @@ function parseJwt(token) {
   } catch (err) {
     return false;
   }
-};
+}
 
 function tripDetail(trip) {
   console.log($(trip).prop('id'));
@@ -50,7 +50,7 @@ function tripDetail(trip) {
     var TripItem;
     TripItem = function (arg) {
         this.title = arg.Title, this.description = arg.Content;
-        this.author = arg.UserID
+        this.author = arg.UserID;
         this.date = get_date(arg.StartTime);
         this.id = arg.TripID;
         this.cover = arg.CoverPhoto;

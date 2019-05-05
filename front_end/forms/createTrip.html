@@ -80,14 +80,13 @@
                                 <input type="text" class="form-control" id="tokenfield" required/>
                               </div>
                         </div>
-<!--                        <button id="create-trip" class="btn btn&#45;&#45;radius-2 btn&#45;&#45;blue-2" type="submit">Create Trip</button>-->
-<!--                        <button id="cancel" class="btn btn&#45;&#45;radius-2 btn&#45;&#45;red" type="submit">Cancel</button>-->
+
                     </form>
                 </div>
                 <div class="card-footer">
                     <button id="create-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Create Trip</button>
                     <button id="cancel" class="btn btn--radius-2 btn--red" type="submit"
-                            onclick="location.href = '../trip_details/index.html' + '?'
+                            onclick="location.href = '../trip_list/index.html' + '?'
                             +location.hash.substring(1).split('&')[0];">Cancel</button>
                 </div>
             </div>
@@ -167,13 +166,6 @@
             // Add error callback code here.
         });
 
-        // $('#tokenfield').tokenfield({
-        // autocomplete: {
-        // source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-        // delay: 100
-        // },
-        // showAutocompleteOnFocus: true
-        // })
     </script>
     <!-- <script src="js/index.js"></script> -->
     <script src="js/function.js"></script>
