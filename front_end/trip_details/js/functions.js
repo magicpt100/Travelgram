@@ -7,6 +7,16 @@ function edit_node(el) {
   window.location.href = "../forms/editNode.html?NodeID="+id;
 
 }
+function removeAuthorOptions() {
+  document.getElementById("first-item").style.display = "none";
+  document.getElementById("last-item").style.display = "none";
+  var ebtns = Array.from(document.getElementsByClassName("edit-btn"));
+  var dbtns = Array.from(document.getElementsByClassName("delete-btn"));
+  var author_btns = ebtns.concat(dbtns);
+  author_btns.forEach(function(btn) {
+  btn.style.display = "none";
+});
+}
 (function () {
     var TimelineItem;
     TimelineItem = function (arg) {
@@ -42,9 +52,9 @@ function edit_node(el) {
           var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
         return formatted
     }
-    function get_nodes(id) {
+    function get_nodes(tid, uid) {
       var apigClient = apigClientFactory.newClient();
-      apigClient.tripTripIDNodesGet({'TripID': id})
+      apigClient.tripTripIDNodesGet({'TripID': tid})
         .then(function(result){
           items = result.data;
           items.sort((a,b) => (a.Time > b.Time) ? 1 : ((b.Time > a.Time) ? -1 : 0));
@@ -93,8 +103,28 @@ function edit_node(el) {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("TripID");
     var title = url.searchParams.get("title");
-    var author = url.searchParams.get("author");
+    var uid = url.searchParams.get("uid");
     document.getElementById("trip-title").innerHTML = title;
-    document.getElementById("trip-author").innerHTML = author;
-    get_nodes(id);
+    var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+    apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {
+        document.getElementById("trip-author").innerHTML = result.data['Username'];
+        var url = new URL(window.location.href);
+        if (window.location.href.includes('id_token'))  {
+          var id_token = url.searchParams.get("id_token");
+          var username = parseJwt(id_token)["cognito:username"];
+          if (username != result.data['Username']) {
+            removeAuthorOptions();
+          }
+
+        } else {
+          removeAuthorOptions();
+        }
+
+        // check whether the author of this trip is the same as the current user.
+    }).catch(function(error) {
+          document.getElementById("trip-author").innerHTML = 'admin';
+          removeAuthorOptions();
+      });
+
+    get_nodes(id, uid);
 }.call(this));
