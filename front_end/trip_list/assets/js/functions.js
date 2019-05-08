@@ -1,4 +1,5 @@
 var positions = [];
+var tripList = new Map([]);
 function delete_node(el) {
 
   console.log($(el.parentNode));
@@ -42,9 +43,11 @@ function parseJwt(token) {
 
 function tripDetail(trip) {
   console.log($(trip).prop('id'));
-  var url = "../trip_details/index.html?TripID="+$(trip).prop('id');
+  console.log(tripList)
+  var curTrip = tripList.get(parseInt($(trip).prop('id')));
+  var url = "../trip_details/index.html?TripID="+curTrip.id.toString()+'&title='+curTrip.title + '&author=' +curTrip.author.toString();
 
-  window.location.href = "../trip_details/index.html?TripID="+$(trip).prop('id');
+  window.location.href = url;
 }
 (function () {
     var TripItem;
@@ -106,6 +109,7 @@ function tripDetail(trip) {
 
     function show_tripItem(arg, i){
         var tripItem = TripItem(arg);
+        tripList.set(tripItem.id, tripItem);
         tripItem.draw(i);
     }
 
@@ -121,6 +125,7 @@ function tripDetail(trip) {
     }
 
     function load_trips() {
+      tripList.clear()
       var apigClient = apigClientFactory.newClient();
       console.log("load trips");
       apigClient.tripsGet()
@@ -147,6 +152,7 @@ function tripDetail(trip) {
     }
 
     function load_my_trips() {
+      tripList.clear()
       var apigClient = apigClientFactory.newClient();
       var url = new URL(window.location.href);
       var id_token = url.searchParams.get("id_token");

@@ -1,7 +1,11 @@
 var positions = [];
 function delete_node(el) {
+  console.log($(el.parentNode).prop('id'));
+}
+function edit_node(el) {
+  var id = $(el.parentNode).prop('id');
+  window.location.href = "../forms/editNode.html?NodeID="+id;
 
-  console.log($(el.parentNode));
 }
 (function () {
     var TimelineItem;
@@ -16,6 +20,7 @@ function delete_node(el) {
                 $timelineItem.find('.title').html(_this.title);
                 $timelineItem.find('.description').html(_this.description);
                 $timelineItem.find('.date').html(_this.date);
+                $timelineItem.attr('id', this.id)
                 //$tiemlineItem.find('.date').html(_this.date);
                 if ("Images" in arg) {
                     $timelineItem = $('.tiemline-withimage').clone().removeClass("tiemline-withimage");
@@ -87,5 +92,9 @@ function delete_node(el) {
     }
     var url = new URL(window.location.href);
     var id = url.searchParams.get("TripID");
+    var title = url.searchParams.get("title");
+    var author = url.searchParams.get("author");
+    document.getElementById("trip-title").innerHTML = title;
+    document.getElementById("trip-author").innerHTML = author;
     get_nodes(id);
 }.call(this));
