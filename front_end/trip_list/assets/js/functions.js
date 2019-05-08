@@ -49,7 +49,9 @@ function tripDetail(trip) {
 (function () {
     var TripItem;
     TripItem = function (arg) {
-        this.title = arg.Title, this.description = arg.Content;
+        // console.log(arg);
+        this.title = arg.Title;
+        this.description = arg.Content;
         this.author = arg.UserID;
         this.date = get_date(arg.StartTime);
         this.id = arg.TripID;
@@ -60,8 +62,14 @@ function tripDetail(trip) {
                 $tripItem = $('.trip-item').clone().removeClass("trip-item").removeAttr("id");
                 $tripItem.find('.title').html(_this.title);
                 $tripItem.find('.date').html(_this.date);
-                $tripItem.find('.readmore').attr('id', this.id)
-                $tripItem.attr('id', this.id)
+
+                var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+                apigClient.getnameUserIdGet({"userId": _this.author}).then(function (result) {
+                    $tripItem.find('.author').html(result.data['Username']);
+                });
+
+                $tripItem.find('.readmore').attr('id', this.id);
+                $tripItem.attr('id', this.id);
                 $tripItem.find('.cover').attr("src",this.cover);
 
                 //$tiemlineItem.find('.date').html(_this.date);
@@ -81,9 +89,9 @@ function tripDetail(trip) {
     };
     function get_date(date) {
         date = new Date(date*1000);
-          var monthname = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-          var d = new Date();
-          var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
+        var monthname = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var d = date;
+        var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
         return formatted
     }
     function get_nodes() {
@@ -114,6 +122,7 @@ function tripDetail(trip) {
       apigClient.tripsGet()
         .then(function(result){
           var trips = result.data;
+          console.log(trips);
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
           create_items(trips);
           var tmp2 =  document.getElementById('tmp2');
@@ -127,10 +136,10 @@ function tripDetail(trip) {
       var apigClient = apigClientFactory.newClient();
       var url = new URL(window.location.href);
       var id_token = url.searchParams.get("id_token");
-      console.log(id_token)
+      console.log(id_token);
       apigClient.userUserNameTripGet( {'userName': "Gilbert"},null,{headers:{"Authorization": id_token}})
         .then(function(result){
-          var trips = result.data.user_trips
+          var trips = result.data.user_trips;
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
           create_items(trips);
           var tmp2 =  document.getElementById('tmp2');

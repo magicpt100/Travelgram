@@ -155,39 +155,111 @@ apigClientFactory.newClient = function (config) {
     };
     
     
-    apigClient.getnameGet = function (params, body, additionalParams) {
+    apigClient.getnameUserIdGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['userId'], ['body']);
         
-        var getnameGetRequest = {
+        var getnameUserIdGetRequest = {
             verb: 'get'.toUpperCase(),
-            path: pathComponent + uritemplate('/getname').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/getname/{userId}').expand(apiGateway.core.utils.parseParametersToObject(params, ['userId'])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(getnameGetRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(getnameUserIdGetRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.getnameOptions = function (params, body, additionalParams) {
+    apigClient.getnameUserIdOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var getnameOptionsRequest = {
+        var getnameUserIdOptionsRequest = {
             verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/getname').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/getname/{userId}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(getnameOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(getnameUserIdOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.getonenodeNodeIDGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['NodeID'], ['body']);
+        
+        var getonenodeNodeIDGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/getonenode/{NodeID}').expand(apiGateway.core.utils.parseParametersToObject(params, ['NodeID'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(getonenodeNodeIDGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.getonenodeNodeIDOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var getonenodeNodeIDOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/getonenode/{NodeID}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(getonenodeNodeIDOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.getonetripTripIDGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['TripID'], ['body']);
+        
+        var getonetripTripIDGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/getonetrip/{TripID}').expand(apiGateway.core.utils.parseParametersToObject(params, ['TripID'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(getonetripTripIDGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.getonetripTripIDOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var getonetripTripIDOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/getonetrip/{TripID}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(getonetripTripIDOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     
