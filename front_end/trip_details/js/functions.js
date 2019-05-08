@@ -1,7 +1,21 @@
 var positions = [];
 function delete_node(el) {
+  console.log($(el.parentNode).prop('id'));
+}
+function edit_node(el) {
+  var id = $(el.parentNode).prop('id');
+  window.location.href = "../forms/editNode.html?NodeID="+id;
 
-  console.log($(el.parentNode));
+}
+function removeAuthorOptions() {
+  document.getElementById("first-item").style.display = "none";
+  document.getElementById("last-item").style.display = "none";
+  var ebtns = Array.from(document.getElementsByClassName("edit-btn"));
+  var dbtns = Array.from(document.getElementsByClassName("delete-btn"));
+  var author_btns = ebtns.concat(dbtns);
+  author_btns.forEach(function(btn) {
+  btn.style.display = "none";
+});
 }
 (function () {
     var TimelineItem;
@@ -16,6 +30,7 @@ function delete_node(el) {
                 $timelineItem.find('.title').html(_this.title);
                 $timelineItem.find('.description').html(_this.description);
                 $timelineItem.find('.date').html(_this.date);
+                $timelineItem.attr('id', this.id)
                 //$tiemlineItem.find('.date').html(_this.date);
                 if ("Images" in arg) {
                     $timelineItem = $('.tiemline-withimage').clone().removeClass("tiemline-withimage");
@@ -37,9 +52,9 @@ function delete_node(el) {
           var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
         return formatted
     }
-    function get_nodes(id) {
+    function get_nodes(tid, uid) {
       var apigClient = apigClientFactory.newClient();
-      apigClient.tripTripIDNodesGet({'TripID': id})
+      apigClient.tripTripIDNodesGet({'TripID': tid})
         .then(function(result){
           items = result.data;
           items.sort((a,b) => (a.Time > b.Time) ? 1 : ((b.Time > a.Time) ? -1 : 0));
@@ -87,5 +102,29 @@ function delete_node(el) {
     }
     var url = new URL(window.location.href);
     var id = url.searchParams.get("TripID");
-    get_nodes(id);
+    var title = url.searchParams.get("title");
+    var uid = url.searchParams.get("uid");
+    document.getElementById("trip-title").innerHTML = title;
+    var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+    apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {
+        document.getElementById("trip-author").innerHTML = result.data['Username'];
+        var url = new URL(window.location.href);
+        if (window.location.href.includes('id_token'))  {
+          var id_token = url.searchParams.get("id_token");
+          var username = parseJwt(id_token)["cognito:username"];
+          if (username != result.data['Username']) {
+            removeAuthorOptions();
+          }
+
+        } else {
+          removeAuthorOptions();
+        }
+
+        // check whether the author of this trip is the same as the current user.
+    }).catch(function(error) {
+          document.getElementById("trip-author").innerHTML = 'admin';
+          removeAuthorOptions();
+      });
+
+    get_nodes(id, uid);
 }.call(this));

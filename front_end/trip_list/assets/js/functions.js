@@ -1,4 +1,6 @@
 var positions = [];
+var tripList = new Map([]);
+var url = new URL(window.location.href);
 function delete_node(el) {
 
   console.log($(el.parentNode));
@@ -6,7 +8,9 @@ function delete_node(el) {
 function mytrips() {
     var url = new URL(window.location.href);
     var token = url.searchParams.get("id_token");
-    var token = location.hash.substring(1).split("&")[0].split("=")[1];
+    if (token == null) {
+      token = location.hash.substring(1).split("&")[0].split("=")[1];
+    }
     if (token == null){
       token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiTTA5SXVMeUhpc1BfTUdjbVh6SWJRZyIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTk4MjgxLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTcwMDE4ODEsImlhdCI6MTU1Njk5ODI4MSwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.h3gtiXxxBOF_T73SbMR1EcrjxLcnDcOgVbP4tX9uHmiXI7CsC6arY4YYd33qEPbQ9m5BZfSho-l4foOh7k12NHzDrpJuLQaCNuAS5PYSTEwsjj-gekiP4Azc8Q_T39epL9PkPHUzfEGk38PViTOvfM5ZhH3SQDcLQoDH0nBpBpJVR0T6xUU8sTIKQHMx5QAyKMGaE4MwWxQwLBxqVcNq0jsQzzyrTdwWvHcUNvgZqHKz2GYPbmvfwjSh25ZHTv1zVztg4-tcyPPTamuY2-5qx4DW6AHv4L595ixNFEKAssKtuodbMdRv1nC1UtG7BuzHpJFdC9cNOatqV2-gx4Jj1w"
     }
@@ -42,9 +46,23 @@ function parseJwt(token) {
 
 function tripDetail(trip) {
   console.log($(trip).prop('id'));
-  var url = "../trip_details/index.html?TripID="+$(trip).prop('id');
+  var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+  apigClient.getonetripTripIDGet({"TripID": $(trip).prop('id')}).then(function (result) {
+      console.log(result.data)
+      var curTrip = result.data
+      var cur_url = new URL(window.location.href);
+      var token = cur_url.searchParams.get("id_token");
+      var url = "../trip_details/index.html?TripID="+curTrip.TripID.toString()+'&title='+curTrip.Title + '&uid=' +curTrip.UserID.toString();
+      if (token != null) {
+        url += "&id_token=" + token
+      }
+      console.log(url)
+      window.location.href = url;
+  }).catch(function(error) {
+      console.log(error)
+    });
 
-  window.location.href = "../trip_details/index.html?TripID="+$(trip).prop('id');
+
 }
 (function () {
     var TripItem;
@@ -56,32 +74,33 @@ function tripDetail(trip) {
         this.date = get_date(arg.StartTime);
         this.id = arg.TripID;
         this.cover = arg.CoverPhoto;
-        this.draw = function (_this, pos) {
-            return function (pos) {
+        apigClient.getnameUserIdGet({"userId": this.author}).then(function (result) {
+            this.authorname = result.data['Username'];
+        }).catch(function(error) {
+            this.authorname = 'undefined';
+          });
+        this.draw = function () {
+            return function () {
                 var $tripItem;
                 $tripItem = $('.trip-item').clone().removeClass("trip-item").removeAttr("id");
-                $tripItem.find('.title').html(_this.title);
-                $tripItem.find('.date').html(_this.date);
-
-                var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
-                apigClient.getnameUserIdGet({"userId": _this.author}).then(function (result) {
-                    $tripItem.find('.author').html(result.data['Username']);
-                });
-
+                $tripItem.find('.title').html(this.title);
+                $tripItem.find('.date').html(this.date);
                 $tripItem.find('.readmore').attr('id', this.id);
+                console.log(this.id)
                 $tripItem.attr('id', this.id);
                 $tripItem.find('.cover').attr("src",this.cover);
-
-                //$tiemlineItem.find('.date').html(_this.date);
-                if ("Images" in arg) {
-                    $tripItem = $('.tiemline-withimage').clone().removeClass("tiemline-withimage");
-                    $tripItem.find('.title').html(_this.title);
-                    $tripItem.find('.date').html(_this.date);
-                    $tripItem.find('.description').html(_this.description);
-                    $tripItem.attr('id', this.id)
-                    console.log($tripItem.prop('id'));
-                    positions.push(pos);
-                }
+                var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+                apigClient.getnameUserIdGet({"userId": this.author}).then(function (result) {
+                    $tripItem.find('.author').html(result.data['Username']);
+                    var id = $tripItem.prop('id')
+                    var curTrip = tripList.get(parseInt($tripItem.prop('id')));
+                    curTrip.id = id
+                    curTrip.authorname = result.data['Username'];
+                }).catch(function(error) {
+                      $tripItem.find('.author').html('undefined');
+                      this.authorname = 'undefined';
+                      console.log(error)
+                  });
                 $tripItem.insertBefore($('.last-item'));
             };
         }(this);
@@ -104,23 +123,25 @@ function tripDetail(trip) {
 
     }
 
-    function show_tripItem(arg, i){
+    function show_tripItem(arg){
         var tripItem = TripItem(arg);
-        tripItem.draw(i);
+        tripList.set(tripItem.id, tripItem);
+        tripItem.draw();
     }
 
     function create_items(items, tag=null) {
         var i = 0;
         items.forEach(function(item) {
             if (tag == null) {
-                show_tripItem(item, i++);
+                show_tripItem(item);
             }else if(item.Tags.includes(tag)){
-                show_tripItem(item, i++);
+                show_tripItem(item);
             }
         });
     }
 
     function load_trips() {
+      tripList.clear()
       var apigClient = apigClientFactory.newClient();
       console.log("load trips");
       apigClient.tripsGet()
@@ -130,7 +151,6 @@ function tripDetail(trip) {
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
           var urlParams = new URLSearchParams(window.location.search);
           var tag = urlParams.get("tag");
-          console.log(tag);
           if (tag==null){
               create_items(trips);
           }else{
@@ -147,6 +167,7 @@ function tripDetail(trip) {
     }
 
     function load_my_trips() {
+      tripList.clear()
       var apigClient = apigClientFactory.newClient();
       var url = new URL(window.location.href);
       var id_token = url.searchParams.get("id_token");
@@ -194,6 +215,7 @@ function tripDetail(trip) {
 
     function delete_trip(id) {
       var apigClient = apigClientFactory.newClient();
+      var id_token = url.searchParams.get("id_token");
       console.log(apigClient);
       apigClient.userUserNameTripTripIDDelete({'userName': "st3174", 'tripID': id})
         .then(function(result){
@@ -202,7 +224,10 @@ function tripDetail(trip) {
     }
     if (window.location.href.includes('id_token')) {
       document.getElementById("login").style.display = "none";
-      var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+      var id_token = url.searchParams.get("id_token");
+      if (id_token == null) {
+        id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+      }
       if (id_token == null){
         id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiTTA5SXVMeUhpc1BfTUdjbVh6SWJRZyIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTk4MjgxLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTcwMDE4ODEsImlhdCI6MTU1Njk5ODI4MSwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.h3gtiXxxBOF_T73SbMR1EcrjxLcnDcOgVbP4tX9uHmiXI7CsC6arY4YYd33qEPbQ9m5BZfSho-l4foOh7k12NHzDrpJuLQaCNuAS5PYSTEwsjj-gekiP4Azc8Q_T39epL9PkPHUzfEGk38PViTOvfM5ZhH3SQDcLQoDH0nBpBpJVR0T6xUU8sTIKQHMx5QAyKMGaE4MwWxQwLBxqVcNq0jsQzzyrTdwWvHcUNvgZqHKz2GYPbmvfwjSh25ZHTv1zVztg4-tcyPPTamuY2-5qx4DW6AHv4L595ixNFEKAssKtuodbMdRv1nC1UtG7BuzHpJFdC9cNOatqV2-gx4Jj1w"
       }
