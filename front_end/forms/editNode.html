@@ -196,6 +196,12 @@
         });
     }
 
+    function get_date(date) {
+        date = new Date(date*1000);
+        var d = date;
+        return (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes()
+    }
+
 
     var username = parseJwt(id_token)["cognito:username"];
 
@@ -206,7 +212,7 @@
 
             nodeData = result['data'][0];
             $("input[name=node_name]").val(nodeData['Title']);
-            $("input[name=datetime]").val(nodeData['Time']);
+            $("input[name=datetime]").val(get_date(nodeData['Time']));
             $("input[name=address]").val(nodeData['Address']);
             $("#sel1 option:selected").text(nodeData['Rate']);
             $("#sel2 option:selected").text(nodeData['Price']);
@@ -238,9 +244,7 @@
         for (var i = 0; i < files.length; i++) {
             var promise = getBase64(files[i]);
             var new_file = await promise;
-            // var file_dict = {"FileName": files[i].name, "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")};
-            // files64.push(file_dict);
-            // console.log(file_dict);
+
             body = {
                 "NodeID": nodeData['NodeID'],
                 "FileName": files[i].name,

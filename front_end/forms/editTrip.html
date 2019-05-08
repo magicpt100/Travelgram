@@ -147,7 +147,7 @@
     var url = new URL(window.location.href);
     var id_token = url.searchParams.get("id_token");
     if (id_token == null){
-        id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiQmlVV2ZMUXhPNlFhVkVGczdpcTJzQSIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMTQyZjU0NGYtNmViNi0xMWU5LWJhMjUtNWZkZWY2OTFmOTkwIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NTcwMDYzOTEsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2xMRFl0RGhqSCIsImNvZ25pdG86dXNlcm5hbWUiOiJHaWxiZXJ0WCIsImV4cCI6MTU1NzAwOTk5MSwiaWF0IjoxNTU3MDA2MzkxLCJlbWFpbCI6ImR3eWFuZWdpbGJlcnRAZ21haWwuY29tIn0.MdJ8bUzSUw00IUUEFHqcixcURaP58ErA99jykIQiW8vuKgA7hsmvQRBbBLi53rGHRDFnMKiiAbvwDiTICHlspOK9cjbjADXICEdTDST40fM9R9bQHHTK9frmSY3ePrO5LsaNGPGWmnwpJ5csSyGJxk2IiS3ARp9rmZB_4G15ls_iUt4t3bELl0XWYvRDb5217XZ41Vps5HGkeDEYlnOoM_xVu5Hxh0omJG60ocFRWY80AVrpTZEoBvOaE1ifbybPwkmuuTjt9h3NQvZbgoxQ9sQznohxNZC1YRFzdxLcBDu2tFTKjVP9ZvA5T7B2f5gMsypkWQU631AGnyKH-DgE6A"
+        id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiRkNLWWxfaWJEZkNIdUd0QVBIa2h0ZyIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMDdmMjQ1ZjctNzFiOC0xMWU5LWFjNTAtMTcwNzJiMDVjNGNhIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1NTczMzcwODMsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2xMRFl0RGhqSCIsImNvZ25pdG86dXNlcm5hbWUiOiJHaWxiZXJ0WCIsImV4cCI6MTU1NzM0MDY4MywiaWF0IjoxNTU3MzM3MDgzLCJlbWFpbCI6ImR3eWFuZWdpbGJlcnRAZ21haWwuY29tIn0.JVnNFTAJXjaavePmIySFTDu5nwzqEvMyHfUPlcEzlSuVD1yuNWxSAfyDsEiZtRWIaYtPmV8seu_O5ouTxabXcLzWCXtHXbMxzLwYc4rVtsUtVYw7cqoTnLD5ByidL5CuxrKERyaVcLTB1Bsva1zITsRcNGA6l8fJnCTZhYcCjQXKimAhuMrygnNnfkmT04xTGVznpZ3EhJUwckPjWL2LM8guddenjpsIigPO2ALS6Qv157Hpd-v92dPqGlOIHLj5RaEYpEA1GVYM3-mbHvOomqUZSvkGBq5YZXgWmXee2euBfvRQVtV8BjSTOMHL-7TjK8tBB07YX_zUiCKD2KgKMw"
     }
 
     var parseJwt = function (token) {
@@ -177,6 +177,12 @@
         });
     }
 
+    function get_date(date) {
+        date = new Date(date*1000);
+        var d = date;
+        return (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+    }
+
 
     var username = parseJwt(id_token)["cognito:username"];
 
@@ -189,8 +195,8 @@
 
             $("input[name=trip_title]").val(tripData['Title']);
 
-            $("input[name=datetime1]").val(tripData['StartTime']);
-            $("input[name=datetime2]").val(tripData['EndTime']);
+            $("input[name=datetime1]").val(get_date(tripData['StartTime']));
+            $("input[name=datetime2]").val(get_date(tripData['EndTime']));
 
 
             $("input[name=dest]").val(tripData['Dst']);

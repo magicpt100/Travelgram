@@ -91,7 +91,7 @@ function tripDetail(trip) {
         date = new Date(date*1000);
         var monthname = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         var d = date;
-        var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
+        var formatted = d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
         return formatted
     }
     function get_nodes() {

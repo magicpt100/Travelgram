@@ -15,6 +15,12 @@
       });
     }
 
+  function get_date(date) {
+    date = new Date(date*1000);
+    var d = date;
+    return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear()
+  }
+
 
 
     // var id_token = location.hash.substring(1).split("&")[0].split("=")[1];
