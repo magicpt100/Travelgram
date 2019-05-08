@@ -44,7 +44,7 @@
         return false;
       }
     };
-    var username = parseJwt(id_token)["cognito:username"];
+    const username = parseJwt(id_token)["cognito:username"];
 
     apigClient = apigClientFactory.newClient();
   $( "#create-trip-node" ).click(async function() {
@@ -54,12 +54,7 @@
     var rating = $("#sel1 option:selected").text();
     var price = $("#sel2 option:selected").text();
     var text = $("#nodetext").val();
-    console.log(node_name);
-    console.log(datetime.getTime());
-    console.log(address);
-    console.log(text);
-    console.log(rating);
-    console.log(price);
+
     var files = upload.cachedFileArray;
     var files64 = [];
     for (var i = 0; i < files.length; i++) {
@@ -109,13 +104,23 @@
     var destination = $("input[name=dest]").val();
     var tags = $("input[id=tokenfield]").val().split(", ");
 
+    var file = document.getElementById('my-file-selector').files[0];
+    var promise = getBase64(file);
+    var file_content = await promise;
+    file_content = file_content.replace(/^data:image\/[a-z]+;base64,/, "");
+    // console.log(file_content);
 
     var body = {
       'Title':trip_name,
       'Dst': destination,
       'StartTime':parseInt(datetime1.getTime())/1000,
       'EndTime':parseInt(datetime2.getTime())/1000,
-      'Tags':tags
+      'Tags':tags,
+      "CoverPhoto":{
+        "FileName":file.name,
+        "FileContent": file_content,
+
+      }
     };
 
     var params = {

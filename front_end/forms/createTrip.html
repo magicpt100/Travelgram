@@ -81,6 +81,19 @@
                               </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="name">Cover Photo</div>
+                            <div class="value">
+                                <label class="btn btn-primary" for="my-file-selector">
+                                    <input id="my-file-selector" type="file" style="display:none"
+                                           onchange="$('#upload-file-info').html(this.files[0].name)">
+                                    Browse File
+                                </label>
+                                <span class='label label-info' id="upload-file-info"></span>
+                                <div class="label--desc">Upload your cover photo here</div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="card-footer">

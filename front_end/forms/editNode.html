@@ -205,12 +205,12 @@
 
     var username = parseJwt(id_token)["cognito:username"];
 
-    apigClient = apigClientFactory.newClient();
+    apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
     var nodeData;
-    apigClient.tripTripIDNodesGet({"TripID":1}, null, {headers:{"Authorization": id_token}})
+    apigClient.getonenodeNodeIDGet({"NodeID":1}, null, {headers:{"Authorization": id_token}})
         .then(function(result){
-
-            nodeData = result['data'][0];
+            console.log(result['data']);
+            nodeData = result['data'];
             $("input[name=node_name]").val(nodeData['Title']);
             $("input[name=datetime]").val(get_date(nodeData['Time']));
             $("input[name=address]").val(nodeData['Address']);
@@ -267,7 +267,7 @@
             'Time': parseInt(datetime.getTime())/1000,
             'Content': text,
             'Price': price,
-            'userName': username
+            'userName': 'testuser1'
         };
 
 
