@@ -108,7 +108,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb-inner"><!-- breadcrumb inner -->
-                    <h1 class="title">Trips</h1>
+                    <h1 class="title" id="breadtitle">Trips</h1>
                     <ul class="page-list">
                         <li><a href="#">Home</a></li>
                         <li>Trips</li>
@@ -164,11 +164,19 @@
                 <div class="widget-area"><!-- widget area-->
                     <div class="widget widget_search"><!-- widget -->
                         <div class="search-widget">
-                            <form action="blog.html" class="searchform">
+                            <form class="searchform">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Search...." class="form-control">
+                                    <input id="search_bar" type="text" placeholder="Search...." class="form-control">
                                 </div>
-                                <button type="submit" class="submit-btn"><i class="fas fa-search"></i></button>
+                                <button type="button" class="submit-btn" onclick=search_button()><i class="fas fa-search"></i></button>
+                                <script type="text/javascript">
+                                    function search_button() {
+                                        if ($("#search_bar").val() !== ""){
+                                            console.log($("#search_bar").val());
+                                            window.location.href= "index.html?q="+$("#search_bar").val();
+                                        }
+                                    }
+                                </script>
                             </form>
                         </div>
                     </div><!-- //. widget -->
@@ -280,7 +288,7 @@
                 console.log(result['data']);
                 var tags = result['data'];
                 for (var i = 0; i < tags.length; i++) {
-                    $(".tagcloud").append("<a href=\"#\">"+tags[i]+"</a>")
+                    $(".tagcloud").append("<a href=\"index.html?tag=" + tags[i] +"\">"+tags[i]+"</a>")
                 }
 
                 // $("#nodetext").val(nodeData['Content']);

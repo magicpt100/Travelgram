@@ -109,10 +109,14 @@ function tripDetail(trip) {
         tripItem.draw(i);
     }
 
-    function create_items(items) {
+    function create_items(items, tag=null) {
         var i = 0;
         items.forEach(function(item) {
-               show_tripItem(item, i++);
+            if (tag == null) {
+                show_tripItem(item, i++);
+            }else if(item.Tags.includes(tag)){
+                show_tripItem(item, i++);
+            }
         });
     }
 
@@ -124,7 +128,17 @@ function tripDetail(trip) {
           var trips = result.data;
           console.log(trips);
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-          create_items(trips);
+          var urlParams = new URLSearchParams(window.location.search);
+          var tag = urlParams.get("tag");
+          console.log(tag);
+          if (tag==null){
+              create_items(trips);
+          }else{
+              $("#breadtitle").html("Tag: "+tag);
+              $(".page-list").append("<li>"+tag+"</li>");
+              create_items(trips, tag)
+          }
+
           var tmp2 =  document.getElementById('tmp2');
           var tmp1 = document.getElementById('tmp1');
           tmp2.parentNode.removeChild(tmp2);
@@ -147,6 +161,35 @@ function tripDetail(trip) {
           tmp2.parentNode.removeChild(tmp2);
           tmp1.parentNode.removeChild(tmp1);
         });
+    }
+
+    function load_search_results() {
+        var apigClient = apigClientFactory.newClient();
+        var url = new URL(window.location.href);
+        var id_token = url.searchParams.get("id_token");
+        console.log(id_token);
+        apigClient.searchTripGet({"params": "beach"})
+            .then(function (result) {
+                console.log(result);
+                var trips = result.data;
+                trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+                create_items(trips);
+                var tmp2 =  document.getElementById('tmp2');
+                var tmp1 = document.getElementById('tmp1');
+                tmp2.parentNode.removeChild(tmp2);
+                tmp1.parentNode.removeChild(tmp1);
+            });
+
+        apigClient.userUserNameTripGet( {'userName': "Gilbert"},null,{headers:{"Authorization": id_token}})
+            .then(function(result){
+                var trips = result.data.user_trips;
+                trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+                create_items(trips);
+                var tmp2 =  document.getElementById('tmp2');
+                var tmp1 = document.getElementById('tmp1');
+                tmp2.parentNode.removeChild(tmp2);
+                tmp1.parentNode.removeChild(tmp1);
+            });
     }
 
     function delete_trip(id) {
@@ -173,9 +216,17 @@ function tripDetail(trip) {
       document.getElementById("username").style.display = "none";
 
     }
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var q = urlParams.get("q");
+
     if (window.location.href.includes('my_trips')) {
       load_my_trips();
-    } else {
+    } else if(q!=null){
+        $("#breadtitle").html("Search Result");
+        $(".page-list").append("<li>search result</li>");
+        load_search_results();
+    }else {
       load_trips();
     }
 
