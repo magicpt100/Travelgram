@@ -165,9 +165,6 @@
 <script type="text/javascript">
     var url = new URL(window.location.href);
     var id_token = url.searchParams.get("id_token");
-    if (id_token == null){
-        id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiczBkeDRCZ01EUU1oZW1DeGQwejhrQSIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTkzNTE2LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTY5OTcxMTYsImlhdCI6MTU1Njk5MzUxNiwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.N8cSTxOVaAhjRxQETU4oePD51Cm5HB3l5F_EQHvgX1wpAPscE6VeCs3oqFVqtNkbTtB1mUyiDgAHDTlrQ-jyrRCEhDTAhaIKaqZka4JvnZnOXz8NmUda1ZW6a7NGdlbeAW_oV6UzbdGs8kiYcHxANuTY7lt-5lK82WdCcuIxUZDLdZyN0tZIu2T2jFnub5w_Q1ZSf2rRwF-GXCf7MpS2dZSop275hWqFxCVC1-mijpoXYim2K8e7_EZo2VcF3JfFsGOwlUs7EmOacrWaJLhmwb7FT2Ne7AlL3uzp4Og-2R-Ky68ZZnz0NkLdnUOm3EuouhUwUH7FsAhl76i97yr8rw"
-    }
 
     var parseJwt = function (token) {
         try {
@@ -232,9 +229,6 @@
 
         var url = new URL(window.location.href);
         var TripID = parseInt(url.searchParams.get("TripID"));
-        if (isNaN(TripID)){
-            TripID = 1
-        }
         var params = {
             'TripID': TripID
         };

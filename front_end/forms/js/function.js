@@ -77,9 +77,6 @@
 
     var url = new URL(window.location.href);
     var TripID = parseInt(url.searchParams.get("TripID"));
-    if (isNaN(TripID)){
-      TripID = 1
-    }
     var params = {
       'TripID': TripID
     };
