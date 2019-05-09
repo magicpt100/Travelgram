@@ -73,7 +73,7 @@
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>
           </div>
-          <a class="bnt-more edit-btn" href="javascript:edit_node(this)">Edit</a>
+          <a class="bnt-more edit-btn" href="javascript:edit_node(this.parentNode.parentNode)">Edit</a>
           <a class="bnt-more delete-btn" href="javascript:delete_node(this)">Delete</a>
         </div>
         </div>
@@ -90,8 +90,8 @@
           </div>
           <p class="date">25 MAY 2016</p>
           <p  class="description">今天在纽约看到了椰子树，好开心啊</p>
-          <a class="bnt-more edit-btn" href="javascript:edit_node(this)">Edit</a>
-          <a class="bnt-more delete-btn" href="javascript:delete_node(this)">Delete</a>
+          <a class="bnt-more edit-btn" href="#" onclick="edit_node(this)">Edit</a>
+          <a class="bnt-more delete-btn" href="#" onclick="delete_node(this)">Delete</a>
         </div>
 
       </div>

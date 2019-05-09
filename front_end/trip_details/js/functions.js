@@ -8,8 +8,8 @@ function delete_node(el) {
   console.log($(el.parentNode).prop('id'));
 }
 function edit_node(el) {
-  var nid = $(el.parentNode).prop('id');
-  window.location.href = "../forms/editNode.html?NodeID="+nid;
+  var nid = $(el.parentNode.parentNode).prop('id');
+  window.location.href = "../forms/editNode.html?NodeID="+nid+"&id_token=" +id_token;
 
 }
 
@@ -57,6 +57,7 @@ function removeAuthorOptions() {
                 $timelineItem.find('.description').html(_this.description);
                 $timelineItem.find('.date').html(_this.date);
                 $timelineItem.attr('id', this.id)
+                console.log(this.id)
                 //$tiemlineItem.find('.date').html(_this.date);
                 if ("Images" in arg) {
                     $timelineItem = $('.tiemline-withimage').clone().removeClass("tiemline-withimage");
