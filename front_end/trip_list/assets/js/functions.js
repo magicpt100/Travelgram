@@ -1,9 +1,30 @@
 var positions = [];
 var tripList = new Map([]);
 var url = new URL(window.location.href);
+var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
 function delete_node(el) {
 
   console.log($(el.parentNode));
+}
+
+function likeTrip(btn) {
+  if ($(btn).hasClass("liked") == false) {
+    // send like request
+    var id_token = url.searchParams.get("id_token");
+    if (id_token == null) {
+      id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+    }
+    if (id_token == null){
+      id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiTTA5SXVMeUhpc1BfTUdjbVh6SWJRZyIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTk4MjgxLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTcwMDE4ODEsImlhdCI6MTU1Njk5ODI4MSwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.h3gtiXxxBOF_T73SbMR1EcrjxLcnDcOgVbP4tX9uHmiXI7CsC6arY4YYd33qEPbQ9m5BZfSho-l4foOh7k12NHzDrpJuLQaCNuAS5PYSTEwsjj-gekiP4Azc8Q_T39epL9PkPHUzfEGk38PViTOvfM5ZhH3SQDcLQoDH0nBpBpJVR0T6xUU8sTIKQHMx5QAyKMGaE4MwWxQwLBxqVcNq0jsQzzyrTdwWvHcUNvgZqHKz2GYPbmvfwjSh25ZHTv1zVztg4-tcyPPTamuY2-5qx4DW6AHv4L595ixNFEKAssKtuodbMdRv1nC1UtG7BuzHpJFdC9cNOatqV2-gx4Jj1w"
+    }
+    var username = parseJwt(id_token)["cognito:username"];
+    apigClient.favoriteTripPost({"TripID": $(btn.parentNode.parentNode).prop('id'), "UserName": username}, {"TripID": $(btn.parentNode.parentNode).prop('id'), "UserName": username}, {}).then(function (result) {
+        $(btn).addClass("liked");
+
+    }).catch(function (error) {
+
+    })
+  }
 }
 function mytrips() {
     var url = new URL(window.location.href);
@@ -45,7 +66,6 @@ function parseJwt(token) {
 }
 
 function tripDetail(trip) {
-  console.log($(trip).prop('id'));
   var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
   apigClient.getonetripTripIDGet({"TripID": $(trip).prop('id')}).then(function (result) {
       console.log(result.data)
@@ -67,13 +87,19 @@ function tripDetail(trip) {
 (function () {
     var TripItem;
     TripItem = function (arg) {
-        // console.log(arg);
+        //console.log(arg);
         this.title = arg.Title;
         this.description = arg.Content;
         this.author = arg.UserID;
         this.date = get_date(arg.StartTime);
         this.id = arg.TripID;
         this.cover = arg.CoverPhoto;
+        this.numLikes = arg.NumLikes;
+        if (arg.isLikeByUser == true) {
+          this.like = true;
+        } else{
+          this.like = false;
+        }
         apigClient.getnameUserIdGet({"userId": this.author}).then(function (result) {
             this.authorname = result.data['Username'];
         }).catch(function(error) {
@@ -86,7 +112,17 @@ function tripDetail(trip) {
                 $tripItem.find('.title').html(this.title);
                 $tripItem.find('.date').html(this.date);
                 $tripItem.find('.readmore').attr('id', this.id);
-                console.log(this.id)
+                $tripItem.find('.like-span').html(this.numLikes.toString())
+                if (this.like == true) {
+                  $tripItem.find('.button-like').toggleClass("liked");
+                }
+                if (window.location.href.includes('id_token') == false)  {
+                  //$tripItem.find('.button-like').hide();
+                  $tripItem.find('.button-like').attr("disabled", true);
+                } else {
+                    console.log(this.numLikes)
+                    console.log($tripItem.find('.date').html())
+                }
                 $tripItem.attr('id', this.id);
                 $tripItem.find('.cover').attr("src",this.cover);
                 var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
