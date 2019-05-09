@@ -5,7 +5,7 @@ var title = url.searchParams.get("title");
 var uid = url.searchParams.get("uid");
 var id_token = url.searchParams.get("id_token");
 function delete_node(el) {
-  console.log($(el.parentNode).prop('id'));
+  console.log($(el.parentNode.parentNode).prop('id'));
 }
 function edit_node(el) {
   var nid = $(el.parentNode.parentNode).prop('id');
@@ -74,9 +74,9 @@ function removeAuthorOptions() {
     };
     function get_date(date) {
         date = new Date(date*1000);
-          var monthname = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-          var d = new Date();
-          var formatted = +d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
+        var monthname = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var d = date;
+        var formatted = d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
         return formatted
     }
     function get_nodes(tid, uid) {
