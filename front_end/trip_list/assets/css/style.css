@@ -2410,6 +2410,9 @@ select:focus {
 
 .single-blog-grid-item {
   margin-bottom: 30px; }
+  .single-blog-grid-item:hover {
+  	border: 1px solid; 
+  	box-shadow: 4px 4px lightgrey;}
   .single-blog-grid-item .content {
     border: 1px solid #e2e2e2;
     border-top: none;
