@@ -35,6 +35,7 @@ header p {
 
 .timeline {
   position: relative;
+  margin: 45px;
 }
 .timeline::before {
   content: '';

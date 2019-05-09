@@ -69,8 +69,14 @@
                     <!-- navbar collapse start -->
                     <ul class="navbar-nav">
                         <!-- navbar- nav -->
+                        <script type="text/javascript">
+                            function return_home() {
+                                var url = new URLSearchParams(window.location.search);
+                                window.location.href= "index.html?"+"id_token=" + url.get("id_token");
+                            }
+                        </script>
                         <li class="nav-item">
-                            <a class="nav-link pl-0" href="index.html">Home
+                            <a class="nav-link pl-0" href="javascript:return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -119,16 +125,17 @@
                     <div class="widget-area"><!-- widget area-->
                         <div class="widget widget_search"><!-- widget -->
                             <div class="search-widget">
-                                <form class="searchform">
+                                <form class="searchform" onsubmit="return false;">
                                     <div class="form-group">
                                         <input id="search_bar" type="text" placeholder="Search...." class="form-control">
                                     </div>
-                                    <button type="button" class="submit-btn" onclick=search_button()><i class="fas fa-search"></i></button>
+                                    <button type="button" class="submit-btn" id="search_button" onclick=search_button_clk()><i class="fas fa-search"></i></button>
                                     <script type="text/javascript">
-                                        function search_button() {
+                                        function search_button_clk() {
                                             if ($("#search_bar").val() !== ""){
                                                 console.log($("#search_bar").val());
-                                                window.location.href= "index.html?q="+$("#search_bar").val();
+                                                var url = new URLSearchParams(window.location.search);
+                                                window.location.href= "index.html?q="+$("#search_bar").val() + "&id_token=" + url.get("id_token");
                                             }
                                         }
                                     </script>
@@ -159,7 +166,6 @@
                                     <li><a href="#"><i class="fas fa-user"></i> <p class="author">Admin</p></a></li>
                                     <li><a href="#" class="date"><i class="fas fa-calendar-alt"></i> 17 Dec 2019</a></li>
                                 </ul>
-                                <a onclick="tripDetail(this)" class="readmore">Read More</a>
                             </div>
                         </div><!-- //. single blog grid item -->
                     </div>
@@ -178,8 +184,6 @@
                                     <li><a href="#"><i class="fas fa-user"></i> Admin</a></li>
                                     <li><a href="#"><i class="fas fa-calendar-alt"></i> 17 Dec 2019</a></li>
                                 </ul>
-                                <p>Fat new smallness few supposing suspicion two. Course sir people worthy horses add entire suffer. How one dull get busy dare far. At principle perfectly by sweetness do.</p>
-                                <a href="#" class="readmore">Read More</a>
                             </div>
                         </div><!-- //. single blog grid item -->
                     </div>
@@ -197,39 +201,43 @@
     <div class="footer-top">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="widget footer-widget about_widget">
                         <a href="#" class="footer-logo"><img src="assets/img/footer-logo.png" alt="footer logo image"></a>
-                        <p>Satisfied conveying an dependent contented he gentleman agreeable do be. Warrant private blushes removed an in equally totally if.</p>
+                        <p>Travelgram Inc.</p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6" style="padding-top: 50px">
                     <div class="widget footer-widget pages">
-                        <h4 class="widget-title">About</h4>
+                        <h4 class="widget-title">Mingyu Ma</h4>
                         <ul>
-                            <li><a href="#">About Stoneworks</a></li>
-                            <li><a href="#">How it works</a></li>
-                            <li><a href="#">Team</a></li>
+                            <li><a href="#">mm5300</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6"  style="padding-top: 50px">
                     <div class="widget footer-widget pages">
-                        <h4 class="widget-title">Conditions</h4>
+                        <h4 class="widget-title">Ge Wang</h4>
                         <ul>
-                            <li><a href="#">Terms</a></li>
-                            <li><a href="#">Investors</a></li>
-                            <li><a href="#">Finance Reports</a></li>
+                            <li><a href="#">gw2372</a></li>
+
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6"  style="padding-top: 50px">
                     <div class="widget footer-widget pages">
-                        <h4 class="widget-title">Pages</h4>
+                        <h4 class="widget-title">Shulan Tang</h4>
                         <ul>
-                            <li><a href="#">Support Center</a></li>
-                            <li><a href="#">Advertisement</a></li>
-                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">st3174</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6"  style="padding-top: 50px">
+                    <div class="widget footer-widget pages">
+                        <h4 class="widget-title">Jiaxuan Zhang</h4>
+                        <ul>
+                            <li><a href="#">jz2997</a></li>
+
                         </ul>
                     </div>
                 </div>
@@ -276,6 +284,22 @@
         <script src="assets/js/functions.js"></script>
 
     <script type="text/javascript">
+
+        // Get the input field
+        var input = document.getElementById("search_bar");
+
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("search_button").click();
+            }
+        });
+
+
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
         var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
