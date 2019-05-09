@@ -7,6 +7,23 @@ function edit_node(el) {
   window.location.href = "../forms/editNode.html?NodeID="+id;
 
 }
+function parseJwt(token) {
+  try {
+    // Get Token Header
+    const base64HeaderUrl = token.split('.')[0];
+    const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
+    const headerData = JSON.parse(window.atob(base64Header));
+
+    // Get Token payload and date's
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    const dataJWT = JSON.parse(window.atob(base64));
+    dataJWT.header = headerData;
+    return dataJWT;
+  } catch (err) {
+    return false;
+  }
+}
 function removeAuthorOptions() {
   document.getElementById("first-item").style.display = "none";
   document.getElementById("last-item").style.display = "none";
@@ -113,6 +130,7 @@ function removeAuthorOptions() {
           var id_token = url.searchParams.get("id_token");
           var username = parseJwt(id_token)["cognito:username"];
           if (username != result.data['Username']) {
+            console.log(result.data['Username'])
             removeAuthorOptions();
           }
 
@@ -123,6 +141,7 @@ function removeAuthorOptions() {
         // check whether the author of this trip is the same as the current user.
     }).catch(function(error) {
           document.getElementById("trip-author").innerHTML = 'admin';
+          console.log(error)
           removeAuthorOptions();
       });
 
