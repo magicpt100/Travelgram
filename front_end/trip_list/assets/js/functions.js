@@ -67,6 +67,7 @@ function mytrips() {
 }
 
 function create_trip() {
+  console.log("you are in!")
   var url = new URL(window.location.href);
   var token = url.searchParams.get("id_token");
   url = "../forms/createTrip.html?id_token=" + token;
