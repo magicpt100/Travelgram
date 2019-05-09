@@ -69,8 +69,14 @@
                     <!-- navbar collapse start -->
                     <ul class="navbar-nav">
                         <!-- navbar- nav -->
+                        <script type="text/javascript">
+                            function return_home() {
+                                var url = new URLSearchParams(window.location.search);
+                                window.location.href= "index.html?"+"id_token=" + url.get("id_token");
+                            }
+                        </script>
                         <li class="nav-item">
-                            <a class="nav-link pl-0" href="index.html">Home
+                            <a class="nav-link pl-0" href="javascript:return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -119,16 +125,17 @@
                     <div class="widget-area"><!-- widget area-->
                         <div class="widget widget_search"><!-- widget -->
                             <div class="search-widget">
-                                <form class="searchform">
+                                <form class="searchform" onsubmit="return false;">
                                     <div class="form-group">
                                         <input id="search_bar" type="text" placeholder="Search...." class="form-control">
                                     </div>
-                                    <button type="button" class="submit-btn" onclick=search_button()><i class="fas fa-search"></i></button>
+                                    <button type="button" class="submit-btn" id="search_button" onclick=search_button_clk()><i class="fas fa-search"></i></button>
                                     <script type="text/javascript">
-                                        function search_button() {
+                                        function search_button_clk() {
                                             if ($("#search_bar").val() !== ""){
                                                 console.log($("#search_bar").val());
-                                                window.location.href= "index.html?q="+$("#search_bar").val();
+                                                var url = new URLSearchParams(window.location.search);
+                                                window.location.href= "index.html?q="+$("#search_bar").val() + "&id_token=" + url.get("id_token");
                                             }
                                         }
                                     </script>
@@ -276,6 +283,22 @@
         <script src="assets/js/functions.js"></script>
 
     <script type="text/javascript">
+
+        // Get the input field
+        var input = document.getElementById("search_bar");
+
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("search_button").click();
+            }
+        });
+
+
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
         var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
