@@ -1,11 +1,37 @@
 var positions = [];
+var url = new URL(window.location.href);
+var id = url.searchParams.get("TripID");
+var title = url.searchParams.get("title");
+var uid = url.searchParams.get("uid");
+var id_token = url.searchParams.get("id_token");
 function delete_node(el) {
   console.log($(el.parentNode).prop('id'));
 }
 function edit_node(el) {
-  var id = $(el.parentNode).prop('id');
-  window.location.href = "../forms/editNode.html?NodeID="+id;
+  var nid = $(el.parentNode.parentNode).prop('id');
+  window.location.href = "../forms/editNode.html?NodeID="+nid+"&id_token=" +id_token;
 
+}
+
+function add_node() {
+  window.location.href = "../forms/createNode.html?TripID="+id +"&id_token=" +id_token;
+}
+function parseJwt(token) {
+  try {
+    // Get Token Header
+    const base64HeaderUrl = token.split('.')[0];
+    const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
+    const headerData = JSON.parse(window.atob(base64Header));
+
+    // Get Token payload and date's
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    const dataJWT = JSON.parse(window.atob(base64));
+    dataJWT.header = headerData;
+    return dataJWT;
+  } catch (err) {
+    return false;
+  }
 }
 function removeAuthorOptions() {
   document.getElementById("first-item").style.display = "none";
@@ -31,6 +57,7 @@ function removeAuthorOptions() {
                 $timelineItem.find('.description').html(_this.description);
                 $timelineItem.find('.date').html(_this.date);
                 $timelineItem.attr('id', this.id)
+                console.log(this.id)
                 //$tiemlineItem.find('.date').html(_this.date);
                 if ("Images" in arg) {
                     $timelineItem = $('.tiemline-withimage').clone().removeClass("tiemline-withimage");
@@ -100,10 +127,7 @@ function removeAuthorOptions() {
                show_timelineItem(item, i++);
         });
     }
-    var url = new URL(window.location.href);
-    var id = url.searchParams.get("TripID");
-    var title = url.searchParams.get("title");
-    var uid = url.searchParams.get("uid");
+
     document.getElementById("trip-title").innerHTML = title;
     var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
     apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {
@@ -113,6 +137,7 @@ function removeAuthorOptions() {
           var id_token = url.searchParams.get("id_token");
           var username = parseJwt(id_token)["cognito:username"];
           if (username != result.data['Username']) {
+            console.log(result.data['Username'])
             removeAuthorOptions();
           }
 
@@ -123,6 +148,7 @@ function removeAuthorOptions() {
         // check whether the author of this trip is the same as the current user.
     }).catch(function(error) {
           document.getElementById("trip-author").innerHTML = 'admin';
+          console.log(error)
           removeAuthorOptions();
       });
 
