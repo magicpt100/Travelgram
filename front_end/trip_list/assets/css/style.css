@@ -1598,9 +1598,9 @@ select:focus {
     Sidebar Area
 --------------------------*/
 .widget-area .widget {
-  background-color: #F2F2F2;
-  padding: 23px 30px 25px 30px;
-  margin-bottom: 30px; }
+  background-color: #fbfbfb;
+  padding: 2px 10px 2px 10px;
+  margin-bottom: 0px; }
   .widget-area .widget:last-child {
     margin-bottom: 0; }
   .widget-area .widget.widget_search {

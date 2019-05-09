@@ -121,9 +121,36 @@
 <section class="blog-page-content-area">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+                <div class="col-lg-12">
+                    <div class="widget-area"><!-- widget area-->
+                        <div class="widget widget_search"><!-- widget -->
+                            <div class="search-widget">
+                                <form class="searchform">
+                                    <div class="form-group">
+                                        <input id="search_bar" type="text" placeholder="Search...." class="form-control">
+                                    </div>
+                                    <button type="button" class="submit-btn" onclick=search_button()><i class="fas fa-search"></i></button>
+                                    <script type="text/javascript">
+                                        function search_button() {
+                                            if ($("#search_bar").val() !== ""){
+                                                console.log($("#search_bar").val());
+                                                window.location.href= "index.html?q="+$("#search_bar").val();
+                                            }
+                                        }
+                                    </script>
+                                </form>
+                            </div>
+                        </div><!-- //. widget -->
+                        <div class="widget widget_tag_cloud"><!-- widget -->
+                           <div class="tagcloud">
+                           </div>
+                        </div><!-- //. widget -->
+                    </div><!-- //. widget area -->
+                </div>
+
+            <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 trip-item" id="tmp1">
+                    <div class="col-lg-4 col-md-4 trip-item" id="tmp1">
                         <div class="single-blog-grid-item"><!-- single blog grid item -->
                             <div class="thumb" onclick="tripDetail(this.parentNode.parentNode)">
                                 <img class="cover" src="assets/img/blog/01.jpg" alt="blog page">
@@ -142,7 +169,7 @@
                             </div>
                         </div><!-- //. single blog grid item -->
                     </div>
-                    <div class="col-lg-6 col-md-6 last-item" id="tmp2">
+                    <div class="col-lg-4 col-md-4 last-item" id="tmp2">
                         <div class="single-blog-grid-item"><!-- single blog grid item -->
                             <div class="thumb">
                                 <img src="assets/img/blog/06.jpg" alt="blog page">
@@ -164,33 +191,6 @@
                     </div>
 
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="widget-area"><!-- widget area-->
-                    <div class="widget widget_search"><!-- widget -->
-                        <div class="search-widget">
-                            <form class="searchform">
-                                <div class="form-group">
-                                    <input id="search_bar" type="text" placeholder="Search...." class="form-control">
-                                </div>
-                                <button type="button" class="submit-btn" onclick=search_button()><i class="fas fa-search"></i></button>
-                                <script type="text/javascript">
-                                    function search_button() {
-                                        if ($("#search_bar").val() !== ""){
-                                            console.log($("#search_bar").val());
-                                            window.location.href= "index.html?q="+$("#search_bar").val();
-                                        }
-                                    }
-                                </script>
-                            </form>
-                        </div>
-                    </div><!-- //. widget -->
-                    <div class="widget widget_tag_cloud"><!-- widget -->
-                       <h4 class="widget-title">Tag</h4>
-                       <div class="tagcloud">
-                       </div>
-                    </div><!-- //. widget -->
-                </div><!-- //. widget area -->
             </div>
         </div>
     </div>
@@ -284,23 +284,51 @@
     <script type="text/javascript">
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
-        if (id_token == null){
-            id_token = "eyJraWQiOiJmelBrQXg3dkpCSlNNRmt5U3VMMkp1V2d2M2VpMkt2MGVBVkhmOVMzZnVFPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiczBkeDRCZ01EUU1oZW1DeGQwejhrQSIsInN1YiI6IjFhZmFkYjRhLTA1ZjgtNGIwZS1iNjkwLTIzZmE5YTJlZDZkNSIsImF1ZCI6IjQ5czd2amJodWlwODMxcWExMmc4cHZhNnJpIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU2OTkzNTE2LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9sTERZdERoakgiLCJjb2duaXRvOnVzZXJuYW1lIjoiR2lsYmVydFgiLCJleHAiOjE1NTY5OTcxMTYsImlhdCI6MTU1Njk5MzUxNiwiZW1haWwiOiJkd3lhbmVnaWxiZXJ0QGdtYWlsLmNvbSJ9.N8cSTxOVaAhjRxQETU4oePD51Cm5HB3l5F_EQHvgX1wpAPscE6VeCs3oqFVqtNkbTtB1mUyiDgAHDTlrQ-jyrRCEhDTAhaIKaqZka4JvnZnOXz8NmUda1ZW6a7NGdlbeAW_oV6UzbdGs8kiYcHxANuTY7lt-5lK82WdCcuIxUZDLdZyN0tZIu2T2jFnub5w_Q1ZSf2rRwF-GXCf7MpS2dZSop275hWqFxCVC1-mijpoXYim2K8e7_EZo2VcF3JfFsGOwlUs7EmOacrWaJLhmwb7FT2Ne7AlL3uzp4Og-2R-Ky68ZZnz0NkLdnUOm3EuouhUwUH7FsAhl76i97yr8rw"
-        }
         var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
-        apigClient.tagsTagNumGet({"tagNum": 10}, {}, {})
-            .then(function(result){
-                //console.log(result['data']);
-                var tags = result['data'];
-                for (var i = 0; i < tags.length; i++) {
-                    $(".tagcloud").append("<a href=\"index.html?tag=" + tags[i] +"\">"+tags[i]+"</a>")
-                }
+        // apigClient.tagsTagNumGet({"tagNum": 10}, {}, {})
+        //     .then(function(result){
+        //         //console.log(result['data']);
+        //         var tags = result['data'];
+        //
+        //         var urlParams = new URLSearchParams(window.location.search);
+        //
+        //         for (var i = 0; i < tags.length; i++) {
+        //
+        //             var s_tags = urlParams.get("tag");
+        //             if(s_tags == null){
+        //                 s_tags = [];
+        //             }else{
+        //                 s_tags = s_tags.split(",");
+        //             }
+        //
+        //             if (s_tags.includes(tags[i])){
+        //                 s_tags.splice(s_tags.indexOf(tags[i]), 1)
+        //             }else{
+        //                 s_tags.push(tags[i])
+        //             }
+        //             $(".tagcloud").append("<a href=\"index.html?tag=" + s_tags.join(",") + "\"" + "id="+tags[i] + ">" + tags[i]+"</a>")
+        //
+        //         }
+        //
+        //         s_tags = urlParams.get("tag");
+        //         if(s_tags == null){
+        //             s_tags = [];
+        //         }else{
+        //             s_tags = s_tags.split(",");
+        //         }
+        //         if(s_tags !== []){
+        //             for (var i=0;i<s_tags.length;i++){
+        //                 $("#"+s_tags[i]).css("background-color", "#8DC645");
+        //             }
+        //         }
+        //
+        //         // $("#nodetext").val(nodeData['Content']);
+        //     }).catch( function(result){
+        //     console.log("there is something wrong!!!");
+        //     console.log(result);
+        //     // Add error callback code here.
+        // });
 
-                // $("#nodetext").val(nodeData['Content']);
-            }).catch( function(result){
-            console.log("there is something wrong!!!");
-            // Add error callback code here.
-        });
     </script>
 </body>
 
