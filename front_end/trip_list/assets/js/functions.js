@@ -189,7 +189,8 @@ function tripDetail(trip) {
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
         console.log(id_token);
-        apigClient.searchTripGet({"params": "beach"})
+        var q = url.searchParams.get("q");
+        apigClient.searchTripGet({"params": q})
             .then(function (result) {
                 console.log(result);
                 var trips = result.data;
