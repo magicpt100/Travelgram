@@ -1,11 +1,20 @@
 var positions = [];
+var url = new URL(window.location.href);
+var id = url.searchParams.get("TripID");
+var title = url.searchParams.get("title");
+var uid = url.searchParams.get("uid");
+var id_token = url.searchParams.get("id_token");
 function delete_node(el) {
   console.log($(el.parentNode).prop('id'));
 }
 function edit_node(el) {
-  var id = $(el.parentNode).prop('id');
-  window.location.href = "../forms/editNode.html?NodeID="+id;
+  var nid = $(el.parentNode).prop('id');
+  window.location.href = "../forms/editNode.html?NodeID="+nid;
 
+}
+
+function add_node() {
+  window.location.href = "../forms/createNode.html?TripID="+id +"&id_token=" +id_token;
 }
 function parseJwt(token) {
   try {
@@ -117,10 +126,7 @@ function removeAuthorOptions() {
                show_timelineItem(item, i++);
         });
     }
-    var url = new URL(window.location.href);
-    var id = url.searchParams.get("TripID");
-    var title = url.searchParams.get("title");
-    var uid = url.searchParams.get("uid");
+
     document.getElementById("trip-title").innerHTML = title;
     var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
     apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {

@@ -58,14 +58,6 @@
   <section class="timeline">
 
     <div class="container timeline-items">
-      <div class="timeline-item first-item" id="first-item">
-        <div class="timeline-img"></div>
-         <div class="timeline-content timeline-card js--fadeInRight">
-           <h2  class="title">click to</h2>
-         <p class="description">add new trip</p>
-         <a class="bnt-more" onclick="location.href = '../forms/createTrip.html' + '?' +
-          location.hash.substring(1).split('&')[0];">Create</a></div>
-      </div>
       <div class="timeline-item tiemline-withimage tmp" id="tmp1">
 
         <div class="timeline-img"></div>
@@ -105,12 +97,7 @@
       </div>
 
       <div class="timeline-item last-item" id="last-item">
-        <div class="timeline-img"></div>
-         <div class="timeline-content timeline-card js--fadeInRight">
-           <h2  class="title">click </h2>
-         <p class="description">to add a new node</p>
-         <a class="bnt-more" href="../forms/createNode.html?TripID=1">Add</a></div>
-
+        <div class="timeline-img" onclick="add_node()"><img class="add-img" src="../trip_list/assets/img/add.png" height="2px" alt="add node" /></div>
       </div>
     </div>
     <div class="back-to-top base-color-2">
