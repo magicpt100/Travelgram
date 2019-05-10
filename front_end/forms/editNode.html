@@ -32,7 +32,7 @@
             </div>
 
             <div class="card-body">
-                <form method="POST">
+                <form id="edit-node-form" method="POST">
                     <div class="form-row">
                         <div class="name">Node name</div>
                         <div class="value">
@@ -44,7 +44,7 @@
                         <div class="value">
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' class="form-control" name="datetime" placeholder="04/16/2019 8:55 PM"/>
+                                    <input type='text' class="form-control" name="datetime" placeholder="04/16/2019 8:55 PM" required/>
                                     <span class="input-group-addon">
                                           <span class="glyphicon glyphicon-calendar"></span>
                                       </span>
@@ -63,6 +63,7 @@
                         <div class="value">
                             <div class="form-group">
                                 <select class="form-control" id="sel1">
+                                    <option> </option>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -77,10 +78,11 @@
                         <div class="value">
                             <div class="form-group">
                                 <select class="form-control" id="sel2">
-                                    <option>$</option>
-                                    <option>$$</option>
-                                    <option>$$$</option>
-                                    <option>$$$$</option>
+                                    <option> </option>
+                                    <option value="$">$</option>
+                                    <option value="$$">$$</option>
+                                    <option value="$$$">$$$</option>
+                                    <option value="$$$$">$$$$</option>
                                 </select>
                             </div>
                         </div>
@@ -107,6 +109,7 @@
                             </div>
                         </div>
                     </div>
+                    <button type="submit" style="display: none"></button>
                 </form>
             </div>
             <div class="card-footer">
@@ -221,8 +224,8 @@
             $("input[name=node_name]").val(nodeData['Title']);
             $("input[name=datetime]").val(get_date(nodeData['Time']));
             $("input[name=address]").val(nodeData['Address']);
-            $("#sel1 option:selected").text(nodeData['Rate']);
-            $("#sel2 option:selected").text(nodeData['Price']);
+            $("#sel1").val(nodeData['Rate']);
+            $("#sel2").val(nodeData['Price']);
             $("#nodetext").val(nodeData['Content']);
         }).catch( function(result){
         console.log("there is something wrong!!!");
@@ -230,67 +233,75 @@
     });
 
     $( "#update-trip-node" ).click(async function() {
-        $('body').append("<div id=\"loader\"></div>");
-        var node_name = $("input[name=node_name]").val();
-        var datetime = new Date($("input[name=datetime]").val());
-        var address = $("input[name=address]").val();
-        var rating = $("#sel1 option:selected").text();
-        var price = $("#sel2 option:selected").text();
-        var text = $("#nodetext").val();
+        var $myForm = $('#edit-node-form');
+        if(! $myForm[0].checkValidity()) {
+            // If the form is invalid, submit it. The form won't actually submit;
+            // this will just cause the browser to display the native HTML5 error messages.
+            $myForm.find(':submit').click();
+        }else {
+            $('body').append("<div id=\"loader\"></div>");
+            var node_name = $("input[name=node_name]").val();
+            var datetime = new Date($("input[name=datetime]").val());
+            var address = $("input[name=address]").val();
+            var rating = $("#sel1 option:selected").text();
+            var price = $("#sel2 option:selected").text();
+            var text = $("#nodetext").val();
 
-        var url = new URL(window.location.href);
-        var TripID = parseInt(url.searchParams.get("TripID"));
-        var params = {
-            'TripID': TripID
-        };
-
-        var files = upload.cachedFileArray;
-        // var files64 = [];
-        for (var i = 0; i < files.length; i++) {
-            var promise = getBase64(files[i]);
-            var new_file = await promise;
-
-            body = {
-                "NodeID": nodeData['NodeID'],
-                "FileName": files[i].name,
-                "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")
+            var url = new URL(window.location.href);
+            var TripID = parseInt(url.searchParams.get("TripID"));
+            var params = {
+                'TripID': TripID
             };
-            apigClient.tripTripIDNodesUploadimagePost(params, body, {headers:{"Authorization": id_token}})
+
+            var files = upload.cachedFileArray;
+            // var files64 = [];
+            for (var i = 0; i < files.length; i++) {
+                var promise = getBase64(files[i]);
+                var new_file = await promise;
+
+                body = {
+                    "NodeID": nodeData['NodeID'],
+                    "FileName": files[i].name,
+                    "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")
+                };
+                apigClient.tripTripIDNodesUploadimagePost(params, body, {headers:{"Authorization": id_token}})
+                    .then(function(result){
+                        console.log(result);
+                        // Add success callback code here.
+                    }).catch( function(result){
+                    console.log("there is something wrong!!!");
+                    // Add error callback code here.
+                });
+            }
+            var body = {
+                'NodeID': nodeData['NodeID'],
+                'Address':address,
+                'Rate': parseFloat(rating),
+                'Title': node_name,
+                'Time': parseInt(datetime.getTime())/1000,
+                'Content': text,
+                'Price': price,
+                'userName': username
+            };
+
+
+            apigClient.tripTripIDNodesPut(params, body, {headers:{"Authorization": id_token}})
                 .then(function(result){
                     console.log(result);
+                    // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
                     // Add success callback code here.
+                    var url = new URL(window.location.href);
+                    var TripID = url.searchParams.get("TripID");
+                    var id_token = url.searchParams.get("id_token");
+                    var title = url.searchParams.get("title");
+                    var uid = url.searchParams.get("uid");
+                    window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title + "&uid=" + uid;
                 }).catch( function(result){
                 console.log("there is something wrong!!!");
                 // Add error callback code here.
             });
         }
-        var body = {
-            'NodeID': nodeData['NodeID'],
-            'Address':address,
-            'Rate': parseFloat(rating),
-            'Title': node_name,
-            'Time': parseInt(datetime.getTime())/1000,
-            'Content': text,
-            'Price': price,
-            'userName': username
-        };
 
-
-        apigClient.tripTripIDNodesPut(params, body, {headers:{"Authorization": id_token}})
-            .then(function(result){
-                console.log(result);
-                // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
-                // Add success callback code here.
-                var url = new URL(window.location.href);
-                var TripID = url.searchParams.get("TripID");
-                var id_token = url.searchParams.get("id_token");
-                var title = url.searchParams.get("title");
-                var uid = url.searchParams.get("uid");
-                window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title + "&uid=" + uid;
-            }).catch( function(result){
-            console.log("there is something wrong!!!");
-            // Add error callback code here.
-        });
 
     });
 

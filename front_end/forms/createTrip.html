@@ -32,11 +32,11 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST">
+                    <form id="trip-form" method="POST">
                         <div class="form-row">
                             <div class="name">Trip Title</div>
                             <div class="value">
-                                <input class="input--style-6" type="text" name="trip_title" placeholder="Times Square" required>
+                                <input class="input--style-6" type="text" name="trip_title" placeholder="Summer Trip to Southeast Asia" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -70,14 +70,14 @@
                         <div class="form-row">
                             <div class="name">Destination</div>
                               <div class="value">
-                                <input class="input--style-6" type="text" name="dest" placeholder="42nd Street" required>
+                                <input class="input--style-6" type="text" name="dest" placeholder="Singapore" required>
                               </div>
                         </div>
 
                         <div class="form-row">
                             <div class="name">Tags</div>
                               <div class="value">
-                                <input type="text" class="form-control" id="tokenfield" required/>
+                                <input type="text" class="form-control" id="tokenfield"/>
                               </div>
                         </div>
 
@@ -93,7 +93,7 @@
                                 <div class="label--desc">Upload your cover photo here</div>
                             </div>
                         </div>
-
+                        <button type="submit" style="display: none"></button>
                     </form>
                 </div>
                 <div class="card-footer">

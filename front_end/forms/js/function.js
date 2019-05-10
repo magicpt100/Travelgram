@@ -48,98 +48,112 @@
 
     apigClient = apigClientFactory.newClient();
   $( "#create-trip-node" ).click(async function() {
-    $('body').append("<div id=\"loader\"></div>");
-    var node_name = $("input[name=node_name]").val();
-    var datetime = new Date($("input[name=datetime]").val());
-    var address = $("input[name=address]").val();
-    var rating = $("#sel1 option:selected").text();
-    var price = $("#sel2 option:selected").text();
-    var text = $("#nodetext").val();
+    var $myForm = $('#node-form');
 
-    var files = upload.cachedFileArray;
-    var files64 = [];
-    for (var i = 0; i < files.length; i++) {
-      var promise = getBase64(files[i]);
-      var new_file = await promise;
-      var file_dict = {"FileName": files[i].name, "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")};
-      files64.push(file_dict);
-      console.log(file_dict)
-    }
-    var body = {
-      'Address':address,
-      'Rate': parseFloat(rating),
-      'Title': node_name,
-      'Time': parseInt(datetime.getTime())/1000,
-      'Content': text,
-      'Price': price,
-      'Images':files64,
-      'userName': username
-    };
+    if(! $myForm[0].checkValidity()) {
+      $myForm.find(':submit').click();
+    }else{
+      $('body').append("<div id=\"loader\"></div>");
+      var node_name = $("input[name=node_name]").val();
+      var datetime = new Date($("input[name=datetime]").val());
+      var address = $("input[name=address]").val();
+      var rating = $("#sel1 option:selected").text();
+      var price = $("#sel2 option:selected").text();
+      var text = $("#nodetext").val();
 
-    var url = new URL(window.location.href);
-    var TripID = parseInt(url.searchParams.get("TripID"));
-    var params = {
-      'TripID': TripID
-    };
+      var files = upload.cachedFileArray;
+      var files64 = [];
+      for (var i = 0; i < files.length; i++) {
+        var promise = getBase64(files[i]);
+        var new_file = await promise;
+        var file_dict = {"FileName": files[i].name, "FileContent": new_file.replace(/^data:image\/[a-z]+;base64,/, "")};
+        files64.push(file_dict);
+        console.log(file_dict)
+      }
+      var body = {
+        'Address':address,
+        'Rate': parseFloat(rating),
+        'Title': node_name,
+        'Time': parseInt(datetime.getTime())/1000,
+        'Content': text,
+        'Price': price,
+        'Images':files64,
+        'userName': username
+      };
 
-    apigClient.tripTripIDNodesPost(params, body, {headers:{"Authorization": id_token}})
-    .then(function(result){
       var url = new URL(window.location.href);
-      var TripID = url.searchParams.get("TripID");
-      var id_token = url.searchParams.get("id_token");
-      var title = url.searchParams.get("title");
-      window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title;
+      var TripID = parseInt(url.searchParams.get("TripID"));
+      var params = {
+        'TripID': TripID
+      };
 
-    }).catch( function(result){
+      apigClient.tripTripIDNodesPost(params, body, {headers:{"Authorization": id_token}})
+          .then(function(result){
+            var url = new URL(window.location.href);
+            var TripID = url.searchParams.get("TripID");
+            var id_token = url.searchParams.get("id_token");
+            var title = url.searchParams.get("title");
+            window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title;
+
+          }).catch( function(result){
         console.log("there is something wrong!!!");
         // Add error callback code here.
       });
+    }
+
   });
 
 
   $( "#create-trip" ).click(async function() {
-    $('body').append("<div id=\"loader\"></div>");
-    var trip_name = $("input[name=trip_title]").val();
-    var datetime1 = new Date($("input[name=datetime1]").val());
-    var datetime2 = new Date($("input[name=datetime2]").val());
+    var $myForm = $('#trip-form');
+    if(! $myForm[0].checkValidity()) {
+      // If the form is invalid, submit it. The form won't actually submit;
+      // this will just cause the browser to display the native HTML5 error messages.
+      $myForm.find(':submit').click();
+    }else {
+      $('body').append("<div id=\"loader\"></div>");
+      var trip_name = $("input[name=trip_title]").val();
+      var datetime1 = new Date($("input[name=datetime1]").val());
+      var datetime2 = new Date($("input[name=datetime2]").val());
 
-    var destination = $("input[name=dest]").val();
-    var tags = $("input[id=tokenfield]").val().split(", ");
+      var destination = $("input[name=dest]").val();
+      var tags = $("input[id=tokenfield]").val().split(", ");
 
-    var file = document.getElementById('my-file-selector').files[0];
-    var promise = getBase64(file);
-    var file_content = await promise;
-    file_content = file_content.replace(/^data:image\/[a-z]+;base64,/, "");
-    // console.log(file_content);
+      var file = document.getElementById('my-file-selector').files[0];
+      var promise = getBase64(file);
+      var file_content = await promise;
+      file_content = file_content.replace(/^data:image\/[a-z]+;base64,/, "");
+      // console.log(file_content);
 
-    var body = {
-      'Title':trip_name,
-      'Dst': destination,
-      'StartTime':parseInt(datetime1.getTime())/1000,
-      'EndTime':parseInt(datetime2.getTime())/1000,
-      'Tags':tags,
-      "CoverPhoto":{
-        "FileName":file.name,
-        "FileContent": file_content,
+      var body = {
+        'Title': trip_name,
+        'Dst': destination,
+        'StartTime': parseInt(datetime1.getTime()) / 1000,
+        'EndTime': parseInt(datetime2.getTime()) / 1000,
+        'Tags': tags,
+        "CoverPhoto": {
+          "FileName": file.name,
+          "FileContent": file_content,
 
-      }
-    };
+        }
+      };
 
-    var params = {
-      'userName':username
-    };
-    apigClient.userUserNameTripPost(params, body, {headers:{"Authorization": id_token}})
-    .then(function(result){
-      console.log(result);
-        // Add success callback code here.
-        var url = new URL(window.location.href);
-        var id_token = url.searchParams.get("id_token");
+      var params = {
+        'userName': username
+      };
+      apigClient.userUserNameTripPost(params, body, {headers: {"Authorization": id_token}})
+          .then(function (result) {
+            console.log(result);
+            // Add success callback code here.
+            var url = new URL(window.location.href);
+            var id_token = url.searchParams.get("id_token");
 
-        window.location = "../trip_list/my_trips.html?id_token=" + id_token;
-      }).catch( function(result){
+            window.location = "../trip_list/my_trips.html?id_token=" + id_token;
+          }).catch(function (result) {
         console.log("there is something wrong!!!");
         // Add error callback code here.
       });
+    }
   });
 
 }.call(this));
