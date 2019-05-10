@@ -9,7 +9,7 @@ function delete_node(el) {
 }
 function edit_node(el) {
   var nid = $(el.parentNode.parentNode).prop('id');
-  window.location.href = "../forms/editNode.html?NodeID="+nid+"&id_token=" +id_token+"&title="+title+"&TripID="+tripid;
+  window.location.href = "../forms/editNode.html?NodeID="+nid+"&id_token=" +id_token+"&title="+title+"&TripID="+tripid + "&uid="+ uid;
 
 }
 

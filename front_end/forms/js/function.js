@@ -1,5 +1,5 @@
 (function () {
-  document.getElementById("loader").style.display = "none";
+  // document.getElementById("loader").style.display = "none";
 
   // find the token
     function parse_query_string() {
