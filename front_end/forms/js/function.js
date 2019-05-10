@@ -1,6 +1,4 @@
 (function () {
-  // document.getElementById("loader").style.display = "none";
-
   // find the token
     function parse_query_string() {
       var url = new URL(window.location.href.replace("#", "?"));
@@ -50,6 +48,7 @@
 
     apigClient = apigClientFactory.newClient();
   $( "#create-trip-node" ).click(async function() {
+    $('body').append("<div id=\"loader\"></div>");
     var node_name = $("input[name=node_name]").val();
     var datetime = new Date($("input[name=datetime]").val());
     var address = $("input[name=address]").val();
@@ -99,6 +98,7 @@
 
 
   $( "#create-trip" ).click(async function() {
+    $('body').append("<div id=\"loader\"></div>");
     var trip_name = $("input[name=trip_title]").val();
     var datetime1 = new Date($("input[name=datetime1]").val());
     var datetime2 = new Date($("input[name=datetime2]").val());

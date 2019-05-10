@@ -710,7 +710,7 @@ textarea {
 #loader {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 70%;
   z-index: 1;
   width: 150px;
   height: 150px;

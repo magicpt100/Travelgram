@@ -224,6 +224,7 @@
 
 
     $( "#update-trip" ).click(async function() {
+        $('body').append("<div id=\"loader\"></div>");
         var trip_name = $("input[name=trip_title]").val();
         var datetime1 = new Date($("input[name=datetime1]").val());
         var datetime2 = new Date($("input[name=datetime2]").val());
@@ -233,7 +234,7 @@
 
 
         var body = {
-            'TripID':1,
+            'TripID':parseInt(url.searchParams.get("TripID")),
             'Title':trip_name,
             'Dst': destination,
             'StartTime':parseInt(datetime1.getTime())/1000,

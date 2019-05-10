@@ -230,6 +230,7 @@
     });
 
     $( "#update-trip-node" ).click(async function() {
+        $('body').append("<div id=\"loader\"></div>");
         var node_name = $("input[name=node_name]").val();
         var datetime = new Date($("input[name=datetime]").val());
         var address = $("input[name=address]").val();
