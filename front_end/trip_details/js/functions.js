@@ -1,6 +1,6 @@
 var positions = [];
 var url = new URL(window.location.href);
-var id = url.searchParams.get("TripID");
+var tripid = url.searchParams.get("TripID");
 var title = url.searchParams.get("title");
 var uid = url.searchParams.get("uid");
 var id_token = url.searchParams.get("id_token");
@@ -14,7 +14,7 @@ function edit_node(el) {
 }
 
 function add_node() {
-  window.location.href = "../forms/createNode.html?TripID="+id +"&id_token=" +id_token;
+  window.location.href = "../forms/createNode.html?TripID="+tripid +"&id_token=" +id_token;
 }
 function parseJwt(token) {
   try {
@@ -152,5 +152,5 @@ function removeAuthorOptions() {
           removeAuthorOptions();
       });
 
-    get_nodes(id, uid);
+    get_nodes(tripid, uid);
 }.call(this));
