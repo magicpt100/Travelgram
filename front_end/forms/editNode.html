@@ -204,7 +204,7 @@
 
     apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
     var nodeData;
-    apigClient.getonenodeNodeIDGet({"NodeID":1}, null, {headers:{"Authorization": id_token}})
+    apigClient.getonenodeNodeIDGet({"NodeID":url.searchParams.get("NodeID")}, null, {headers:{"Authorization": id_token}})
         .then(function(result){
             console.log(result['data']);
             nodeData = result['data'];
