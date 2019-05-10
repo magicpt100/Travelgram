@@ -2415,7 +2415,6 @@ select:focus {
   	box-shadow: 8px 8px lightgrey;}
   .single-blog-grid-item .content {
     border: 1px solid #e2e2e2;
-    border-top: none;
     padding: 20px; }
     .single-blog-grid-item .content .title {
       font-size: 21px;
