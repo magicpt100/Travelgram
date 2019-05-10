@@ -99,8 +99,15 @@
                 <div class="card-footer">
                     <button id="create-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Create Trip</button>
                     <button id="cancel" class="btn btn--radius-2 btn--red" type="submit"
-                            onclick="location.href = '../trip_list/index.html' + '?'
-                            +location.hash.substring(1).split('&')[0];">Cancel</button>
+                            onclick=cancel_button()>Cancel</button>
+                    <script type="text/javascript">
+                        function cancel_button() {
+                            var url = new URL(window.location.href);
+                            var id_token = url.searchParams.get("id_token");
+
+                            window.location = "../trip_list/my_trips.html?id_token=" + id_token;
+                        }
+                    </script>
                 </div>
             </div>
         </div>

@@ -83,10 +83,12 @@
 
     apigClient.tripTripIDNodesPost(params, body, {headers:{"Authorization": id_token}})
     .then(function(result){
-      console.log(result);
-        // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
-        // Add success callback code here.
-      }).catch( function(result){
+      var url = new URL(window.location.href);
+      var TripID = url.searchParams.get("TripID");
+      var id_token = url.searchParams.get("id_token");
+      window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token;
+
+    }).catch( function(result){
         console.log("there is something wrong!!!");
         // Add error callback code here.
       });
@@ -126,8 +128,11 @@
     apigClient.userUserNameTripPost(params, body, {headers:{"Authorization": id_token}})
     .then(function(result){
       console.log(result);
-        // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
         // Add success callback code here.
+        var url = new URL(window.location.href);
+        var id_token = url.searchParams.get("id_token");
+
+        window.location = "../trip_list/my_trips.html?id_token=" + id_token;
       }).catch( function(result){
         console.log("there is something wrong!!!");
         // Add error callback code here.

@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <form method="POST">
                         <div class="form-row">
-                            <div class="name">Node name</div>
+                            <div class="name"> Title</div>
                             <div class="value">
                                 <input class="input--style-6" type="text" name="node_name" placeholder="Times Square" required="required">
                             </div>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="name">Text</div>
+                            <div class="name">Description</div>
                             <div class="value">
                                     <textarea class="form-control" id="nodetext" rows="5" placeholder="Share with us your memory"></textarea>
                             </div>
@@ -113,8 +113,15 @@
                 <div class="card-footer">
                     <button id="create-trip-node" class="btn btn--radius-2 btn--blue-2" type="submit">Create Node & Upload Images</button>
                     <button id="cancel" class="btn btn--radius-2 btn--red" type="submit"
-                            onclick="location.href = '../trip_details/index.html' + '?'
-                            +location.hash.substring(1).split('&')[0];">Cancel</button>
+                            onclick=cancel_button()>Cancel</button>
+                    <script type="text/javascript">
+                        function cancel_button() {
+                            var url = new URL(window.location.href);
+                            var TripID = url.searchParams.get("TripID");
+                            var id_token = url.searchParams.get("id_token");
+                            window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token;
+                        }
+                    </script>
                 </div>
             </div>
         </div>
@@ -160,7 +167,7 @@
     <script src="https://unpkg.com/file-upload-with-preview@3.4.3/dist/file-upload-with-preview.min.js"></script>
 
     <script>
-        var upload = new FileUploadWithPreview('myUniqueUploadId', {showDeleteButtonOnImages: true, text: {chooseFile: 'Custom Placeholder Copy', browse: 'Custom Button Copy'}})
+        var upload = new FileUploadWithPreview('myUniqueUploadId', {showDeleteButtonOnImages: true, text: {chooseFile: 'No file Chosen', browse: 'Browse'}})
         $(".custom-file-container__image-preview").css("background-image","url(./8d34959997c6158d6a4d1c506f5ff73e.svg)");
     </script>
     <!-- <script>
