@@ -235,7 +235,7 @@ function tripDetail(trip) {
       var url = new URL(window.location.href);
       var id_token = url.searchParams.get("id_token");
       console.log(id_token);
-      apigClient.userUserNameTripGet( {'userName': "Gilbert"},null,{headers:{"Authorization": id_token}})
+      apigClient.userUserNameTripGet( {'userName': getUserNameByToken()},null,{headers:{"Authorization": id_token}})
         .then(function(result){
           var trips = result.data.user_trips;
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
