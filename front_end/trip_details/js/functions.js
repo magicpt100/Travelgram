@@ -9,12 +9,13 @@ function delete_node(el) {
 }
 function edit_node(el) {
   var nid = $(el.parentNode.parentNode).prop('id');
-  window.location.href = "../forms/editNode.html?NodeID="+nid+"&id_token=" +id_token;
+  window.location.href = "../forms/createNode.html?TripID="+id +"&id_token=" +id_token+"&title="+title;
+
 
 }
 
 function add_node() {
-  window.location.href = "../forms/createNode.html?TripID="+id +"&id_token=" +id_token;
+  window.location.href = "../forms/createNode.html?TripID="+id +"&id_token=" +id_token+"&title="+title;
 }
 function parseJwt(token) {
   try {
