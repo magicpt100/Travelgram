@@ -131,7 +131,12 @@ function tripDetail(trip) {
         this.draw = function () {
             return function () {
                 var $tripItem;
-                $tripItem = $('.trip-item').clone().removeClass("trip-item").removeAttr("id");
+                if($('.trip-item')[0]){
+                    $tripItem = $('.trip-item').clone().removeClass("trip-item").removeAttr("id");
+                }else{
+                    $tripItem = $('.trip-item-fav').clone().removeClass("trip-item-fav").removeAttr("id");
+
+                }
                 $tripItem.find('.title').html(this.title);
                 $tripItem.find('.date').html(this.date);
                 $tripItem.find('.readmore').attr('id', this.id);
@@ -161,7 +166,8 @@ function tripDetail(trip) {
                       this.authorname = 'undefined';
                       console.log(error)
                   });
-                if ($(".last-item")[0]){
+
+                if ($('.last-item')[0]){
                     $tripItem.insertBefore($('.last-item'));
                 } else {
                     $tripItem.insertBefore($('.last-item-fav'));
@@ -252,8 +258,8 @@ function tripDetail(trip) {
           var fav_trips = result.data.favoriteTrips;
           create_items(fav_trips);
             var tmp4 =  document.getElementById('tmp4');
-            var tmp3 = document.getElementById('tmp3');
             tmp4.parentNode.removeChild(tmp4);
+            var tmp3 =  document.getElementById('tmp3');
             tmp3.parentNode.removeChild(tmp3);
         });
     }
