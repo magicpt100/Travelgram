@@ -45,6 +45,7 @@ header p {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 0;
 }
 
 .timeline-item {
@@ -200,11 +201,40 @@ img {
   height: 340px;
   width:100%;
 }
+.btn-circle.btn-xl {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+    left:47.5%;
+}
+.btn-circle.btn-xl:focus{
+  outline: none;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
 blockquote {
   margin-top: 30px;
   color: #757575;
   border-left-color: #8DC645;
   padding: 0 20px;
+}
+#last-item{
+  position: relative;
+  height: 70px;
+  padding-top:40px;
 }
 
 .date {

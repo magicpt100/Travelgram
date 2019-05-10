@@ -576,7 +576,11 @@
   display: table; }
 
 .add-img {
-  height: 30px
+  position: absolute;
+  height: 70px;
+  width: 70px;
+  left:47.5%;
+  z-index: 2;
 }
 @-webkit-keyframes pulse-border {
   0% {
