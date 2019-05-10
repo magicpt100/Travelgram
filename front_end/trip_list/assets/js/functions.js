@@ -161,7 +161,11 @@ function tripDetail(trip) {
                       this.authorname = 'undefined';
                       console.log(error)
                   });
-                $tripItem.insertBefore($('.last-item'));
+                if ($(".last-item")[0]){
+                    $tripItem.insertBefore($('.last-item'));
+                } else {
+                    $tripItem.insertBefore($('.last-item-fav'));
+                }
             };
         }(this);
         return this;
@@ -201,7 +205,7 @@ function tripDetail(trip) {
     }
 
     function load_trips() {
-      tripList.clear()
+      tripList.clear();
       var apigClient = apigClientFactory.newClient();
       console.log("load trips");
       var userName = getUserNameByToken();
@@ -230,7 +234,7 @@ function tripDetail(trip) {
     }
 
     function load_my_trips() {
-      tripList.clear()
+      tripList.clear();
       var apigClient = apigClientFactory.newClient();
       var url = new URL(window.location.href);
       var id_token = url.searchParams.get("id_token");
@@ -244,6 +248,13 @@ function tripDetail(trip) {
           var tmp1 = document.getElementById('tmp1');
           tmp2.parentNode.removeChild(tmp2);
           tmp1.parentNode.removeChild(tmp1);
+
+          var fav_trips = result.data.favoriteTrips;
+          create_items(fav_trips);
+            var tmp4 =  document.getElementById('tmp4');
+            var tmp3 = document.getElementById('tmp3');
+            tmp4.parentNode.removeChild(tmp4);
+            tmp3.parentNode.removeChild(tmp3);
         });
     }
 
