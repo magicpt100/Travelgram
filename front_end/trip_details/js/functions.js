@@ -9,6 +9,8 @@ function delete_node(el) {
 }
 function edit_node(el) {
   var nid = $(el.parentNode.parentNode).prop('id');
+  var url = new URL(window.location.href);
+  var title = url.searchParams.get("title");
   window.location.href = "../forms/editNode.html?NodeID="+nid+"&id_token=" +id_token+"&title="+title+"&TripID="+tripid + "&uid="+ uid;
 
 }
