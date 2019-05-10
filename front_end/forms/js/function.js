@@ -1,5 +1,7 @@
 (function () {
-    // find the token
+  document.getElementById("loader").style.display = "none";
+
+  // find the token
     function parse_query_string() {
       var url = new URL(window.location.href.replace("#", "?"));
       var c = url.searchParams.get("id_token");
