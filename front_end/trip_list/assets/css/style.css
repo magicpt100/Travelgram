@@ -1231,6 +1231,7 @@ select:focus {
       .navbar-area .navbar-collapse .navbar-nav .nav-item:last-child {
         padding-right: 0; }
       .navbar-area .navbar-collapse .navbar-nav .nav-item .nav-link {
+        cursor:pointer;
         color: #dadada;
         -webkit-transition: all 0.3s ease-in;
         -moz-transition: all 0.3s ease-in;
