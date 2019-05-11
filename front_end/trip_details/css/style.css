@@ -32,6 +32,26 @@ header p {
   font-size: 60px;
   margin-top: -30px;
 }
+#nav-home{
+  margin-right: 40px;
+}
+.my-nav-link{
+  color:#dadada;
+  font-size: 20px;
+}
+#username{
+  color:#dadada;
+  cursor:pointer;
+
+}
+#username:hover{
+  color:white;
+  text-decoration: underline;
+
+}
+.my-nav-link:hover{
+color:white;
+}
 
 .timeline {
   position: relative;
@@ -134,7 +154,7 @@ header p {
   background: transparent;
 }
 
-a.btn-more {
+a.bnt-more {
   background: #8DC645;
   color: #FFFFFF;
   padding: 8px 20px;
@@ -146,7 +166,7 @@ a.btn-more {
   border-radius: 2px;
   box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.6);
 }
-a.btn-more:hover, a.btn-more:active, a.btn-more:focus {
+a.bnt-more:hover, a.bnt-more:active, a.bnt-more:focus {
   background: #32408f;
   color: #FFFFFF;
   text-decoration: none;
@@ -205,29 +225,11 @@ a.btn-more:hover, a.btn-more:active, a.btn-more:focus {
 .logo-img{
   position: absolute;
   height:110px;
-  width: 220px;
+  width: 250px;
   left:100px;
   top:0px;
 }
-#nav-home{
-  margin-right: 40px;
-}
-.my-nav-link{
-  color:#dadada;
-}
-#username{
-  color:#dadada;
-  cursor:pointer;
 
-}
-#username:hover{
-  color:white;
-  text-decoration: underline;
-
-}
-.my-nav-link:hover{
-color:white;
-}
 img {
   height: 340px;
   width:100%;
