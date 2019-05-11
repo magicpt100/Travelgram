@@ -32,6 +32,26 @@ header p {
   font-size: 60px;
   margin-top: -30px;
 }
+#nav-home{
+  margin-right: 40px;
+}
+.my-nav-link{
+  color:#dadada;
+  font-size: 20px;
+}
+#username{
+  color:#dadada;
+  cursor:pointer;
+
+}
+#username:hover{
+  color:white;
+  text-decoration: underline;
+
+}
+.my-nav-link:hover{
+color:white;
+}
 
 .timeline {
   position: relative;
@@ -47,7 +67,9 @@ header p {
   transform: translateX(-50%);
   z-index: 0;
 }
-
+#detail-container{
+  height:100px;
+}
 .timeline-item {
   width: 100%;
   margin-bottom: 70px;
@@ -128,8 +150,11 @@ header p {
   margin-top: 25px;
   margin-left: -15px;
 }
+.logo-link{
+  background: transparent;
+}
 
-a {
+a.bnt-more {
   background: #8DC645;
   color: #FFFFFF;
   padding: 8px 20px;
@@ -141,7 +166,7 @@ a {
   border-radius: 2px;
   box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.6);
 }
-a:hover, a:active, a:focus {
+a.bnt-more:hover, a.bnt-more:active, a.bnt-more:focus {
   background: #32408f;
   color: #FFFFFF;
   text-decoration: none;
@@ -197,6 +222,14 @@ a:hover, a:active, a:focus {
   height: 200px;
   width:100%;
 }
+.logo-img{
+  position: absolute;
+  height:110px;
+  width: 250px;
+  left:100px;
+  top:0px;
+}
+
 img {
   height: 340px;
   width:100%;
@@ -324,3 +357,9 @@ blockquote {
     float: none;
   }
 }
+
+#hostinglab {
+  position: absolute;
+  right: 50px;
+}
+

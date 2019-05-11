@@ -18,6 +18,19 @@ function edit_node(el) {
 function add_node() {
   window.location.href = "../forms/createNode.html?TripID="+tripid +"&id_token=" +id_token+"&title="+triptitle + "&uid=" + uid;
 }
+
+function mytrips() {
+    var url = new URL(window.location.href);
+    var token = url.searchParams.get("id_token");
+    if (token == null) {
+      token = location.hash.substring(1).split("&")[0].split("=")[1];
+    }
+
+    if (token) {
+      window.location.href = "../trip_list/my_trips.html?id_token="+token;
+    }
+
+}
 function parseJwt(token) {
   try {
     // Get Token Header
@@ -36,7 +49,7 @@ function parseJwt(token) {
   }
 }
 function removeAuthorOptions() {
-  document.getElementById("first-item").style.display = "none";
+  //document.getElementById("first-item").style.display = "none";
   document.getElementById("last-item").style.display = "none";
   var ebtns = Array.from(document.getElementsByClassName("edit-btn"));
   var dbtns = Array.from(document.getElementsByClassName("delete-btn"));
@@ -136,14 +149,19 @@ function removeAuthorOptions() {
         document.getElementById("trip-author").innerHTML = result.data['Username'];
         var url = new URL(window.location.href);
         if (window.location.href.includes('id_token'))  {
+          document.getElementById("username").style.dislpay="block";
+          document.getElementById("login").style.display="none";
           var id_token = url.searchParams.get("id_token");
           var username = parseJwt(id_token)["cognito:username"];
+          document.getElementById("username").innerHTML=username;
           if (username != result.data['Username']) {
             console.log(result.data['Username'])
             removeAuthorOptions();
           }
 
         } else {
+          document.getElementById("username").style.dislpay="none";
+          document.getElementById("login").style.display="block";
           removeAuthorOptions();
         }
 
