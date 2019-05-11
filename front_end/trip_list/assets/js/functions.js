@@ -107,19 +107,24 @@ function tripDetail(trip) {
 }
 
 function delete_trip(el) {
-    var url = new URL(window.location.href);
-    var id_token = url.searchParams.get("id_token");
-    var tripID = parseInt($(el.parentNode.parentNode.parentNode).prop('id'));
-    console.log(tripID);
-    console.log(parseJwt(id_token)["cognito:username"]);
-    var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
-    apigClient.userUserNameTripTripIDDelete({"TripID":tripID, "userName":parseJwt(id_token)["cognito:username"]}, null,
-        {headers:{"Authorization": id_token}}).then(function (result) {
-        console.log(result);
-        $(el.parentNode.parentNode.parentNode).remove();
-    }).catch(function(error) {
-        console.log(error);
-    });
+    if (confirm("Confirm Delete the Trip?")){
+        var url = new URL(window.location.href);
+        var id_token = url.searchParams.get("id_token");
+        var tripID = parseInt($(el.parentNode.parentNode.parentNode).prop('id'));
+        console.log(tripID);
+        console.log(parseJwt(id_token)["cognito:username"]);
+        var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+        apigClient.userUserNameTripTripIDDelete({"TripID":tripID, "userName":parseJwt(id_token)["cognito:username"]}, null,
+            {headers:{"Authorization": id_token}}).then(function (result) {
+            console.log(result);
+            $(el.parentNode.parentNode.parentNode).remove();
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }else{
+
+    }
+
 
 }
 
@@ -342,15 +347,15 @@ function clear_tags(){
         //     });
     }
 
-    function delete_trip(id) {
-      var apigClient = apigClientFactory.newClient();
-      var id_token = url.searchParams.get("id_token");
-      console.log(apigClient);
-      apigClient.userUserNameTripTripIDDelete({'userName': "st3174", 'tripID': id})
-        .then(function(result){
-          console.log(result)
-        });
-    }
+    // function delete_trip(id) {
+    //   var apigClient = apigClientFactory.newClient();
+    //   var id_token = url.searchParams.get("id_token");
+    //   console.log(apigClient);
+    //   apigClient.userUserNameTripTripIDDelete({'userName': "st3174", 'tripID': id})
+    //     .then(function(result){
+    //       console.log(result)
+    //     });
+    // }
     if (window.location.href.includes('id_token')) {
       document.getElementById("login").style.display = "none";
       var id_token = url.searchParams.get("id_token");
