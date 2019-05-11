@@ -131,7 +131,31 @@ function edit_trip(el) {
 
 }
 
-(function () {
+function load_trips_w_tags(ele) {
+    // console.log($(ele).prop("id"));
+    $(ele).toggleClass("tags_selected ");
+    var tags_selected = [];
+    $(".tags_selected").each(function () {
+        tags_selected.push(this.id);
+    });
+    if (tags_selected.length !== 0 && $("#clear-tags").length === 0){
+        $(ele.parentNode).append("<a id='clear-tags' onclick=clear_tags()><i class=\"fa fa-times\" aria-hidden=\"true\"></i>Clear</a>")
+    }
+    if (tags_selected.length === 0){
+        clear_tags();
+    }else{
+        load_trips(filter=tags_selected)
+    }
+
+}
+
+function clear_tags(){
+    $(".tags").removeClass("tags_selected");
+    $("#clear-tags").remove();
+    load_trips();
+}
+
+
     var TripItem;
     TripItem = function (arg) {
         //console.log(arg);
@@ -167,10 +191,10 @@ function edit_trip(el) {
                 $tripItem.find('.date').html(this.date);
                 $tripItem.find('.readmore').attr('id', this.id);
                 $tripItem.find('.like-span').html(this.numLikes.toString())
-                if (this.like == true) {
+                if (this.like === true) {
                   $tripItem.find('.button-like').toggleClass("liked");
                 }
-                if (window.location.href.includes('id_token') == false)  {
+                if (window.location.href.includes('id_token') === false)  {
                   //$tripItem.find('.button-like').hide();
                   $tripItem.find('.button-like').attr("disabled", true);
                 } else {
@@ -192,7 +216,7 @@ function edit_trip(el) {
                       this.authorname = 'undefined';
                       console.log(error)
                   });
-
+                $tripItem.addClass("realtrip");
                 if ($('.last-item')[0]){
                     $tripItem.insertBefore($('.last-item'));
                 } else {
@@ -225,18 +249,17 @@ function edit_trip(el) {
         tripItem.draw();
     }
 
-    function create_items(items, tag=null) {
+    function create_items(items) {
         var i = 0;
         items.forEach(function(item) {
-            if (tag == null) {
-                show_tripItem(item);
-            }else if(item.Tags.includes(tag)){
-                show_tripItem(item);
-            }
+            show_tripItem(item);
         });
     }
 
-    function load_trips() {
+    function load_trips(filter=null) {
+        $("#tmp1").show();
+        $("#tmp2").show();
+        $(".realtrip").remove();
       tripList.clear();
       var apigClient = apigClientFactory.newClient();
       console.log("load trips");
@@ -244,22 +267,25 @@ function edit_trip(el) {
       apigClient.tripsGet({}, null, {headers:{'userName':userName}})
         .then(function(result){
           var trips = result.data;
-          console.log(trips);
+          // console.log(trips);
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-          var urlParams = new URLSearchParams(window.location.search);
-          var tag = urlParams.get("tag");
-          if (tag==null){
-              create_items(trips);
+          if (filter !== null){
+              console.log(filter);
+              var filtered_trips = [];
+              trips.forEach(function (ele) {
+                  var tags = ele.Tags;
+                  if (filter.every(elem => tags.indexOf(elem) > -1)){
+                      filtered_trips.push(ele);
+                  }
+              });
+              create_items(filtered_trips);
           }else{
-              $("#breadtitle").html("Tag: "+tag);
-              $(".page-list").append("<li>"+tag+"</li>");
-              create_items(trips, tag)
+              create_items(trips);
           }
 
-          var tmp2 =  document.getElementById('tmp2');
-          var tmp1 = document.getElementById('tmp1');
-          tmp2.parentNode.removeChild(tmp2);
-          tmp1.parentNode.removeChild(tmp1);
+
+          $("#tmp1").hide();
+          $("#tmp2").hide();
         }).catch(function(error) {
           console.log(error);
         });
@@ -276,10 +302,8 @@ function edit_trip(el) {
           var trips = result.data.user_trips;
           trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
           create_items(trips);
-          var tmp2 =  document.getElementById('tmp2');
-          var tmp1 = document.getElementById('tmp1');
-          tmp2.parentNode.removeChild(tmp2);
-          tmp1.parentNode.removeChild(tmp1);
+            $("#tmp1").hide();
+            $("#tmp2").hide();
 
           var fav_trips = result.data.favoriteTrips;
           create_items(fav_trips);
@@ -291,6 +315,7 @@ function edit_trip(el) {
     }
 
     function load_search_results() {
+        $(".widget_tag_cloud").hide();
         var apigClient = apigClientFactory.newClient();
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
@@ -302,22 +327,19 @@ function edit_trip(el) {
                 var trips = result.data;
                 trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
                 create_items(trips);
-                var tmp2 =  document.getElementById('tmp2');
-                var tmp1 = document.getElementById('tmp1');
-                tmp2.parentNode.removeChild(tmp2);
-                tmp1.parentNode.removeChild(tmp1);
+                $("#tmp1").hide();
+                $("#tmp2").hide();
             });
 
-        apigClient.userUserNameTripGet( {'userName': "Gilbert"},null,{headers:{"Authorization": id_token}})
-            .then(function(result){
-                var trips = result.data.user_trips;
-                trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-                create_items(trips);
-                var tmp2 =  document.getElementById('tmp2');
-                var tmp1 = document.getElementById('tmp1');
-                tmp2.parentNode.removeChild(tmp2);
-                tmp1.parentNode.removeChild(tmp1);
-            });
+        // apigClient.userUserNameTripGet( {'userName': "Gilbert"},null,{headers:{"Authorization": id_token}})
+        //     .then(function(result){
+        //         var trips = result.data.user_trips;
+        //         console.log(trips);
+        //         trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+        //         create_items(trips);
+        //         $("#tmp1").hide();
+        //         $("#tmp2").hide();
+        //     });
     }
 
     function delete_trip(id) {
@@ -359,4 +381,4 @@ function edit_trip(el) {
       load_trips();
     }
 
-}.call(this));
+

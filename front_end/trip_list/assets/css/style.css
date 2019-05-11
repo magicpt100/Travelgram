@@ -2960,3 +2960,7 @@ select:focus {
   .liked:hover span {
     color: #fefefe;
   }
+
+  .tags_selected {
+    background-color: #8DC645;
+  }

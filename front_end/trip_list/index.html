@@ -305,49 +305,23 @@
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
         var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
-        // apigClient.tagsTagNumGet({"tagNum": 10}, {}, {})
-        //     .then(function(result){
-        //         //console.log(result['data']);
-        //         var tags = result['data'];
-        //
-        //         var urlParams = new URLSearchParams(window.location.search);
-        //
-        //         for (var i = 0; i < tags.length; i++) {
-        //
-        //             var s_tags = urlParams.get("tag");
-        //             if(s_tags == null){
-        //                 s_tags = [];
-        //             }else{
-        //                 s_tags = s_tags.split(",");
-        //             }
-        //
-        //             if (s_tags.includes(tags[i])){
-        //                 s_tags.splice(s_tags.indexOf(tags[i]), 1)
-        //             }else{
-        //                 s_tags.push(tags[i])
-        //             }
-        //             $(".tagcloud").append("<a href=\"index.html?tag=" + s_tags.join(",") + "\"" + "id="+tags[i] + ">" + tags[i]+"</a>")
-        //
-        //         }
-        //
-        //         s_tags = urlParams.get("tag");
-        //         if(s_tags == null){
-        //             s_tags = [];
-        //         }else{
-        //             s_tags = s_tags.split(",");
-        //         }
-        //         if(s_tags !== []){
-        //             for (var i=0;i<s_tags.length;i++){
-        //                 $("#"+s_tags[i]).css("background-color", "#8DC645");
-        //             }
-        //         }
-        //
-        //         // $("#nodetext").val(nodeData['Content']);
-        //     }).catch( function(result){
-        //     console.log("there is something wrong!!!");
-        //     console.log(result);
-        //     // Add error callback code here.
-        // });
+        apigClient.tagsTagNumGet({"tagNum": 10}, {}, {})
+            .then(function(result){
+                //console.log(result['data']);
+                var tags = result['data'];
+
+                var urlParams = new URLSearchParams(window.location.search);
+
+                for (var i = 0; i < tags.length; i++) {
+                    $(".tagcloud").append("<a id="+tags[i] + " class=tags onclick=load_trips_w_tags(this)>" + tags[i]+"</a>")
+
+                }
+
+            }).catch( function(result){
+            console.log("there is something wrong!!!");
+            console.log(result);
+            // Add error callback code here.
+        });
 
     </script>
 </body>
