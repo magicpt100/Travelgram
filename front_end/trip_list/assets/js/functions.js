@@ -136,7 +136,7 @@ function load_trips_w_tags(ele) {
     $(ele).toggleClass("tags_selected ");
     var tags_selected = [];
     $(".tags_selected").each(function () {
-        tags_selected.push(this.id);
+        tags_selected.push(this.id.replace("-", " "));
     });
     if (tags_selected.length !== 0 && $("#clear-tags").length === 0){
         $(ele.parentNode).append("<a id='clear-tags' onclick=clear_tags()><i class=\"fa fa-times\" aria-hidden=\"true\"></i>Clear</a>")

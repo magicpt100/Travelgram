@@ -313,7 +313,7 @@
                 var urlParams = new URLSearchParams(window.location.search);
 
                 for (var i = 0; i < tags.length; i++) {
-                    $(".tagcloud").append("<a id="+tags[i] + " class=tags onclick=load_trips_w_tags(this)>" + tags[i]+"</a>")
+                    $(".tagcloud").append("<a id="+tags[i].replace(/ /g, "-") + " class=tags onclick=load_trips_w_tags(this)>" + tags[i]+"</a>")
 
                 }
 
