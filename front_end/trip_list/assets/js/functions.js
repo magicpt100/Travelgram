@@ -105,6 +105,32 @@ function tripDetail(trip) {
 
 
 }
+
+function delete_trip(el) {
+    var url = new URL(window.location.href);
+    var id_token = url.searchParams.get("id_token");
+    var tripID = parseInt($(el.parentNode.parentNode.parentNode).prop('id'));
+    console.log(tripID);
+    console.log(parseJwt(id_token)["cognito:username"]);
+    var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
+    apigClient.userUserNameTripTripIDDelete({"TripID":tripID, "userName":parseJwt(id_token)["cognito:username"]}, null,
+        {headers:{"Authorization": id_token}}).then(function (result) {
+        console.log(result);
+        $(el.parentNode.parentNode.parentNode).remove();
+    }).catch(function(error) {
+        console.log(error);
+    });
+
+}
+
+function edit_trip(el) {
+    var tid = $(el.parentNode.parentNode.parentNode).prop('id');
+    var url = new URL(window.location.href);
+    var id_token = url.searchParams.get("id_token");
+    window.location.href = "../forms/editTrip.html?TripID="+tid+"&id_token=" +id_token;
+
+}
+
 (function () {
     var TripItem;
     TripItem = function (arg) {

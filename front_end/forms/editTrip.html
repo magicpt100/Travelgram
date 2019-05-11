@@ -85,8 +85,16 @@
                 </form>
             </div>
             <div class="card-footer">
-                <button id="update-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Create Trip</button>
-                <button id="cancel" class="btn btn--radius-2 btn--red" type="submit">Cancel</button>
+                <button id="update-trip" class="btn btn--radius-2 btn--blue-2" type="submit">Modify Trip</button>
+                <button id="cancel" class="btn btn--radius-2 btn--red" onclick="cancel_button()">Cancel</button>
+                <script type="text/javascript">
+                    function cancel_button() {
+                        var url = new URL(window.location.href);
+                        var id_token = url.searchParams.get("id_token");
+
+                        window.location = "../trip_list/my_trips.html?id_token=" + id_token;
+                    }
+                </script>
             </div>
         </div>
     </div>
@@ -185,7 +193,7 @@
 
     apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
     var tripData;
-    apigClient.getonetripTripIDGet({"TripID": 1}, null, {headers:{"Authorization": id_token}})
+    apigClient.getonetripTripIDGet({"TripID": parseInt(url.searchParams.get("TripID"))}, null, {headers:{"Authorization": id_token}})
         .then(function(result){
             console.log(result['data']);
             tripData = result['data'];
@@ -242,17 +250,21 @@
                 'EndTime':parseInt(datetime2.getTime())/1000,
                 'Tags':tags
             };
-
+            console.log(username);
             var params = {
                 'userName':username
             };
             apigClient.userUserNameTripPut(params, body, {headers:{"Authorization": id_token}})
                 .then(function(result){
                     console.log(result);
-                    // sendMessage(jQuery.parseJSON(result.data.body).message, "left")
-                    // Add success callback code here.
+                    var url = new URL(window.location.href);
+                    var id_token = url.searchParams.get("id_token");
+
+                    window.location = "../trip_list/my_trips.html?id_token=" + id_token;
+
                 }).catch( function(result){
                 console.log("there is something wrong!!!");
+                console.log(result)
                 // Add error callback code here.
             });
         }

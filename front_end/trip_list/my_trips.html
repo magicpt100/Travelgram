@@ -135,9 +135,9 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 trip-item" id="tmp1" onclick="tripDetail(this)" >
+                    <div class="col-lg-4 col-md-4 trip-item" id="tmp1" >
                         <div class="single-blog-grid-item"><!-- single blog grid item -->
-                            <div class="thumb">
+                            <div class="thumb" onclick="tripDetail(this.parentNode.parentNode)">
                                 <img class="cover" src="assets/img/blog/01.jpg" alt="blog page">
                             </div>
                             <div class="content">
@@ -146,6 +146,9 @@
                                     <li><a href="#"><i class="fas fa-user"></i> <p class="author">Admin</p></a></li>
                                     <li><a href="#" class="date"><i class="fas fa-calendar-alt"></i> 17 Dec 2019</a></li>
                                 </ul>
+                                <button class="btn btn-primary btn-delete" onclick=delete_trip(this)><i class="fa fa-trash"></i> Delete</button>
+                                <button class="btn btn-primary btn-update" onclick=edit_trip(this)><i class="fa fa-edit"></i> edit</button>
+
                             </div>
                         </div><!-- //. single blog grid item -->
                     </div>
