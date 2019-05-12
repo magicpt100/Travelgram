@@ -172,6 +172,7 @@ function clear_tags(){
         this.numLikes = arg.NumLikes;
         this.username = arg.Username;
         this.liked = arg.isLikeByUser;
+        this.tags = arg.Tags;
         if (arg.isLikeByUser == true) {
           this.like = true;
         } else{
@@ -192,6 +193,14 @@ function clear_tags(){
 
                 }
                 $tripItem.find('.title').html(this.title);
+                //add tags
+                for(var i=0; i< this.tags.length; i++){ 
+                  if (i % 4 == 0){
+                      $tripItem.find(".post-meta").append("<br><li class='showtags' style='display:inline;'></li>");
+                  }
+                  $tripItem.find(".showtags").last().append("<a class='triptag'>"+this.tags[i]+"</a>");
+                }
+                
                 $tripItem.find('.date').html(this.date);
                 $tripItem.find('.readmore').attr('id', this.id);
                 $tripItem.find('.like-span').html(this.numLikes.toString())

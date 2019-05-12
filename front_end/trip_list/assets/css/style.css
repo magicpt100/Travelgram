@@ -2396,6 +2396,13 @@ select:focus {
 /*--------------------
     Blog Page
 --------------------*/
+.triptag{
+    background-color: #d5eabe;
+    padding: 2px 6px;
+    border: 1px solid rgba(49, 49, 49, 0.1);
+    margin: 2px 3px 5px 1px;
+    border-radius: 10px;
+}
 .blog-pagination {
   text-align: center; }
   .blog-pagination nav .pagination {
