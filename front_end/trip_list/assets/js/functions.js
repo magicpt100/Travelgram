@@ -412,6 +412,7 @@ function clear_tags(){
     } else if(q!=null){
         $("#breadtitle").html("Search Result");
         $(".page-list").append("<li>search result</li>");
+        $("#search_bar").val(q);
         load_search_results();
     }else {
       load_trips();

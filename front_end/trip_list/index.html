@@ -73,7 +73,12 @@
                         <script type="text/javascript">
                             function return_home() {
                                 var url = new URLSearchParams(window.location.search);
-                                window.location.href= "index.html?"+"id_token=" + url.get("id_token");
+                                var id_token = url.get("id_token");
+                                if (id_token === null){
+                                    window.location.href= "index.html" ;
+                                }else{
+                                    window.location.href= "index.html?"+"id_token="+id_token;
+                                }
                             }
                         </script>
                         <li class="nav-item">
@@ -136,7 +141,14 @@
                                             if ($("#search_bar").val() !== ""){
                                                 console.log($("#search_bar").val());
                                                 var url = new URLSearchParams(window.location.search);
-                                                window.location.href= "index.html?q="+$("#search_bar").val() + "&id_token=" + url.get("id_token");
+                                                var id_token = url.get("id_token");
+                                                if (id_token === null){
+                                                    window.location.href= "index.html?q="+$("#search_bar").val();
+                                                }else{
+                                                    window.location.href= "index.html?q="+$("#search_bar").val() + "&id_token=" + id_token;
+                                                }
+                                            }else{
+                                                return_home()
                                             }
                                         }
                                     </script>
@@ -159,8 +171,8 @@
                                     <img class="cover img-fluid " src="assets/img/blog/01.jpg" alt="blog page">
                                     <div class="mask flex-center rgba-teal-strong">
 <!--                                        <p id = "click" class="white-text">Click</p>-->
-                                        <i class="fas fa-caret-right" style="color: white;font-size:80px"></i>
-<!--                                        <i class="fas fa-align-justify" style="color: white;font-size:60px"></i>-->
+<!--                                        <i class="fas fa-caret-right" style="color: white;font-size:80px"></i>-->
+                                        <i class="fas fa-align-justify" style="color: white;font-size:60px"></i>
                                     </div>
                                 </div>
                             </div>
