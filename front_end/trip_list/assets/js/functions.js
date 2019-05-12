@@ -164,8 +164,9 @@ function clear_tags(){
 
 
     var TripItem;
-    TripItem = function (arg) {
+    TripItem = function (arg,isFavorite) {
         //console.log(arg);
+        isFavorite = typeof(isFavorite) !=="undefined"? isFavorite: false;
         this.title = arg.Title;
         this.description = arg.Content;
         this.author = arg.UserID;
@@ -210,6 +211,7 @@ function clear_tags(){
                     }
                 }
                 $tripItem.attr('id', this.id);
+
                 $tripItem.find('.cover').attr("src",this.cover);
                 var apigClient = apigClientFactory.newClient({apiKey: 'liZiiPAuQY3d4Hpmojgv25SgyoLqQX2e1pTpoRYU'});
                 apigClient.getnameUserIdGet({"userId": this.author}).then(function (result) {
@@ -224,11 +226,17 @@ function clear_tags(){
                       console.log(error)
                   });
                 $tripItem.addClass("realtrip");
-                if ($('.last-item')[0]){
+                if (!isFavorite){
                     $tripItem.insertBefore($('.last-item'));
                 } else {
+                    $tripItem.css('display', "block");
                     $tripItem.insertBefore($('.last-item-fav'));
                 }
+                // if ($('.last-item')[0]){
+                //     $tripItem.insertBefore($('.last-item'));
+                // } else {
+                //     $tripItem.insertBefore($('.last-item-fav'));
+                // }
             };
         }(this);
         return this;
@@ -242,7 +250,7 @@ function clear_tags(){
     }
     function get_nodes() {
       var apigClient = apigClientFactory.newClient();
-      console.log(apigClient);
+      // console.log(apigClient);
       apigClient.tripsGet({'userName': "st3174"})
         .then(function(result){
           console.log(result)
@@ -250,16 +258,17 @@ function clear_tags(){
 
     }
 
-    function show_tripItem(arg){
-        var tripItem = TripItem(arg);
+    function show_tripItem(arg,isFavorite){
+        var tripItem = TripItem(arg,isFavorite);
         tripList.set(tripItem.id, tripItem);
         tripItem.draw();
     }
 
-    function create_items(items) {
+    function create_items(items,isFavorite) {
+        isFavorite = typeof(isFavorite) !=="undefined"? isFavorite: false;
         var i = 0;
         items.forEach(function(item) {
-            show_tripItem(item);
+            show_tripItem(item,isFavorite);
         });
     }
 
@@ -267,57 +276,57 @@ function clear_tags(){
         $("#tmp1").show();
         $("#tmp2").show();
         $(".realtrip").remove();
-      tripList.clear();
-      var apigClient = apigClientFactory.newClient();
-      console.log("load trips");
-      var userName = getUserNameByToken();
-      if (userName != "") {
-        apigClient.tripsGet({}, null, {headers:{'userName':userName}})
-          .then(function(result){
-            var trips = result.data;
-            console.log(trips);
-            trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-            var urlParams = new URLSearchParams(window.location.search);
-            var tag = urlParams.get("tag");
-            if (tag==null){
-                create_items(trips);
-            }else{
-                $("#breadtitle").html("Tag: "+tag);
-                $(".page-list").append("<li>"+tag+"</li>");
-                create_items(trips, tag)
-            }
+        tripList.clear();
+        var apigClient = apigClientFactory.newClient();
+        // console.log("load trips");
+        var userName = getUserNameByToken();
+        if (userName != "") {
+          apigClient.tripsGet({}, null, {headers:{'userName':userName}})
+            .then(function(result){
+              var trips = result.data;
+              console.log(trips);
+              trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+              var urlParams = new URLSearchParams(window.location.search);
+              var tag = urlParams.get("tag");
+              if (tag==null){
+                  create_items(trips);
+              }else{
+                  $("#breadtitle").html("Tag: "+tag);
+                  $(".page-list").append("<li>"+tag+"</li>");
+                  create_items(trips, tag)
+              }
 
-            var tmp2 =  document.getElementById('tmp2');
-            var tmp1 = document.getElementById('tmp1');
-            tmp2.parentNode.removeChild(tmp2);
-            tmp1.parentNode.removeChild(tmp1);
-          }).catch(function(error) {
-            console.log(error);
-          });
-      } else {
-        apigClient.tripsGet()
-          .then(function(result){
-            var trips = result.data;
-            console.log(trips);
-            trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-            var urlParams = new URLSearchParams(window.location.search);
-            var tag = urlParams.get("tag");
-            if (tag==null){
-                create_items(trips);
-            }else{
-                $("#breadtitle").html("Tag: "+tag);
-                $(".page-list").append("<li>"+tag+"</li>");
-                create_items(trips, tag)
-            }
+              var tmp2 =  document.getElementById('tmp2');
+              var tmp1 = document.getElementById('tmp1');
+              tmp2.parentNode.removeChild(tmp2);
+              tmp1.parentNode.removeChild(tmp1);
+            }).catch(function(error) {
+              console.log(error);
+            });
+        } else {
+          apigClient.tripsGet()
+            .then(function(result){
+              var trips = result.data;
+              console.log(trips);
+              trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+              var urlParams = new URLSearchParams(window.location.search);
+              var tag = urlParams.get("tag");
+              if (tag==null){
+                  create_items(trips);
+              }else{
+                  $("#breadtitle").html("Tag: "+tag);
+                  $(".page-list").append("<li>"+tag+"</li>");
+                  create_items(trips, tag)
+              }
 
-            var tmp2 =  document.getElementById('tmp2');
-            var tmp1 = document.getElementById('tmp1');
-            tmp2.parentNode.removeChild(tmp2);
-            tmp1.parentNode.removeChild(tmp1);
-          }).catch(function(error) {
-            console.log(error);
-          });
-      }
+              var tmp2 =  document.getElementById('tmp2');
+              var tmp1 = document.getElementById('tmp1');
+              tmp2.parentNode.removeChild(tmp2);
+              tmp1.parentNode.removeChild(tmp1);
+            }).catch(function(error) {
+              console.log(error);
+            });
+        }
     }
 
     function load_my_trips() {
@@ -325,7 +334,6 @@ function clear_tags(){
       var apigClient = apigClientFactory.newClient();
       var url = new URL(window.location.href);
       var id_token = url.searchParams.get("id_token");
-      console.log(id_token);
       apigClient.userUserNameTripGet( {'userName': getUserNameByToken()},null,{headers:{"Authorization": id_token}})
         .then(function(result){
           var trips = result.data.user_trips;
@@ -335,11 +343,11 @@ function clear_tags(){
             $("#tmp2").hide();
 
           var fav_trips = result.data.favoriteTrips;
-          create_items(fav_trips);
-            var tmp4 =  document.getElementById('tmp4');
-            tmp4.parentNode.removeChild(tmp4);
-            var tmp3 =  document.getElementById('tmp3');
-            tmp3.parentNode.removeChild(tmp3);
+          create_items(fav_trips,true);
+          var tmp4 =  document.getElementById('tmp4');
+          tmp4.parentNode.removeChild(tmp4);
+          var tmp3 =  document.getElementById('tmp3');
+          tmp3.parentNode.removeChild(tmp3);
         });
     }
 
@@ -348,11 +356,11 @@ function clear_tags(){
         var apigClient = apigClientFactory.newClient();
         var url = new URL(window.location.href);
         var id_token = url.searchParams.get("id_token");
-        console.log(id_token);
+        // console.log(id_token);
         var q = url.searchParams.get("q");
         apigClient.searchTripGet({"params": q})
             .then(function (result) {
-                console.log(result);
+                // console.log(result);
                 var trips = result.data;
                 trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
                 create_items(trips);

@@ -114,7 +114,18 @@ function removeAuthorOptions() {
         date = new Date(date*1000);
         var monthname = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         var d = date;
-        var formatted = d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
+        var hh = d.getHours();
+        var dd = "AM";
+        var h = hh;
+        if (h >= 12) {
+          h = hh - 12;
+          dd = "PM";
+        }
+        if (h == 0) {
+          h = 12;
+        }
+        var formatted = h + " " + dd +", "+ d.getDate()+" " + monthname[d.getMonth()]+" "+d.getFullYear();
+        console.log(formatted);
         return formatted
     }
     function get_nodes(tid, uid) {

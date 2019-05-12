@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Travelgram </title>
     <!-- favicon -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> -->
     <!-- bootstrap -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!-- fontawesome -->
@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <!-- stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link href="assets/css/mdb.min.css" rel="stylesheet">
     <!-- responsive -->
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="icon" href="assets/img/icon.png">
@@ -138,7 +139,12 @@
                     <div class="col-lg-4 col-md-4 trip-item" id="tmp1" >
                         <div class="single-blog-grid-item"><!-- single blog grid item -->
                             <div class="thumb" onclick="tripDetail(this.parentNode.parentNode)">
-                                <img class="cover" src="assets/img/blog/01.jpg" alt="blog page">
+                                <div class="view overlay">
+                                    <img class="cover img-fluid " src="assets/img/blog/01.jpg" alt="blog page">
+                                    <div class="mask flex-center rgba-teal-strong">
+                                        <p class="white-text">Click</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="content">
                                 <h4 class="title"><a href="#">Marianne property cheerful informed at striking at</a></h4>
@@ -170,7 +176,7 @@
                     <div class="col-lg-4" >
                         <div class="single-blog-grid-item" ><!-- single blog grid item -->
                             <div class="widget-area" >
-                                <div class="content" onclick='create_trip()'>
+                                <div id="addtrip" class="content" onclick='create_trip()'>
                                     <svg height="300" width="500">
                                         <line x1="50" y1="150" x2="260" y2="150" style="stroke:rgb(196,196,196);stroke-width:7" />
                                             <line x1="150" y1="50" x2="150" y2="260" style="stroke:rgb(196,196,196);stroke-width:7" />
@@ -302,6 +308,8 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <!-- way poin js-->
     <script src="assets/js/waypoints.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="assets/js/mdb.min.js"></script>
     <!-- owl carousel -->
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- magnific popup -->
