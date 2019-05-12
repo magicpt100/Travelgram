@@ -148,9 +148,23 @@ function removeAuthorOptions() {
                     $timelineItem.find('.date').html(_this.date);
                     $timelineItem.find('.description').html(_this.description);
                     $timelineItem.attr('id', this.id)
-                    $timelineItem.find('.location').html('<span class="glyphicon glyphicon-map-marker"></span> '+_this.address + ' · ' +_this.price);
-                    $timelineItem.find('.starrr').html(stars);
                     positions.push(pos);
+                    var locString = '<span class="glyphicon glyphicon-map-marker"></span> '+_this.address
+                    if ("Price" in arg) {
+                      locString += ' · ' +_this.price;
+                    }
+                    $timelineItem.find('.location').html(locString)
+                    var stars = ""
+                    if ("Rate" in arg) {
+                      for (i =1; i <= _this.rate; i++) {
+                       stars += '<span class="glyphicon glyphicon-star green"></span>'
+                      }
+                      for (i=_this.rate; i <5; i++) {
+                       stars += '<span class="glyphicon glyphicon-star-empty green"></span>'
+                      }
+
+                       $timelineItem.find('.starrr').html(stars);
+                    }
                 }
                 $timelineItem.css("display", "inline-block");
                 $timelineItem.insertBefore($('.last-item'));
