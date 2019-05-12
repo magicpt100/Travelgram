@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Trip Details</title>
-  <!-- favicon -->
+    <!-- stylesheet -->
+  <link rel="stylesheet" href="../trip_list/assets/css/style.css">
   <!-- bootstrap -->
   <link rel="stylesheet" href="../trip_list/assets/css/bootstrap.min.css">
   <!-- fontawesome -->
@@ -14,8 +15,7 @@
   <link rel="stylesheet" href="../trip_list/assets/css/owl.carousel.min.css">
   <!-- magnific popup -->
   <link rel="stylesheet" href="../trip_list/assets/css/magnific-popup.css">
-  <!-- stylesheet -->
-  <link rel="stylesheet" href="../trip_list/assets/css/style.css">
+
   <!-- responsive -->
   <link rel="icon" href="assets/img/icon.png">
   <link rel="stylesheet" href="../trip_list/assets/css/responsive.css">
@@ -58,20 +58,26 @@
                 </div>
                 <div class="nav-div" id="hostinglab">
                     <!-- navbar collapse start -->
-                    <ul class="navbar-nav">
+                    <ul class="navbar" style="list-style: none;">
                         <!-- navbar- nav -->
                         <script type="text/javascript">
                             function return_home() {
                                 var url = new URLSearchParams(window.location.search);
+                                var idtoken = url.get("id_token");
+                                if (idtoken === null){
+                                  window.location.href= "../trip_list/index.html";
+                                }
+                                else{
                                 window.location.href= "../trip_list/index.html?"+"id_token=" + url.get("id_token");
+                              }
                             }
                         </script>
-                        <li class="nav-item">
+                        <li  >
                             <a class="my-nav-link" id="nav-home" href="javascript:return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li >
                             <a class="my-nav-link" id="login" href="https://travelgram.auth.us-east-1.amazoncognito.com/login?response_type=token&client_id=49s7vjbhuip831qa12g8pva6ri&redirect_uri=https://s3.amazonaws.com/travelgram-frontend2/trip_list/index.html">Login</a>
                             <a class="my-nav-link" id="username" onclick="mytrips()"></a>
                         </li>
