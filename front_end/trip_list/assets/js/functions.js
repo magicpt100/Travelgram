@@ -226,6 +226,7 @@ function clear_tags(){
                       console.log(error)
                   });
                 $tripItem.addClass("realtrip");
+                $tripItem.css("display", "inline-block");
                 if (!isFavorite){
                     $tripItem.insertBefore($('.last-item'));
                 } else {
@@ -273,8 +274,6 @@ function clear_tags(){
     }
 
     function load_trips(filter=null) {
-        $("#tmp1").show();
-        $("#tmp2").show();
         $(".realtrip").remove();
         tripList.clear();
         var apigClient = apigClientFactory.newClient();
@@ -286,20 +285,23 @@ function clear_tags(){
               var trips = result.data;
               console.log(trips);
               trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-              var urlParams = new URLSearchParams(window.location.search);
-              var tag = urlParams.get("tag");
-              if (tag==null){
-                  create_items(trips);
-              }else{
-                  $("#breadtitle").html("Tag: "+tag);
-                  $(".page-list").append("<li>"+tag+"</li>");
-                  create_items(trips, tag)
-              }
 
-              var tmp2 =  document.getElementById('tmp2');
-              var tmp1 = document.getElementById('tmp1');
-              tmp2.parentNode.removeChild(tmp2);
-              tmp1.parentNode.removeChild(tmp1);
+                if (filter !== null){
+                    console.log(filter);
+                    var filtered_trips = [];
+                    trips.forEach(function (ele) {
+                        var tags = ele.Tags;
+                        if (filter.every(elem => tags.indexOf(elem) > -1)){
+                            filtered_trips.push(ele);
+                        }
+                    });
+                    create_items(filtered_trips);
+                }else{
+                    create_items(trips);
+                }
+              $("#tmp1").hide();
+              $("#tmp2").hide();
+
             }).catch(function(error) {
               console.log(error);
             });
@@ -309,20 +311,21 @@ function clear_tags(){
               var trips = result.data;
               console.log(trips);
               trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-              var urlParams = new URLSearchParams(window.location.search);
-              var tag = urlParams.get("tag");
-              if (tag==null){
-                  create_items(trips);
-              }else{
-                  $("#breadtitle").html("Tag: "+tag);
-                  $(".page-list").append("<li>"+tag+"</li>");
-                  create_items(trips, tag)
-              }
-
-              var tmp2 =  document.getElementById('tmp2');
-              var tmp1 = document.getElementById('tmp1');
-              tmp2.parentNode.removeChild(tmp2);
-              tmp1.parentNode.removeChild(tmp1);
+                if (filter !== null){
+                    console.log(filter);
+                    var filtered_trips = [];
+                    trips.forEach(function (ele) {
+                        var tags = ele.Tags;
+                        if (filter.every(elem => tags.indexOf(elem) > -1)){
+                            filtered_trips.push(ele);
+                        }
+                    });
+                    create_items(filtered_trips);
+                }else{
+                    create_items(trips);
+                }
+              $("#tmp1").hide();
+              $("#tmp2").hide();
             }).catch(function(error) {
               console.log(error);
             });
