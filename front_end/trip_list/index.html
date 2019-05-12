@@ -70,25 +70,21 @@
                     <!-- navbar collapse start -->
                     <ul class="navbar-nav">
                         <!-- navbar- nav -->
-                        <script type="text/javascript">
-                            function return_home() {
-                                var url = new URLSearchParams(window.location.search);
-                                var id_token = url.get("id_token");
-                                if (id_token === null){
-                                    window.location.href= "index.html" ;
-                                }else{
-                                    window.location.href= "index.html?"+"id_token="+id_token;
-                                }
-                            }
-                        </script>
+
                         <li class="nav-item">
                             <a class="nav-link pl-0" href="javascript:return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
+                        <li class="nav-item dropdown" id="usernameEle">
+                            <a class="nav-link pl-0" id="username">userName</a>
+                              <div class="dropdown-menu">
+                                  <a href="#" class="dropdown-item" id="mytrips" onclick="mytrips()">My Trips</a>
+                                  <a href="index.html" id="logout" class="dropdown-item">Logout</a>
+                              </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" id="login" href="https://travelgram.auth.us-east-1.amazoncognito.com/login?response_type=token&client_id=49s7vjbhuip831qa12g8pva6ri&redirect_uri=https://s3.amazonaws.com/travelgram-frontend2/trip_list/index.html">Login</a>
-                            <a class="nav-link" id="username" onclick="mytrips()">userName</a>
                         </li>
                     </ul>
                     <!-- /.navbar-nav -->
@@ -185,6 +181,7 @@
                                 <ul class="post-meta">
                                     <li><i class="fas fa-user"></i> <p class="author" style="display: inline">Admin</p></li>
                                     <li class="date"><i class="fas fa-calendar-alt"></i> 17 Dec 2019</li>
+                                    <br><li class='showtags'>Tags:</li>
                                 </ul>
                             </div>
                         </div><!-- //. single blog grid item -->

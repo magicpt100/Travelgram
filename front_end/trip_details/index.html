@@ -51,35 +51,35 @@
    <nav class="navbar navbar-area navbar-expand-lg absolute">
             <div class="container nav-container" id = "detail-container">
                 <div class="logo-wrapper navbar-brand">
-                    <a onclick=return_home() class="logo ">
+                    <a href="#" onclick="return_home()" class="logo ">
 <!--                        <h2>Travelgram</h2>-->
                         <img class="logo-img" src="../trip_list/assets/img/logo.png" alt="logo" style="cursor:pointer;">
                     </a>
                 </div>
-                <div class="nav-div" id="hostinglab">
+                <div class="collapse navbar-collapse nav-div" id="hostinglab">
                     <!-- navbar collapse start -->
                     <ul class="navbar" style="list-style: none;">
                         <!-- navbar- nav -->
                         <script type="text/javascript">
                             function return_home() {
                                 var url = new URLSearchParams(window.location.search);
-                                var idtoken = url.get("id_token");
-                                if (idtoken === null){
-                                  window.location.href= "../trip_list/index.html";
-                                }
-                                else{
-                                window.location.href= "../trip_list/index.html?"+"id_token=" + url.get("id_token");
-                              }
+                                window.location.href= "index.html?"+"id_token=" + url.get("id_token");
                             }
                         </script>
-                        <li  >
-                            <a class="my-nav-link" id="nav-home" href="javascript:return_home();">Home
+                        <li class="nav-item">
+                            <a class="nav-link pl-0" href="javascript:return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li >
-                            <a class="my-nav-link" id="login" href="https://travelgram.auth.us-east-1.amazoncognito.com/login?response_type=token&client_id=49s7vjbhuip831qa12g8pva6ri&redirect_uri=https://s3.amazonaws.com/travelgram-frontend2/trip_list/index.html">Login</a>
-                            <a class="my-nav-link" id="username" onclick="mytrips()"></a>
+                        <li class="nav-item dropdown" id="usernameEle">
+                            <a class="nav-link pl-0" id="username">userName</a>
+                              <div class="dropdown-menu">
+                                  <a href="#" class="dropdown-item" id="mytrips" onclick="mytrips()">My Trips</a>
+                                  <a href="index.html" id="logout" class="dropdown-item">Logout</a>
+                              </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="login" href="https://travelgram.auth.us-east-1.amazoncognito.com/login?response_type=token&client_id=49s7vjbhuip831qa12g8pva6ri&redirect_uri=https://s3.amazonaws.com/travelgram-frontend2/trip_list/index.html">Login</a>
                         </li>
                     </ul>
                     <!-- /.navbar-nav -->
@@ -136,7 +136,7 @@
           <!-- <img src="https://ununsplash.imgix.net/photo-1421284621639-884f4129b61d?fit=crop&fm=jpg&h=700&q=75&w=1050" alt="" /> -->
             <h2  class="title">我给这个点加了个封面图</h2>
           </div>
-          <p class="location"><div id="hearts-existing" class="starrr" data-rating='3'></div></p>
+            <p class="location"><div style="margin-left: 20px" class="starrr"></div></p>
           <p class="date">25 MAY 2016</p>
           <p  class="description">今天在纽约看到了椰子树，好开心啊</p>
           <a class="bnt-more edit-btn" href="#" onclick="edit_node(this)">Edit</a>
@@ -156,6 +156,69 @@
             <i class="fas fa-rocket"></i>
     </div>
   </section>
+
+<!-- footer area-->
+<footer class="footer-area">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="widget footer-widget about_widget">
+                        <a href="#" class="footer-logo"><img id="foot-logo-img" src="../trip_list/assets/img/footer-logo.png" alt="footer logo image"></a>
+                        <p>Travelgram Inc.</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6" style="padding-top: 50px">
+                    <div class="widget footer-widget pages">
+                        <h4 class="widget-title">Mingyu Ma</h4>
+                        <ul>
+                            <li><a href="#">mm5300</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6"  style="padding-top: 50px">
+                    <div class="widget footer-widget pages">
+                        <h4 class="widget-title">Ge Wang</h4>
+                        <ul>
+                            <li><a href="#">gw2372</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6"  style="padding-top: 50px">
+                    <div class="widget footer-widget pages">
+                        <h4 class="widget-title">Shulan Tang</h4>
+                        <ul>
+                            <li><a href="#">st3174</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6"  style="padding-top: 50px">
+                    <div class="widget footer-widget pages">
+                        <h4 class="widget-title">Jiaxuan Zhang</h4>
+                        <ul>
+                            <li><a href="#">jz2997</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-area"><!-- sopyright area -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="copyright-inner">
+                            &copy; 2019 All Right Reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- //. copyright area -->
+</footer>
+<!-- footer area-->
+
   <script src="../trip_list/assets/js/main.js"></script>
     <script src="js/functions.js"></script>
   </body>

@@ -140,7 +140,10 @@ color:white;
   border-width: 10px 0 10px 15px;
   border-color: transparent transparent transparent #f5f5f5;
 }
-
+#foot-logo-img{
+  height: 200px;
+  width: 400px;
+}
 .timeline-img {
   width: 30px;
   height: 30px;
