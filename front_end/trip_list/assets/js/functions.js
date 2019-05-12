@@ -402,20 +402,19 @@ function clear_tags(){
     //       console.log(result)
     //     });
     // }
-    if (window.location.href.includes('id_token')) {
-      document.getElementById("login").style.display = "none";
-      var id_token = url.searchParams.get("id_token");
-      if (id_token == null) {
-        id_token = location.hash.substring(1).split("&")[0].split("=")[1];
-      }
+    var id_token = get_token_from_url()
+    if (id_token != "") {
+      var element = document. getElementById("login");
+      element.parentNode.removeChild(element);
       var username = parseJwt(id_token)["cognito:username"];
       window.onload = function() {
           document.getElementById("username").innerHTML = username;
-
       }
 
     } else {
-      document.getElementById("username").style.display = "none";
+      var element = document.getElementById("usernameEle");
+      element.parentNode.removeChild(element);
+      console.log(element)
 
     }
 

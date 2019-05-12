@@ -223,19 +223,22 @@ function removeAuthorOptions() {
     apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {
         document.getElementById("trip-author").innerHTML = result.data['Username'];
         var url = new URL(window.location.href);
-        if (window.location.href.includes('id_token'))  {
-          document.getElementById("username").style.dislpay="block";
-          document.getElementById("login").style.display="none";
-          var id_token = url.searchParams.get("id_token");
+        var id_token = get_token_from_url()
+        if (id_token != "") {
+          var element = document. getElementById("login");
+          element.parentNode.removeChild(element);
           var username = parseJwt(id_token)["cognito:username"];
-          document.getElementById("username").innerHTML=username;
+          window.onload = function() {
+              document.getElementById("username").innerHTML = username;
+          }
+          document.getElementById("username").style.dislpay="block";
           if (username != result.data['Username']) {
-            console.log(result.data['Username'])
             removeAuthorOptions();
           }
 
         } else {
-          document.getElementById("username").style.dislpay="none";
+          var element = document.getElementById("usernameEle");
+          element.parentNode.removeChild(element);
           document.getElementById("login").style.display="block";
           removeAuthorOptions();
         }
