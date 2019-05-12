@@ -229,11 +229,6 @@ function clear_tags(){
                     $tripItem.css('display', "block");
                     $tripItem.insertBefore($('.last-item-fav'));
                 }
-                // if ($('.last-item')[0]){
-                //     $tripItem.insertBefore($('.last-item'));
-                // } else {
-                //     $tripItem.insertBefore($('.last-item-fav'));
-                // }
             };
         }(this);
         return this;
