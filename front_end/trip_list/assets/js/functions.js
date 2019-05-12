@@ -216,7 +216,7 @@ function clear_tags(){
                 //add tags
                 for(var i=0; i< this.tags.length; i++){ 
                   if (i % 4 == 0){
-                      $tripItem.find(".post-meta").append("<br><li class='showtags' style='display:inline;'></li>");
+                      $tripItem.find(".post-meta").append("<br><li class='showtags' style='display:inline;white-space:nowrap;'></li>");
                   }
                   $tripItem.find(".showtags").last().append("<a class='triptag'>"+this.tags[i]+"</a>");
                 }
