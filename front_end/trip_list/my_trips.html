@@ -67,37 +67,30 @@
                         <img src="assets/img/logo.png" alt="logo" style="max-width: 25%; cursor: pointer;">
                     </a>
                 </div>
-                <div class="collapse navbar-collapse" id="hostinglab">
+                <div class="collapse navbar-collapse nav-div" id="hostinglab">
                     <!-- navbar collapse start -->
                     <ul class="navbar-nav">
                         <!-- navbar- nav -->
+                        <script type="text/javascript">
+                            function return_home() {
+                                var url = new URLSearchParams(window.location.search);
+                                window.location.href= "index.html?"+"id_token=" + url.get("id_token");
+                            }
+                        </script>
                         <li class="nav-item">
-                            <a class="nav-link pl-0" onclick=return_home()>Home
-                                <script type="text/javascript">
-                                    function return_home() {
-                                        var url = new URLSearchParams(window.location.search);
-                                        var idtoken = url.get("id_token");
-                                        if (idtoken === null){
-                                          window.location.href= "../trip_list/index.html";
-                                        }
-                                        else{
-                                        window.location.href= "index.html?"+"id_token=" + url.get("id_token");
-                                            }
-                                        }
-                                </script>
+                            <a class="nav-link pl-0" href="javascript:return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item dropdown ">
-                            <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Trips</a>
-                            <div class="dropdown-menu">
-                                <a href="index.html" class="dropdown-item">Trips</a>
-                                <a onclick="my_trips()" class="dropdown-item">My Trips</a>
-                            </div>
-                        </li> -->
+                        <li class="nav-item dropdown" id="usernameEle">
+                            <a class="nav-link pl-0" id="username">userName</a>
+                              <div class="dropdown-menu">
+                                  <a href="#" class="dropdown-item" id="mytrips" onclick="mytrips()">My Trips</a>
+                                  <a href="index.html" id="logout" class="dropdown-item">Logout</a>
+                              </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" id="login" href="https://travelgram.auth.us-east-1.amazoncognito.com/login?response_type=token&client_id=49s7vjbhuip831qa12g8pva6ri&redirect_uri=https://s3.amazonaws.com/travelgram-frontend2/trip_list/index.html">Login</a>
-                            <a class="nav-link" id="username" onclick="my_trips()">userName</a>
                         </li>
                     </ul>
                     <!-- /.navbar-nav -->
@@ -147,7 +140,8 @@
                                 <div class="view overlay" onmouseover="this.style.cursor='pointer'">
                                     <img class="cover img-fluid " src="assets/img/blog/01.jpg" alt="blog page">
                                     <div class="mask flex-center rgba-teal-strong">
-                                        <p id = "click" class="white-text">Click</p>
+<!--                                        <p id = "click" class="white-text">Click</p>-->
+                                        <i class="fas fa-align-justify" style="color: white;font-size:60px"></i>
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +186,7 @@
                             </div><!-- //. single blog grid item -->
                         </div>
                     </div>
-                </div>   
+                </div>
             </div>
         </div>
         <div class="page-header">

@@ -62,7 +62,27 @@ function mytrips() {
     }
 
 }
+function return_home() {
+    var url = new URLSearchParams(window.location.search);
+    var id_token = get_token_from_url();
+    if (id_token != "") {
+      window.location.href= "../trip_list/index.html?"+"id_token=" + id_token;
+    } else {
+        window.location.href= "../trip_list/index.html"
+    }
 
+}
+function get_token_from_url() {
+  var token = url.searchParams.get("id_token");
+  if (token == null) {
+    token = location.hash.substring(1).split("&")[0].split("=")[1];
+  }
+  if (token == null || token == "") {
+    return ""
+  } else {
+    return token
+  }
+}
 function create_trip() {
   console.log("you are in!")
   var url = new URL(window.location.href);
@@ -94,9 +114,9 @@ function tripDetail(trip) {
       console.log(result.data)
       var curTrip = result.data
       var cur_url = new URL(window.location.href);
-      var token = cur_url.searchParams.get("id_token");
+      var token = get_token_from_url();
       var url = "../trip_details/index.html?TripID="+curTrip.TripID.toString()+'&title='+curTrip.Title + '&uid=' +curTrip.UserID.toString();
-      if (token != null) {
+      if (token != "") {
         url += "&id_token=" + token
       }
       console.log(url)
@@ -129,7 +149,7 @@ function delete_trip(el) {
 function edit_trip(el) {
     var tid = $(el.parentNode.parentNode.parentNode).prop('id');
     var url = new URL(window.location.href);
-    var id_token = url.searchParams.get("id_token");
+    var id_token = get_token_from_url();
     window.location.href = "../forms/editTrip.html?TripID="+tid+"&id_token=" +id_token;
 
 }
@@ -336,7 +356,7 @@ function clear_tags(){
       tripList.clear();
       var apigClient = apigClientFactory.newClient();
       var url = new URL(window.location.href);
-      var id_token = url.searchParams.get("id_token");
+      var id_token = get_token_from_url();
       apigClient.userUserNameTripGet( {'userName': getUserNameByToken()},null,{headers:{"Authorization": id_token}})
         .then(function(result){
           var trips = result.data.user_trips;
@@ -358,7 +378,7 @@ function clear_tags(){
         $(".widget_tag_cloud").hide();
         var apigClient = apigClientFactory.newClient();
         var url = new URL(window.location.href);
-        var id_token = url.searchParams.get("id_token");
+        var id_token = get_token_from_url();
         // console.log(id_token);
         var q = url.searchParams.get("q");
         apigClient.searchTripGet({"params": q})
@@ -391,20 +411,19 @@ function clear_tags(){
     //       console.log(result)
     //     });
     // }
-    if (window.location.href.includes('id_token')) {
-      document.getElementById("login").style.display = "none";
-      var id_token = url.searchParams.get("id_token");
-      if (id_token == null) {
-        id_token = location.hash.substring(1).split("&")[0].split("=")[1];
-      }
+    var id_token = get_token_from_url()
+    if (id_token != "") {
+      var element = document. getElementById("login");
+      element.parentNode.removeChild(element);
       var username = parseJwt(id_token)["cognito:username"];
       window.onload = function() {
           document.getElementById("username").innerHTML = username;
-
       }
 
     } else {
-      document.getElementById("username").style.display = "none";
+      var element = document.getElementById("usernameEle");
+      element.parentNode.removeChild(element);
+      console.log(element)
 
     }
 
@@ -416,6 +435,7 @@ function clear_tags(){
     } else if(q!=null){
         $("#breadtitle").html("Search Result");
         $(".page-list").append("<li>search result</li>");
+        $("#search_bar").val(q);
         load_search_results();
     }else {
       load_trips();

@@ -14,6 +14,28 @@ function getUserNameByToken() {
     return username;
 }
 }
+
+function get_token_from_url() {
+  var token = url.searchParams.get("id_token");
+  if (token == null) {
+    token = location.hash.substring(1).split("&")[0].split("=")[1];
+  }
+  if (token == null || token == "") {
+    return ""
+  } else {
+    return token
+  }
+}
+function return_home() {
+    var url = new URLSearchParams(window.location.search);
+    var id_token = get_token_from_url();
+    if (id_token != "") {
+      window.location.href= "../trip_list/index.html?"+"id_token=" + id_token;
+    } else {
+        window.location.href= "../trip_list/index.html"
+    }
+
+}
 function delete_node(el) {
     if (confirm("Confirm delete this node?")){
         var username = getUserNameByToken();
@@ -124,6 +146,7 @@ function removeAuthorOptions() {
                     $timelineItem.find('.starrr').html(stars);
                     positions.push(pos);
                 }
+                $timelineItem.css("display", "inline-block");
                 $timelineItem.insertBefore($('.last-item'));
             };
         }(this);
@@ -201,19 +224,18 @@ function removeAuthorOptions() {
     apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {
         document.getElementById("trip-author").innerHTML = result.data['Username'];
         var url = new URL(window.location.href);
-        if (window.location.href.includes('id_token'))  {
-          document.getElementById("username").style.dislpay="block";
-          document.getElementById("login").style.display="none";
-          var id_token = url.searchParams.get("id_token");
+        var id_token = get_token_from_url();
+        if (id_token != "") {
           var username = parseJwt(id_token)["cognito:username"];
-          document.getElementById("username").innerHTML=username;
+          window.onload = function() {
+              document.getElementById("username").innerHTML = username;
+          }
+          //document.getElementById("username").style.dislpay="block";
           if (username != result.data['Username']) {
-            console.log(result.data['Username'])
             removeAuthorOptions();
           }
 
         } else {
-          document.getElementById("username").style.dislpay="none";
           document.getElementById("login").style.display="block";
           removeAuthorOptions();
         }
@@ -224,6 +246,20 @@ function removeAuthorOptions() {
           console.log(error)
           removeAuthorOptions();
       });
+      var id_token = get_token_from_url()
+      if (id_token != "") {
+        var element = document. getElementById("login");
+        element.parentNode.removeChild(element);
+        var username = parseJwt(id_token)["cognito:username"];
+        window.onload = function() {
+            document.getElementById("username").innerHTML = username;
+        }
 
+      } else {
+        var element = document.getElementById("usernameEle");
+        element.parentNode.removeChild(element);
+        console.log(element)
+
+      }
     get_nodes(tripid, uid);
 }.call(this));
