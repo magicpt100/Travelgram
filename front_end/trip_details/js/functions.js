@@ -4,8 +4,31 @@ var tripid = url.searchParams.get("TripID");
 var triptitle = url.searchParams.get("title");
 var uid = url.searchParams.get("uid");
 var id_token = url.searchParams.get("id_token");
+function getUserNameByToken() {
+  if (window.location.href.includes('id_token')) {
+    var id_token = url.searchParams.get("id_token");
+    if (id_token == null) {
+      id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+    }
+    var username = parseJwt(id_token)["cognito:username"];
+    return username;
+}
+}
 function delete_node(el) {
-  console.log($(el.parentNode.parentNode).prop('id'));
+  var username = getUserNameByToken();
+  var apigClient = apigClientFactory.newClient();
+  var url = new URL(window.location.href);
+  var nid = $(el.parentNode.parentNode).prop('id');
+  var tripid = url.searchParams.get("TripID");
+  var id_token = url.searchParams.get("id_token");
+  console.log(username)
+  var url = new URL(window.location.href);
+  apigClient.tripTripIDNodesNodeIDDelete({'NodeID': nid, 'TripID': tripid},null, {headers:{"Authorization": id_token}}).then(function(result) {
+    console.log("success");
+    $(el.parentNode.parentNode).hide();
+  }).catch(function(error) {
+    console.log(error);
+  })
 }
 function edit_node(el) {
   var nid = $(el.parentNode.parentNode).prop('id');

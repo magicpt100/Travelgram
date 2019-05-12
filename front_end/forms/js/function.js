@@ -95,9 +95,10 @@
             var title = url.searchParams.get("title");
             window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title;
 
-          }).catch( function(result){
+          }).catch( function(error){
         console.log("there is something wrong!!!");
         // Add error callback code here.
+        console.log(error)
       });
     }
 

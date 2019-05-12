@@ -14,6 +14,8 @@ function getUserNameByToken() {
     }
     var username = parseJwt(id_token)["cognito:username"];
     return username;
+} else {
+  return "";
 }
 }
 function likeTrip(btn) {
@@ -269,31 +271,53 @@ function clear_tags(){
       var apigClient = apigClientFactory.newClient();
       console.log("load trips");
       var userName = getUserNameByToken();
-      apigClient.tripsGet({}, null, {headers:{'userName':userName}})
-        .then(function(result){
-          var trips = result.data;
-          // console.log(trips);
-          trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
-          if (filter !== null){
-              console.log(filter);
-              var filtered_trips = [];
-              trips.forEach(function (ele) {
-                  var tags = ele.Tags;
-                  if (filter.every(elem => tags.indexOf(elem) > -1)){
-                      filtered_trips.push(ele);
-                  }
-              });
-              create_items(filtered_trips);
-          }else{
-              create_items(trips);
-          }
+      if (userName != "") {
+        apigClient.tripsGet({}, null, {headers:{'userName':userName}})
+          .then(function(result){
+            var trips = result.data;
+            console.log(trips);
+            trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+            var urlParams = new URLSearchParams(window.location.search);
+            var tag = urlParams.get("tag");
+            if (tag==null){
+                create_items(trips);
+            }else{
+                $("#breadtitle").html("Tag: "+tag);
+                $(".page-list").append("<li>"+tag+"</li>");
+                create_items(trips, tag)
+            }
 
+            var tmp2 =  document.getElementById('tmp2');
+            var tmp1 = document.getElementById('tmp1');
+            tmp2.parentNode.removeChild(tmp2);
+            tmp1.parentNode.removeChild(tmp1);
+          }).catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        apigClient.tripsGet()
+          .then(function(result){
+            var trips = result.data;
+            console.log(trips);
+            trips.sort((a,b) => (a.StartTime > b.StartTime) ? 1 : ((b.StartTime > a.StartTime) ? -1 : 0));
+            var urlParams = new URLSearchParams(window.location.search);
+            var tag = urlParams.get("tag");
+            if (tag==null){
+                create_items(trips);
+            }else{
+                $("#breadtitle").html("Tag: "+tag);
+                $(".page-list").append("<li>"+tag+"</li>");
+                create_items(trips, tag)
+            }
 
-          $("#tmp1").hide();
-          $("#tmp2").hide();
-        }).catch(function(error) {
-          console.log(error);
-        });
+            var tmp2 =  document.getElementById('tmp2');
+            var tmp1 = document.getElementById('tmp1');
+            tmp2.parentNode.removeChild(tmp2);
+            tmp1.parentNode.removeChild(tmp1);
+          }).catch(function(error) {
+            console.log(error);
+          });
+      }
     }
 
     function load_my_trips() {
@@ -385,5 +409,3 @@ function clear_tags(){
     }else {
       load_trips();
     }
-
-
