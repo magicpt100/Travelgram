@@ -121,6 +121,10 @@
 
       var destination = $("input[name=dest]").val();
       var tags = $("input[id=tokenfield]").val().split(", ");
+	  if (tags[0] === ""){
+	  	  alert("Please add at least one tag for this trip.");
+	  	  return;
+	  }
 	  
 	  var file_array = document.getElementById('my-file-selector').files;
 	  if (file_array === undefined || file_array.length == 0) {
