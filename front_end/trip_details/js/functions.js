@@ -124,16 +124,22 @@ function removeAuthorOptions() {
                 $timelineItem.find('.description').html(_this.description);
                 $timelineItem.find('.date').html(_this.date);
                 $timelineItem.attr('id', this.id)
-                $timelineItem.find('.location').html('<span class="glyphicon glyphicon-map-marker"></span> '+_this.address + ' · ' +_this.price);
+                var locString = '<span class="glyphicon glyphicon-map-marker"></span> '+_this.address
+                if ("Price" in arg) {
+                  locString += ' · ' +_this.price;
+                }
+                $timelineItem.find('.location').html(locString)
                 var stars = ""
-                 for (i =1; i <= _this.rate; i++) {
-                  stars += '<span class="glyphicon glyphicon-star green"></span>'
-                }
-                for (i=_this.rate; i <5; i++) {
-                  stars += '<span class="glyphicon glyphicon-star-empty green"></span>'
-                }
+                if ("Rate" in arg) {
+                  for (i =1; i <= _this.rate; i++) {
+                   stars += '<span class="glyphicon glyphicon-star green"></span>'
+                  }
+                  for (i=_this.rate; i <5; i++) {
+                   stars += '<span class="glyphicon glyphicon-star-empty green"></span>'
+                  }
 
-                  $timelineItem.find('.starrr').html(stars);
+                   $timelineItem.find('.starrr').html(stars);
+                }
                 console.log(this.id)
                 //$tiemlineItem.find('.date').html(_this.date);
                 if ("Images" in arg) {

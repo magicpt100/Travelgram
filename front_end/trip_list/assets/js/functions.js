@@ -26,28 +26,25 @@ function likeTrip(btn) {
   if (token == null) {
     token = location.hash.substring(1).split("&")[0].split("=")[1];
   }
+  if ($(btn.parentNode.parentNode.parentNode).find('.author').html() != username) {
   var tripid = $(btn.parentNode.parentNode.parentNode).prop('id')
   if ($(btn).hasClass("liked") == false) {
     // send like request
-
     apigClient.favoriteTripPost({"TripID": parseInt(tripid), "UserName": username, }, {"TripID": parseInt(tripid), "UserName": username}, {headers:{"Authorization": token}}).then(function (result) {
         $(btn).addClass("liked");
-        var numLike = $(btn.parentNode.parentNode.parentNode).find('.like-span').html()
-        console.log(numLike)
-        numLike = parseInt(numLike) + 1
-        numLike = numLike.toString()
-        $(btn.parentNode.parentNode.parentNode).find('.like-span').html(numLike)
-
+          var numLike = $(btn.parentNode.parentNode.parentNode).find('.like-span').html()
+          numLike = parseInt(numLike) + 1
+          numLike = numLike.toString()
+          $(btn.parentNode.parentNode.parentNode).find('.like-span').html(numLike)
     }).catch(function (error) {
       console.log(error)
     })
   } else {
+    if ($(btn.parentNode.parentNode.parentNode).find('.author').html() != username) {
     // cancel like
-        console.log(id_token)
     apigClient.favoriteTripTripIDUserNameDelete({'UserName':username, "TripID": parseInt(tripid)}, null, {headers:{"Authorization": token}}).then(function(result) {
       $(btn).removeClass("liked");
       var numLike = $(btn.parentNode.parentNode.parentNode).find('.like-span').html()
-      console.log(numLike)
       numLike = parseInt(numLike) - 1
       numLike = numLike.toString()
       $(btn.parentNode.parentNode.parentNode).find('.like-span').html(numLike)
@@ -55,6 +52,8 @@ function likeTrip(btn) {
       console.log(error);
     })
   }
+}
+}
 }
 function mytrips() {
     var url = new URL(window.location.href);
