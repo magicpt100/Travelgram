@@ -223,22 +223,18 @@ function removeAuthorOptions() {
     apigClient.getnameUserIdGet({"userId": uid}).then(function (result) {
         document.getElementById("trip-author").innerHTML = result.data['Username'];
         var url = new URL(window.location.href);
-        var id_token = get_token_from_url()
+        var id_token = get_token_from_url();
         if (id_token != "") {
-          var element = document. getElementById("login");
-          element.parentNode.removeChild(element);
           var username = parseJwt(id_token)["cognito:username"];
           window.onload = function() {
               document.getElementById("username").innerHTML = username;
           }
-          document.getElementById("username").style.dislpay="block";
+          //document.getElementById("username").style.dislpay="block";
           if (username != result.data['Username']) {
             removeAuthorOptions();
           }
 
         } else {
-          var element = document.getElementById("usernameEle");
-          element.parentNode.removeChild(element);
           document.getElementById("login").style.display="block";
           removeAuthorOptions();
         }
@@ -249,6 +245,20 @@ function removeAuthorOptions() {
           console.log(error)
           removeAuthorOptions();
       });
+      var id_token = get_token_from_url()
+      if (id_token != "") {
+        var element = document. getElementById("login");
+        element.parentNode.removeChild(element);
+        var username = parseJwt(id_token)["cognito:username"];
+        window.onload = function() {
+            document.getElementById("username").innerHTML = username;
+        }
 
+      } else {
+        var element = document.getElementById("usernameEle");
+        element.parentNode.removeChild(element);
+        console.log(element)
+
+      }
     get_nodes(tripid, uid);
 }.call(this));

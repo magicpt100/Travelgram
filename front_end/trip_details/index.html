@@ -56,18 +56,12 @@
                         <img class="logo-img" src="../trip_list/assets/img/logo.png" alt="logo" style="cursor:pointer;">
                     </a>
                 </div>
-                <div class="collapse navbar-collapse nav-div" id="hostinglab">
+                <div class="collapse navbar-collapse" id="hostinglab">
                     <!-- navbar collapse start -->
-                    <ul class="navbar" style="list-style: none;">
+                    <ul class="navbar-nav">
                         <!-- navbar- nav -->
-                        <script type="text/javascript">
-                            function return_home() {
-                                var url = new URLSearchParams(window.location.search);
-                                window.location.href= "index.html?"+"id_token=" + url.get("id_token");
-                            }
-                        </script>
                         <li class="nav-item">
-                            <a class="nav-link pl-0" href="javascript:return_home();">Home
+                            <a class="nav-link pl-0" href="#" onclick="return_home()">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
