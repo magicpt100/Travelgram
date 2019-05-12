@@ -1750,7 +1750,9 @@ select:focus {
 ------------------------*/
 .awesome-pakages-area {
   padding: 90px 0 100px 0; }
-
+#click{
+  font-size:40px;
+}
 .single-pakages-item:hover .thumb img {
   -ms-transform: scale(1.2);
   /* IE 9 */
