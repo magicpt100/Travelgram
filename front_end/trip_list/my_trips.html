@@ -75,10 +75,15 @@
                             <a class="nav-link pl-0" onclick=return_home()>Home
                                 <script type="text/javascript">
                                     function return_home() {
-                                        var url = new URL(window.location.href);
-                                        var id_token = url.searchParams.get("id_token");
-                                        window.location.href = "index.html?id_token=" + id_token
-                                    }
+                                        var url = new URLSearchParams(window.location.search);
+                                        var idtoken = url.get("id_token");
+                                        if (idtoken === null){
+                                          window.location.href= "../trip_list/index.html";
+                                        }
+                                        else{
+                                        window.location.href= "index.html?"+"id_token=" + url.get("id_token");
+                                            }
+                                        }
                                 </script>
                                 <span class="sr-only">(current)</span>
                             </a>

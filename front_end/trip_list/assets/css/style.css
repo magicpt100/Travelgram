@@ -2327,7 +2327,8 @@ select:focus {
 .footer-area {
   background-color: #080808; }
   .footer-area .footer-top {
-    padding: 60px 0 40px 0; }
+    padding: 60px 0 40px 0;
+    margin-top:100px; }
   .footer-area .widget .widget-title {
     font-size: 20px;
     line-height: 30px;
