@@ -1,4 +1,7 @@
 (function () {
+
+  var url = new URL(window.location.href);
+  var uid = url.searchParams.get("uid");
   // find the token
     function parse_query_string() {
       var url = new URL(window.location.href.replace("#", "?"));
@@ -93,7 +96,7 @@
             var TripID = url.searchParams.get("TripID");
             var id_token = url.searchParams.get("id_token");
             var title = url.searchParams.get("title");
-            window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title;
+            window.location = "../trip_details/index.html?TripID=" + TripID + "&id_token=" + id_token + "&title=" + title + "&uid="+uid;
 
           }).catch( function(error){
         console.log("there is something wrong!!!");
