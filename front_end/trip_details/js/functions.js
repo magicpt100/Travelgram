@@ -146,6 +146,7 @@ function removeAuthorOptions() {
                     $timelineItem.find('.starrr').html(stars);
                     positions.push(pos);
                 }
+                $timelineItem.css("display", "inline-block");
                 $timelineItem.insertBefore($('.last-item'));
             };
         }(this);
