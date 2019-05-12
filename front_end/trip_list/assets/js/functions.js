@@ -44,7 +44,7 @@ function likeTrip(btn) {
   } else {
     // cancel like
         console.log(id_token)
-    apigClient.favoriteTripTripIDUserNameDelete({'UserName':username, "TripID": parseInt(tripid)}, null, {headers:{"Authorization": id_token}}).then(function(result) {
+    apigClient.favoriteTripTripIDUserNameDelete({'UserName':username, "TripID": parseInt(tripid)}, null, {headers:{"Authorization": token}}).then(function(result) {
       $(btn).removeClass("liked");
       var numLike = $(btn.parentNode.parentNode.parentNode).find('.like-span').html()
       console.log(numLike)
