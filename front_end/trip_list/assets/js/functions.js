@@ -123,11 +123,7 @@ function delete_trip(el) {
         }).catch(function(error) {
             console.log(error);
         });
-    }else{
-
     }
-
-
 }
 
 function edit_trip(el) {

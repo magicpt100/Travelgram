@@ -15,20 +15,23 @@ function getUserNameByToken() {
 }
 }
 function delete_node(el) {
-  var username = getUserNameByToken();
-  var apigClient = apigClientFactory.newClient();
-  var url = new URL(window.location.href);
-  var nid = $(el.parentNode.parentNode).prop('id');
-  var tripid = url.searchParams.get("TripID");
-  var id_token = url.searchParams.get("id_token");
-  console.log(username)
-  var url = new URL(window.location.href);
-  apigClient.tripTripIDNodesNodeIDDelete({'NodeID': nid, 'TripID': tripid},null, {headers:{"Authorization": id_token}}).then(function(result) {
-    console.log("success");
-    $(el.parentNode.parentNode).hide();
-  }).catch(function(error) {
-    console.log(error);
-  })
+    if (confirm("Confirm delete this node?")){
+        var username = getUserNameByToken();
+        var apigClient = apigClientFactory.newClient();
+        var url = new URL(window.location.href);
+        var nid = $(el.parentNode.parentNode).prop('id');
+        var tripid = url.searchParams.get("TripID");
+        var id_token = url.searchParams.get("id_token");
+        console.log(username)
+        var url = new URL(window.location.href);
+        apigClient.tripTripIDNodesNodeIDDelete({'NodeID': nid, 'TripID': tripid},null, {headers:{"Authorization": id_token}}).then(function(result) {
+            console.log("success");
+            $(el.parentNode.parentNode).hide();
+        }).catch(function(error) {
+            console.log(error);
+        })
+    }
+
 }
 function edit_node(el) {
   var nid = $(el.parentNode.parentNode).prop('id');
