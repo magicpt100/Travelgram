@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <!-- stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link href="assets/css/mdb.min.css" rel="stylesheet">
     <!-- responsive -->
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link rel="icon" href="assets/img/icon.png">
@@ -154,7 +155,12 @@
                     <div class="card trip-item" id="tmp1">
                         <div class="single-blog-grid-item"><!-- single blog grid item -->
                             <div class="thumb" onclick="tripDetail(this.parentNode.parentNode)">
-                                <img class="cover" src="assets/img/blog/01.jpg" alt="blog page">
+                                <div class="view overlay">
+                                    <img class="cover img-fluid " src="assets/img/blog/01.jpg" alt="blog page">
+                                    <div class="mask flex-center rgba-teal-strong">
+                                        <p class="white-text">Click</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="content">
                                 <h4 class="title"><a href="#">Marianne property cheerful informed at striking at</a></h4>
@@ -271,6 +277,8 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <!-- way poin js-->
     <script src="assets/js/waypoints.min.js"></script>
+    <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="assets/js/mdb.min.js"></script>
     <!-- owl carousel -->
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- magnific popup -->
