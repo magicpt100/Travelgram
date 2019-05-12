@@ -11,6 +11,7 @@ function getUserNameByToken() {
     var id_token = url.searchParams.get("id_token");
     if (id_token == null) {
       id_token = location.hash.substring(1).split("&")[0].split("=")[1];
+      console.log(id_token)
     }
     var username = parseJwt(id_token)["cognito:username"];
     return username;
@@ -20,11 +21,16 @@ function getUserNameByToken() {
 }
 function likeTrip(btn) {
   var username = getUserNameByToken();
+  var url = new URL(window.location.href);
+  var token = url.searchParams.get("id_token");
+  if (token == null) {
+    token = location.hash.substring(1).split("&")[0].split("=")[1];
+  }
   var tripid = $(btn.parentNode.parentNode.parentNode).prop('id')
   if ($(btn).hasClass("liked") == false) {
     // send like request
 
-    apigClient.favoriteTripPost({"TripID": parseInt(tripid), "UserName": username, }, {"TripID": parseInt(tripid), "UserName": username}, {headers:{"Authorization": id_token}}).then(function (result) {
+    apigClient.favoriteTripPost({"TripID": parseInt(tripid), "UserName": username, }, {"TripID": parseInt(tripid), "UserName": username}, {headers:{"Authorization": token}}).then(function (result) {
         $(btn).addClass("liked");
         var numLike = $(btn.parentNode.parentNode.parentNode).find('.like-span').html()
         console.log(numLike)
@@ -56,7 +62,6 @@ function mytrips() {
     if (token == null) {
       token = location.hash.substring(1).split("&")[0].split("=")[1];
     }
-
     if (token) {
       window.location.href = "my_trips.html?id_token="+token;
     }
@@ -214,13 +219,13 @@ function clear_tags(){
                 }
                 $tripItem.find('.title').html(this.title);
                 //add tags
-                for(var i=0; i< this.tags.length; i++){ 
+                for(var i=0; i< this.tags.length; i++){
                   if (i % 4 == 0){
                       $tripItem.find(".post-meta").append("<br><li class='showtags' style='display:inline;'></li>");
                   }
                   $tripItem.find(".showtags").last().append("<a class='triptag'>"+this.tags[i]+"</a>");
                 }
-                
+
                 $tripItem.find('.date').html(this.date);
                 $tripItem.find('.readmore').attr('id', this.id);
                 $tripItem.find('.like-span').html(this.numLikes.toString())
