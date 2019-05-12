@@ -51,7 +51,7 @@
    <nav class="navbar navbar-area navbar-expand-lg absolute">
             <div class="container nav-container" id = "detail-container">
                 <div class="logo-wrapper navbar-brand">
-                    <a onclick=return_home() class="logo ">
+                    <a href="#" onclick="return_home()" class="logo ">
 <!--                        <h2>Travelgram</h2>-->
                         <img class="logo-img" src="../trip_list/assets/img/logo.png" alt="logo" style="cursor:pointer;">
                     </a>
@@ -60,20 +60,8 @@
                     <!-- navbar collapse start -->
                     <ul class="navbar" style="list-style: none;">
                         <!-- navbar- nav -->
-                        <script type="text/javascript">
-                            function return_home() {
-                                var url = new URLSearchParams(window.location.search);
-                                var idtoken = url.get("id_token");
-                                if (idtoken === null){
-                                  window.location.href= "../trip_list/index.html";
-                                }
-                                else{
-                                window.location.href= "../trip_list/index.html?"+"id_token=" + url.get("id_token");
-                              }
-                            }
-                        </script>
-                        <li  >
-                            <a class="my-nav-link" id="nav-home" href="javascript:return_home();">Home
+                        <li class="nav-item">
+                            <a class="my-nav-link" id="nav-home" href="#" onclick="return_home();">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>

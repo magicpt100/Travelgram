@@ -14,6 +14,28 @@ function getUserNameByToken() {
     return username;
 }
 }
+
+function get_token_from_url() {
+  var token = url.searchParams.get("id_token");
+  if (token == null) {
+    token = location.hash.substring(1).split("&")[0].split("=")[1];
+  }
+  if (token == null || token == "") {
+    return ""
+  } else {
+    return token
+  }
+}
+function return_home() {
+    var url = new URLSearchParams(window.location.search);
+    var id_token = get_token_from_url();
+    if (id_token != "") {
+      window.location.href= "../trip_list/index.html?"+"id_token=" + id_token;
+    } else {
+        window.location.href= "../trip_list/index.html"
+    }
+
+}
 function delete_node(el) {
     if (confirm("Confirm delete this node?")){
         var username = getUserNameByToken();
