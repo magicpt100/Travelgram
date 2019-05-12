@@ -1607,8 +1607,9 @@ select:focus {
     Sidebar Area
 --------------------------*/
 .widget-area .widget {
-  background-color: #fbfbfb;
+  background-color: #e9eae8;
   padding: 2px 10px 2px 10px;
+  border-radius: 20px;
   margin-bottom: 0px; }
   .widget-area .widget:last-child {
     margin-bottom: 40px; }
@@ -1655,7 +1656,9 @@ select:focus {
       transition: all 0.3s ease-in; }
       .widget_categories ul li a:hover {
         color: #8DC645; }
-
+ .tags:hover{
+      color:white;
+    }
 .widget_tag_cloud {
   padding-bottom: 30px; }
   .widget_tag_cloud .widget-title {
@@ -1671,9 +1674,11 @@ select:focus {
     -moz-transition: all 0.3s ease-in;
     -o-transition: all 0.3s ease-in;
     transition: all 0.3s ease-in; }
-    .widget_tag_cloud .tagcloud a:hover {
-      background-color: #8DC645;
-      color: #fff; }
+  .widget_tag_cloud .tagcloud a:hover {
+    background-color: #8DC645;
+    color: white; 
+    }
+
 
 /*---------------------------
     Why Choose Us
@@ -2904,6 +2909,7 @@ select:focus {
 
   .button-like {
     border: 2px solid #8a8a8a;
+    cursor:pointer;
     background-color: transparent;
     text-decoration: none;
     padding: 0.5rem;
