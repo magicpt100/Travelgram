@@ -189,7 +189,7 @@ function clear_tags(){
         this.draw = function () {
             return function () {
                 var $tripItem;
-                if($('.trip-item')[0]){
+                if(!isFavorite){
                     $tripItem = $('.trip-item').clone().removeClass("trip-item").removeAttr("id");
                 }else{
                     $tripItem = $('.trip-item-fav').clone().removeClass("trip-item-fav").removeAttr("id");

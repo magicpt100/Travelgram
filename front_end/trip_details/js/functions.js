@@ -84,9 +84,13 @@ function removeAuthorOptions() {
 (function () {
     var TimelineItem;
     TimelineItem = function (arg) {
+      console.log(arg)
         this.title = arg.Title, this.description = arg.Content;
         this.date = get_date(arg.Time);
+        this.address = arg.Address;
         this.id = arg.NodeID;
+        this.rate = arg.Rate;
+        this.price = arg.Price;
         this.draw = function (_this, pos) {
             return function (pos) {
                 var $timelineItem;
@@ -95,7 +99,17 @@ function removeAuthorOptions() {
                 $timelineItem.find('.description').html(_this.description);
                 $timelineItem.find('.date').html(_this.date);
                 $timelineItem.attr('id', this.id)
-                // console.log(this.id)
+                $timelineItem.find('.location').html('<span class="glyphicon glyphicon-map-marker"></span> '+_this.address + ' · ' +_this.price);
+                var stars = ""
+                 for (i =1; i <= _this.rate; i++) {
+                  stars += '<span class="glyphicon glyphicon-star green"></span>'
+                }
+                for (i=_this.rate; i <5; i++) {
+                  stars += '<span class="glyphicon glyphicon-star-empty green"></span>'
+                }
+
+                  $timelineItem.find('.starrr').html(stars);
+                console.log(this.id)
                 //$tiemlineItem.find('.date').html(_this.date);
                 if ("Images" in arg) {
                     $timelineItem = $('.tiemline-withimage').clone().removeClass("tiemline-withimage");
@@ -103,6 +117,8 @@ function removeAuthorOptions() {
                     $timelineItem.find('.date').html(_this.date);
                     $timelineItem.find('.description').html(_this.description);
                     $timelineItem.attr('id', this.id)
+                    $timelineItem.find('.location').html('<span class="glyphicon glyphicon-map-marker"></span> '+_this.address + ' · ' +_this.price);
+                    $timelineItem.find('.starrr').html(stars);
                     positions.push(pos);
                 }
                 $timelineItem.insertBefore($('.last-item'));

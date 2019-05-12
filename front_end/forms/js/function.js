@@ -115,15 +115,19 @@
       // this will just cause the browser to display the native HTML5 error messages.
       $myForm.find(':submit').click();
     }else {
-      $('body').append("<div id=\"loader\"></div>");
       var trip_name = $("input[name=trip_title]").val();
       var datetime1 = new Date($("input[name=datetime1]").val());
       var datetime2 = new Date($("input[name=datetime2]").val());
 
       var destination = $("input[name=dest]").val();
       var tags = $("input[id=tokenfield]").val().split(", ");
-
-      var file = document.getElementById('my-file-selector').files[0];
+	  
+	  var file_array = document.getElementById('my-file-selector').files;
+	  if (file_array === undefined || file_array.length == 0) {
+	  	  alert("Please upload a cover phote for this trip.");
+	  	  return;
+	  }
+      var file = file_array[0];
       var promise = getBase64(file);
       var file_content = await promise;
       file_content = file_content.replace(/^data:image\/[a-z]+;base64,/, "");
@@ -145,6 +149,7 @@
       var params = {
         'userName': username
       };
+      $('body').append("<div id=\"loader\"></div>");
       apigClient.userUserNameTripPost(params, body, {headers: {"Authorization": id_token}})
           .then(function (result) {
             console.log(result);
