@@ -655,6 +655,7 @@ textarea {
 }
 
 .card-6 .card-body {
+  opacity: 0.8;
   background: #fff;
   position: relative;
   border: 1px solid #e5e5e5;
@@ -684,6 +685,7 @@ textarea {
 }
 
 .card-6 .card-footer {
+  opacity: 0.8;
   background: #fff;
   border: 1px solid #e5e5e5;
   border-top: none;
