@@ -2353,7 +2353,8 @@ select:focus {
       .footer-area .widget.pages ul li:first-child {
         margin-top: 0; }
       .footer-area .widget.pages ul li:last-child {
-        margin-bottom: 0; }
+        margin-bottom: 0;
+        color:rgb(255,255,255,0.9); }
       .footer-area .widget.pages ul li a {
         color: rgba(255, 255, 255, 0.8);
         -webkit-transition: all 0.3s ease-in;
