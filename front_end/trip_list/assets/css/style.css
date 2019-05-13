@@ -2462,6 +2462,7 @@ select:focus {
         .single-blog-grid-item .content .post-meta li:last-child {
           margin-right: 0; }
         .single-blog-grid-item .content .post-meta li a {
+          cursor: default;
           color: #777777;
           -webkit-transition: all 0.3s ease-in;
           -moz-transition: all 0.3s ease-in;
